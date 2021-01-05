@@ -1,8 +1,8 @@
 const axios = require('axios')
 const whatsapp = require('whatsapp-web.js')
-const { loadPreviousSession, startCurrentSession } = require('./auth.js')
-const { parseBody } = require('./parse.js')
-const { startServer, pingServer } = require('./ping.js')
+const { loadPreviousSession, startCurrentSession } = require('./auth')
+const { parseBody } = require('./utils/parse.js')
+const { startServer, pingServer } = require('./utils/ping.js')
 
 // constants
 const sessionData = loadPreviousSession()
