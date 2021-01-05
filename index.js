@@ -1,10 +1,8 @@
-import axios from 'axios'
-import fs from 'fs'
-import whatsapp from 'whatsapp-web.js'
-import express from 'express'
-import { loadPreviousSession, startCurrentSession } from './auth.mjs'
-import { parseBody } from './parse.mjs'
-import { startServer, pingServer } from './ping.mjs'
+const axios = require('axios')
+const whatsapp = require('whatsapp-web.js')
+const { loadPreviousSession, startCurrentSession } = require('./auth.js')
+const { parseBody } = require('./parse.js')
+const { startServer, pingServer } = require('./ping.js')
 
 // constants
 const sessionData = loadPreviousSession()

@@ -4,7 +4,7 @@ function remove(substring) {
 
 String.prototype.remove = remove;
 
-export function parseArgs(params) {
+function parseArgs(params) {
   const pattern = /([^=]+)[\s]*=[\s]*\'([^']+)\'[\s]*(,)?/
   let matches = params.match(pattern)
 
@@ -33,7 +33,7 @@ export function parseArgs(params) {
 }
 
 
-export async function parseBody(messageObject, callback) {
+async function parseBody(messageObject, callback) {
   const pattern = /(#|!)([^(\s]+)(\([^)]+\))?/;
   let lowerMessageBody = messageObject.body.toLowerCase();
   let matches = lowerMessageBody.match(pattern);
@@ -69,3 +69,6 @@ export async function parseBody(messageObject, callback) {
     await callback(parsedData);
   }
 }
+
+exports.parseArgs = parseArgs
+exports.parseBody = parseBody

@@ -1,11 +1,11 @@
-import qrcode from 'qrcode-terminal'
-import fs from 'fs'
+const qrcode = require('qrcode-terminal')
+const fs = require('fs')
 
 // path where the session data will be stored
 const SESSION_FILE_PATH = './session.json';
 
 // load the session data if it has been previously saved
-export function loadPreviousSession() {
+function loadPreviousSession() {
 	if (fs.existsSync(SESSION_FILE_PATH)) {
 		let raw = fs.readFileSync('./session.json')
 		let data = JSON.parse(raw)
@@ -15,7 +15,7 @@ export function loadPreviousSession() {
 }
 
 // save session values to the file upon successful auth
-export function startCurrentSession(client, sessionData) {
+function startCurrentSession(client, sessionData) {
 	// generate and scan this code with your phone
 	client.on('qr', (qr) => {
 		qrcode.generate(qr, { small: true });
@@ -34,3 +34,6 @@ export function startCurrentSession(client, sessionData) {
 
 	client.initialize();
 }
+
+exports.loadPreviousSession = loadPreviousSession
+exports.startCurrentSession = startCurrentSession
