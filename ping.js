@@ -1,7 +1,7 @@
-import express from 'express'
-import axios from 'axios'
+const express = require('express')
+const axios = require('axios')
 
-export function startServer() {
+function startServer() {
     const app = express()
     const port = process.env.PORT || 3000
 
@@ -12,10 +12,13 @@ export function startServer() {
 }
 
 
-export function pingServer() {
+function pingServer() {
     setInterval(() => {
         axios.get('http://aliceclient.herokuapp.com/')
             .then(res => console.log(res))
             .catch(err => console.log(err))
     }, 30*1000);
 }
+
+exports.startServer = startServer
+exports.pingServer = pingServer
