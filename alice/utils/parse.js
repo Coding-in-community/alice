@@ -1,74 +1,45 @@
-function remove(substring) {
-  return this.replace(substring, '')
-}
+// se possiu determinado método
+// se o método é válido
+// se possuiu texto
+// se o texto é válido
+// se possui argumentos
+// se os argumentos são válidos
 
-String.prototype.remove = remove;
+module.exports = class { 
+    constructor(message) {
+        this.original = message.body.trim()
 
-function parseArgs(params) {
-  const pattern = /([^=]+)[\s]*=[\s]*\'([^']+)\'[\s]*(,)?/
-  let matches = params.match(pattern)
+        this.method = this._method.name
+        this.text = this._text
+        this.error = this._method.error
+    }
 
-  
-  if (matches) {
-    let foundString = matches[0]
-    let key = matches[1].trim()
-    let value = matches[2].trim()
-    let haveAnotherParam = matches[3]
-    
-    if (haveAnotherParam) {
-      params = params.replace(foundString, '')
-      
-      return {
-        [key]: value,
-        ...parseParams(params)
-      }
+    get _method() {
+        let pattern = /!([^\s]+)/
+        let matches = this.original.match(pattern)
+        
+        let found = {pattern: null, name: null, error: null}
+
+        if (matches) {
+            found.pattern = matches[0]
+
+            if (this.original.startsWith(found.pattern)) {
+                found.name = matches[1]
+            }
+
+            else {
+                found.error = 'Error: String doesn\'t start with a method'
+            }
+        }
+
+        else {
+            found.error = 'Error: Method not Found'
+        }
+
+        return found
     }
     
-    return {
-      [key]: value
+    get _text() {
+        return this.original.replace(this._method.pattern, '').trim()
     }
-  }
-  
-  return {}
-}
-
-
-async function parseBody(messageObject, callback) {
-  const pattern = /(#|!)([^(\s]+)(\([^)]+\))?/;
-  let lowerMessageBody = messageObject.body.toLowerCase();
-  let matches = lowerMessageBody.match(pattern);
-
-  if (matches) {
-    let textMsg;
-    let patternFound = String(matches[0]);
-    let useOwnMsg = Boolean(matches[1] === '!');
-    let useAnotherMsg = Boolean(matches[1] === '#');
-    let pythonMethod = String(matches[2]);
-    let methodArguments = matches[3] ? 
-      String(matches[3].replace(/[\(|\)]/g, '')): '';
-
-    if (useOwnMsg) {
-      textMsg = lowerMessageBody;
-    }
-
-    else if (useAnotherMsg && await messageObject.hasQuotedMsg) {
-      textMsg = await messageObject.getQuotedMessage();
-      textMsg = textMsg.body
-    }
-
-    else {
-      textMsg = 'tilápia';
-    }
-    console.log(textMsg);
-
-    textMsg = textMsg.remove(patternFound).trim();
-    methodArguments = parseArgs(methodArguments)
-
-    let parsedData = {textMsg, pythonMethod, methodArguments}
-
-    await callback(parsedData);
-  }
-}
-
-exports.parseArgs = parseArgs
-exports.parseBody = parseBody
+} 

@@ -1,0 +1,16 @@
+[
+    {
+        "filePath": "./components/log.js",
+        "componentName": "debugLog"
+    },
+
+    {
+        "filePath": "./components/dolar.js",
+        "componentName": "dolar"
+    },
+
+    {
+        "filePath": "./components/soma.js",
+        "componentName": "soma"
+    }
+]
