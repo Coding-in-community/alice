@@ -1,26 +1,10 @@
-const whatsapp = require('whatsapp-web.js')
+const Alice = require('./system')
+const { component } = require('./system/utils')
 
-const { loadPreviousSession, startCurrentSession } = require('./auth')
-const { Parse } = require('./utils')
-const system = require('./system')
-const { response } = require('express')
+let alice = new Alice([
+    component('dolar', require('./scripts/dolar')),
+    component('log', require('./scripts/dolar')),
+    component('soma', require('./scripts/dolar')),
+])
 
-// constants
-const sessionData = loadPreviousSession()
-const client = new whatsapp.Client({
-	session: sessionData, puppeteer: {
-		args: ['--no-sandbox', '--disable-setuid-sandbox']
-	}
-})
-
-client.on('message', async (message) => {
-  let content = new Parse(message)
-
-  let response = system.call(content.method, content.text)
-  if (response) {
-    console.log(response)
-    message.reply(String(response))
-  }
-})
-
-startCurrentSession(client, sessionData)
+alice.init()

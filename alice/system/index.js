@@ -1,45 +1,35 @@
-const fs = require('fs')
-const register = require('./register')
+const auth = require('./auth')
+const session = new auth.Session()
 
-/*
-para um componente funcionar ele deve ser criado de acordo com os seguinte critérios:
-  - parametros
-    a. poderá receber text[string] como primeiro parametro
-    b. poderá rebeber arguments[object] como segundo parametro
-    c. deverá não receber qualquer outro parametro
+const { Parse, Register } = require('./utils')
 
-  - retorno
-    c. deverá retornar um body[object] contendo response[string]
-    d. poderá retornar no body[object] um valor help[string] contendo a descrição do uso
+class Alice {
+	constructor(components) {
+		for (let component of components) {
+			Register.set(component.name, component.object)
+		}
+	}
 
-  - nomeclatura do arquivo
-    e. deverá utilizar _ (sublinhado) no começo do nome de cada arquivo
-    f. deverá registrar o componente com o mesmo nome dado ao arquivo
-    g. poderá registrar com ou sem extensão .js
-    h. recomenda-se utilizar uma nomeclatura que faça sentido
-    i. recomenda-se sempre utilizar letras em caixa baixa 
-    
-  - estrutura do arquivo  
-    j. deverá utilizar exports.default na função principal
-*/
+	init() {
+		// create or resume session
+		if (session.exists)
+			session.load()
+		else
+			session.save()
+		
+		session.on('message', (message) => {
+			let content = new Parse(message)
+			console.log(Register.get())
+		
+			if (content.method) {
+				Register.call(content.method, content.text)
+			}
+		
+		})
+		
+		session.start()
+	}
+}
 
 
-
-// REGISTER
-let registerData = require('./methods.json')
-console.log(registerData)
-
-registerData.map(elem => {
-  register.set(
-    elem.filePath,
-    elem.componentName
-  )
-})
-
-// EXPORT
-exports.get = register.get
-exports.set = register.set
-exports.call = register.call
-
-// DEBUG
-console.log(register.get())
+module.exports = Alice

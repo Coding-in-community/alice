@@ -1,11 +1,4 @@
-// se possiu determinado método
-// se o método é válido
-// se possuiu texto
-// se o texto é válido
-// se possui argumentos
-// se os argumentos são válidos
-
-module.exports = class { 
+class Parse { 
     constructor(message) {
         this.original = message.body.trim()
 
@@ -43,3 +36,5 @@ module.exports = class {
         return this.original.replace(this._method.pattern, '').trim()
     }
 } 
+
+module.exports = Parse
