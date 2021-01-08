@@ -17,9 +17,9 @@ class Register {
 		return Object.keys(registeredMethods)
 	}
 
-	static call(componentName, text) {
+	static async call(componentName, text, message, client) {
 		if (Register.get().includes(componentName)) {
-			return registeredMethods[componentName](text)
+			return await registeredMethods[componentName](text, message, client)
 		}
 		else {
 			console.log('E o erro cadê?')

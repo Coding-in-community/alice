@@ -17,12 +17,12 @@ class Alice {
 		else
 			session.save()
 		
-		session.on('message', (message) => {
+		session.on('message', async (message) => {
 			let content = new Parse(message)
 			console.log(Register.get())
 		
 			if (content.method) {
-				Register.call(content.method, content.text)
+				Register.call(content.method, content.text, message, session)
 			}
 		
 		})
