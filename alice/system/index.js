@@ -22,7 +22,7 @@ class Alice {
 			console.log(Register.get())
 		
 			if (content.method) {
-				Register.call(content.method, content.text, message, session)
+				Register.call(content.method, content.text, {}, message, session)
 			}
 		
 		})

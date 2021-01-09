@@ -7,7 +7,7 @@ async function getAdminUsers(chat) {
     return adminsUsers
 }
 
-module.exports = async function(_, message) {
+module.exports = async function(_, _, message) {
     let chat = await message.getChat()
     let admins = await getAdminUsers(chat)
 

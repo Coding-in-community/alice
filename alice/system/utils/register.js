@@ -17,12 +17,13 @@ class Register {
 		return Object.keys(registeredMethods)
 	}
 
-	static async call(componentName, text, message, client) {
+	static async call(componentName, text, args, message, client) {
 		if (Register.get().includes(componentName)) {
-			return await registeredMethods[componentName](text, message, client)
+			let response = await registeredMethods[componentName](text, args, message, client)
+			if (response) console.log(response)
 		}
 		else {
-			console.log('E o erro cadê?')
+			console.log(`${componentName} is not registered`)
 			throw new Error(`${componentName} is not registered`)
 		}
 	}
