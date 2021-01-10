@@ -1,40 +1,51 @@
-class Parse { 
-    constructor(message) {
-        this.original = message.body.trim()
+const REGEXP = {
+	// example: !some_method
+	METHOD: /!([^\s]+)/,
 
-        this.method = this._method.name
-        this.text = this._text
-        this.error = this._method.error
-    }
+	// example: --some_flag or --some_flag <string>
+	ARGS: /--([a-zA-Z]+)(?:\s+"(.+)")?/g,
+}
 
-    get _method() {
-        let pattern = /!([^\s]+)/
-        let matches = this.original.match(pattern)
-        
-        let found = {pattern: null, name: null, error: null}
 
-        if (matches) {
-            found.pattern = matches[0]
+class Parse {
+	constructor(message) {
+		this.original = message.body.trim()
+	}
 
-            if (this.original.startsWith(found.pattern)) {
-                found.name = matches[1]
-            }
+	get method() {
+		let matches = this.original.match(REGEXP.METHOD);
+		let _method;
 
-            else {
-                found.error = 'Error: String doesn\'t start with a method'
-            }
-        }
+		if (matches) {
+			_method = matches[1];
+		}
 
-        else {
-            found.error = 'Error: Method not Found'
-        }
+		return _method;
+	}
 
-        return found
-    }
-    
-    get _text() {
-        return this.original.replace(this._method.pattern, '').trim()
-    }
-} 
+	get args() {
+		let regexp = REGEXP.ARGS
+		let marchesInterator = this.original.matchAll(regexp)
+
+		let _args = {}
+
+		for (let matches of marchesInterator) {
+			let flag = matches[1]
+			let argument = matches[2]
+
+			if (argument) _args[flag] = argument
+			else _args[flag] = true
+		}
+
+		return _args
+	}
+
+	get text() {
+		return this.original
+			.replace(REGEXP.METHOD, '')
+			.replace(REGEXP.ARGS, '')
+			.trim()
+	}
+}
 
 module.exports = Parse
