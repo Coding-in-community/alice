@@ -20,5 +20,5 @@ function _example(text, _, message) {
 } 
 
 // module.exports is not really needed
-// but it makes easier to import later
 module.exports = _example
+// but it makes easier to import later
