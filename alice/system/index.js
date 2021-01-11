@@ -17,12 +17,14 @@ class Alice {
 		else
 			session.save()
 		
+		// show every registered function
+		console.log(Register.get())
+
 		session.on('message', async (message) => {
 			let content = new Parse(message)
-			console.log(Register.get())
 		
 			if (content.method) {
-				Register.call(content.method, content.text, message, session)
+				Register.call(content.method, content.text, content.args, message, session)
 			}
 		
 		})
