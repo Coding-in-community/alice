@@ -1,11 +1,11 @@
-# Guia Para Contribuidores do Alice Bot
+# Guia Para Contribuidores do Projeto
 
 ## Index
 
 - [Como contribuir?](#como-contribuir)
    - [1º Passo](#1º-passo) - Fork
    - [2º Passo](#2º-passo) - Clonagem
-   - [3º Passo](#3º-passo) - Add linke para repositório oficial
+   - [3º Passo](#3º-passo) - Add link para repositório oficial
    - [4º Passo](#4º-passo) - Crie uma branch para contribuir
    - [5º Passo](#5º-passo) - Adicione e commite a contribuição
    - [6º Passo](#6º-passo) - Envie a branch com a contribuição para o fork
@@ -37,15 +37,15 @@ Você será redirecionado para sua conta assim que o processo for concluído.
 Após ter o repositório em sua conta, faça o **clone** em seu ambiente local:
 
 ```bash
-$ git clone https://github.com/<NOME_DA_SUA_CONTA>/WhatsAppBot_ProjectAlice.git
+$ git clone https://github.com/<NOME_DA_SUA_CONTA>/whatsappbot-project_alice.git
 ```
 
 ### 3º Passo
 
-Com o clone em seu ambiente, linke o repositório local ao remoto da organização [Coding in Community](https://github.com/Coding-in-community/WhatsAppBot_ProjectAlice):
+Com o clone em seu ambiente, linke o repositório local ao remoto da organização [Coding in Community](https://github.com/Coding-in-community/whatsappbot-project_alice):
 
 ```bash
-$ git remote add upstream https://github.com/Coding-in-community/WhatsAppBot_ProjectAlice.git
+$ git remote add upstream https://github.com/Coding-in-community/whatsappbot-project_alice.git
 ```
 
 Isso servirá para sincronizar atualizações feitas no repositório oficial para seu ambiente local.
@@ -61,10 +61,10 @@ $ git remote --v
 Se tudo ocorreu bem, deverá ter uma saída semelhante a essa:
 
 ```bash
-origin  https://github.com/<NOME_DA_SUA_CONTA>/WhatsAppBot_ProjectAlice.git (fetch)
-origin  https://github.com/<NOME_DA_SUA_CONTA>/WhatsAppBot_ProjectAlice.git (push)
-upstream        https://github.com/Coding-in-community/WhatsAppBot_ProjectAlice.git (fetch)
-upstream        https://github.com/Coding-in-community/WhatsAppBot_ProjectAlice.git (push)
+origin  https://github.com/<NOME_DA_SUA_CONTA>/whatsappbot-project_alice.git (fetch)
+origin  https://github.com/<NOME_DA_SUA_CONTA>/whatsappbot-project_alice.git (push)
+upstream        https://github.com/Coding-in-community/whatsappbot-project_alice.git (fetch)
+upstream        https://github.com/Coding-in-community/whatsappbot-project_alice.git (push)
 ```
 
 ### 4º Passo

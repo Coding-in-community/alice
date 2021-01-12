@@ -4,31 +4,31 @@
         <img src="https://www.dropbox.com/s/9h3gdgq2ud2q114/circle-cropped.png?raw=1" width="150" height=150">
       </a>
   <br>
-    Project Alice
+    Projeto Alice
   <br>
 </h1>
 
-<h3 align=center>A multipurpose system based on <a href="https://github.com/fdciabdul/InsideHeartz-WhatsApp-Bot"> Inside Heartz </a> whatsapp bot</h3>
+<h3 align=center>Um sistema multiuso baseado no código do bot <a href="https://github.com/fdciabdul/InsideHeartz-WhatsApp-Bot"> Inside Heartz </a></h3>
 
-### Install
+### Instalação
 
-Clone this project
+Clone o projeto
 
 ```bash
 > git clone https://github.com/Coding-in-community/whatsappbot-project_alice.git
 > cd whatsappbot-project_alice
 ```
 
-Install dependencies:
+Instale as dependências:
 
 ```bash
 > npm install
 ```
 
-### Usage
+### Uso
 
 ```bash
 > node index.js
 ```
 
-Once the bot is running you can scan the qr code with whatsapp
+Uma vez que o bot esteja rodando você pode escanear o qrcode
