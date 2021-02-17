@@ -16,7 +16,7 @@ class Trigger {
 
     async _trigger() {
         while (this.loop) {
-            await axios.get(`http://localhost:${port}`);
+            await axios.get(`https://aliceclient.herokuapp.com/`);
             await sleep(this.time);
         }
     }
