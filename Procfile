@@ -1,1 +1,1 @@
-web: node ./alice/index.js
+web: node ./alice/main.js
