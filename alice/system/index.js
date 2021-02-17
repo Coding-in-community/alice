@@ -1,37 +1,46 @@
 const auth = require('./auth')
-const session = new auth.Session()
+const builder = require('./builder')
+const parser = require('./parser')
 
-const { Parse, Register } = require('./utils')
+const session = new auth.Session()
+const components = new builder.Components()
 
 class Alice {
-	constructor(components) {
-		for (let component of components) {
-			Register.set(component.name, component.object)
-		}
-	}
+    constructor(objectArray) {
+        this.options = {
+            trigger: 'message'
+        }
 
-	init() {
-		// create or resume session
-		if (session.exists)
-			session.load()
-		else
-			session.save()
-		
-		// show every registered function
-		console.log(Register.get())
+        for (let [name, object] of objectArray) {
+            components.set(name, object)
+        }
+    }
 
-		session.on('message', async (message) => {
-			let content = new Parse(message)
-		
-			if (content.method) {
-				Register.call(content.method, content.text, content.args, message, session)
-			}
-		
-		})
-		
-		session.start()
-	}
+    initialize() {
+        // create or resume session
+        if (session.exists)
+            session.load()
+        else
+            session.save()
+
+        // start session
+        session.start()
+
+        // call method over a trigger event
+        session.on(this.options.trigger, async (message) => {
+            let content = new parser.Content(message)
+
+            if (components.methods.includes(content.method)) {
+                components.call(
+                    content.method,
+                    content.text,
+                    content.args,
+                    message,
+                    session
+                )
+            }
+        })
+    }
 }
-
 
 module.exports = Alice
