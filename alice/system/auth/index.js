@@ -6,7 +6,6 @@ const path = require('path')
 const FILE_NAME = 'session.json'
 const SESSION_FILE_PATH = path.join(__dirname, FILE_NAME)
 
-
 class Session extends whatsapp.Client {
 	constructor() {
 		super({
@@ -63,7 +62,7 @@ class Session extends whatsapp.Client {
 		}
 
 		else {
-			throw Error('Session wasn\'t saved or loaded')
+			throw Error('session wasn\'t saved or loaded')
 		}
 
 	}

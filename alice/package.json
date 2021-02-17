@@ -1,6 +1,6 @@
 {
   "name": "alice",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "whatsapp bot",
   "main": "main.js",
   "scripts": {
@@ -14,6 +14,9 @@
   "author": "smith",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "google-translate-api": "^2.3.0",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.12.0"
   }
