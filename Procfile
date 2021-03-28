@@ -1,1 +1,0 @@
-web: node ./alice/main.js
