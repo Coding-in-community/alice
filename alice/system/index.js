@@ -1,11 +1,24 @@
 const auth = require('./auth')
 const builder = require('./builder')
 const parser = require('./parser')
+const escope = require('./escope')
 
 const session = new auth.Session()
 const components = new builder.Components()
 
 class Alice {
+    reconstructor(...optionsArray) {
+        for (let options of optionsArray) {
+            let trigger = options.trigger || 'message'
+            let escope = options.escope || 'all'
+            let components = components.set(options.components)
+        }
+    }
+
+    starter() {
+        
+    }
+
     constructor(objectArray) {
         this.options = {
             trigger: 'message'
@@ -42,5 +55,6 @@ class Alice {
         })
     }
 }
+
 
 module.exports = Alice

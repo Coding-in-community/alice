@@ -12,7 +12,6 @@ function componentPath(relativePath, alias, wrapper) {
 
 const Alice = require('./system')
 const path = require('path')
-const ping = require('./ping')
 
 let alice = new Alice([
     componentPath('regular/bot', alias = 'bot'),
@@ -28,7 +27,6 @@ let alice = new Alice([
 ])
 
 alice.initialize()
-ping.run()
 
 /*
 notas:
@@ -36,6 +34,7 @@ notas:
 - adicionar role para administradores
 - refatorar o componentPath
 - deixar as configurações semelhantes ao do vue
+- criar context, escope e actions
 */
 
 /*
