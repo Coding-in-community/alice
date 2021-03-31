@@ -1,4 +1,4 @@
-const search = require('../utils/search')
+const search = require('./utils/search')
 
 function callback(object) {
 	let title = object.title
@@ -14,7 +14,10 @@ _${link}_
 `
 }
 
-module.exports = async function (text, args, message) {
+module.exports = async function (data) {
+	let text = data.text
+	let args = data.args
+
 	let limit
 
 	if (args.limit && args.limit !== 'none') {
@@ -42,12 +45,12 @@ module.exports = async function (text, args, message) {
 			.join('\n\n')
 			.trim()
 
-		message.reply(stringResult)
+		return stringResult
 	}
 	else if (results.length > 0 && !text) {
-		message.reply('I think you should type something to search...')
+		return 'I think you should type something to search...'
 	}
 	else {
-		message.reply('Gomenasai, goshujin-sama. I can\'t find your search')
+		return 'Gomenasai, goshujin-sama. I can\'t find your search'
 	}
 }

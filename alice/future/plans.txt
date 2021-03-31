@@ -1,0 +1,20 @@
+- novos métodos:
+  - !doc --<componente> || FEITO:
+    - documentação das funções
+  - !command || FEITO:
+    - resumo dos comandos
+  - !quotation --<from> --<to>:
+    - cotas monetárias 
+  - !music --<download>:
+    - procura uma musica no youtube, e baixa caso requerido
+
+
+- novas funcionalidades 
+  - escope || IMPORTANTE
+    - conjunto de wrappers para criar escopo de funções no whatsapp
+  - context
+    - api de contexto para lembrar de cada membro individualmente 
+  - scheduler || FEITO
+    - ativa métodos em determinadas horas do dia
+  - action
+    - ativa métodos de acordo com eventos 
