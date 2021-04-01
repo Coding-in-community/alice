@@ -1,6 +1,6 @@
 const REGEXP = {
 	// example: !some_method
-	METHOD: /!([^\s]+)/,
+	METHOD: /^!([^\s]+)/,
 
 	// example: --some_flag
 	ARGS: /--([\S]+)(?=\s|$)/g,

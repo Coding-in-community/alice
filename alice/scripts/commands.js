@@ -9,9 +9,11 @@ module.exports = function () {
     - !github
     - !links
     - !lyric
+    - !report
     - !search
+    - !suggest
     - !wiki
 `
 
-    return string_output
+    return string_output.trim()
 }
