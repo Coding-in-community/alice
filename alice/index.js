@@ -7,6 +7,7 @@ let path = new build.Path(__dirname)
 
 let alice = new src.Alice([
     path.create('scripts/bot', alias='bot'),
+    path.create('scripts/coin', alias='coin'),
     path.create('scripts/commands', alias='commands'),
     path.create('scripts/cron', alias='cron'),
     path.create('scripts/dice', alias='dice'),
