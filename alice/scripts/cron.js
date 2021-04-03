@@ -200,7 +200,7 @@ _--d  -> define um intervalor de dias_
     }
 
     main() {
-        if (chattools.isAdm(this.message)) {
+        if (await chattools.isAdm(this.message)) {
             return this.code()
         }
 
