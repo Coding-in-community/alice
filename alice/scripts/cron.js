@@ -199,8 +199,9 @@ _--d  -> define um intervalor de dias_
             return this._default()
     }
 
-    main() {
-        if (await chattools.isAdm(this.message)) {
+    async main() {
+        let isAdm = await chattools.isAdm(this.message) 
+        if (isAdm) {
             return this.code()
         }
 
