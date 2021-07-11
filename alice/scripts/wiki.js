@@ -1,6 +1,9 @@
 const wiki = require('wikijs').default;
 
-module.exports = async function (text, args, message) {
+module.exports = async function (data) {
+  let text = data.text
+  let args = data.args
+
   let response = await wiki({apiUrl: 'https://pt.wikipedia.org/w/api.php'})
 
   let output
@@ -23,5 +26,5 @@ module.exports = async function (text, args, message) {
     output += `_${url}_` 
   }
 
-  message.reply(output)
+  return output
 }

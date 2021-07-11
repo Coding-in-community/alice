@@ -29,12 +29,14 @@ class Session extends whatsapp.Client {
 		})
 
 		this.on('authenticated', (session) => {
-			fs.writeFile(
+			fs.writeFileSync(
 				SESSION_FILE_PATH,
-				JSON.stringify(session),
-				(err) => { if (err) console.error(err) }
+				JSON.stringify(session)
 			)
+
+            console.log('⚠ The current session has been saved ⚠')
 		})
+
 	}
 
 	load() {
@@ -45,6 +47,8 @@ class Session extends whatsapp.Client {
 			let data = JSON.parse(raw)
 
 			this.options.session = data
+
+            console.log('⚠ The previous session was loaded ⚠')
 		}
 
 		catch {
@@ -68,5 +72,6 @@ class Session extends whatsapp.Client {
 	}
 }
 
-exports.Session = Session
-
+module.exports = {
+    Session
+}
