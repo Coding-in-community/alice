@@ -1,34 +1,70 @@
-<h1 align="center">
-  <br>
-      <a href="https://github.com/Coding-in-community/alice">
-        <img src="https://www.dropbox.com/s/9h3gdgq2ud2q114/circle-cropped.png?raw=1" width="150" height=150">
-      </a>
-  <br>
-    Project Alice
-  <br>
-</h1>
+<div align="center">
+  <img src="https://www.dropbox.com/s/9h3gdgq2ud2q114/circle-cropped.png?raw=1" width="150" height="150">
+  <h1>
+    alice
+  </h1>
+  <blockquote>
+    A multipurpose system based on Inside Heartz whatsapp bot
+  </blockquote>
+  <div id="badges">
+    <img src="https://img.shields.io/github/repo-size/Coding-in-community/alice?color=4000FF" alt="repo-size" />
+    <img src="https://img.shields.io/github/issues-raw/Coding-in-community/alice?color=4000FF" alt="issues" />
+    <img src="https://img.shields.io/badge/license-MIT-4000FF" alt="license" />
+  </div>
+</div>
 
-<h3 align=center>A multipurpose system based on <a href="https://github.com/fdciabdul/InsideHeartz-WhatsApp-Bot"> Inside Heartz </a> whatsapp bot</h3>
+## Table of contents
 
-### Install
+- [About the project](#-about-the-project)
+  - [How to run](#-how-to-run)
+- [How to contribute](#-how-to-contribute)
+- [License](#-license)
 
-Clone this project
+## 💻 About the project
 
-```bash
-> git clone https://github.com/Coding-in-community/alice.git
-> cd alice
-```
+A multipurpose system based on <a href="https://github.com/fdciabdul/InsideHeartz-WhatsApp-Bot">Inside Heartz</a> whatsapp bot
 
-Install dependencies:
+### 🚀 How to run
 
-```bash
-> npm install
-```
+1. Clone the repository
 
-### Usage
+   ```bash
+   git clone https://github.com/Coding-in-community/alice.git
+   ```
 
-```bash
-> node index.js
-```
+2. Install the dependencies
 
-Once the bot is running you can scan the qr code with whatsapp
+   ```bash
+   cd alice
+   npm install
+   ```
+
+3. Run the application
+
+   ```bash
+   node alice/index.js
+   ```
+
+4. Scan QR code using whatsapp
+
+## 🤝 How to contribute
+
+Every kind of contribution is welcome, we admire it!
+
+Is there any problem? Found a bug? Do you have any tips? Open an [issue](https://github.com/Coding-in-community/alice/issues) describing it.
+
+Want to contribute code? We ask that you first read [this contribution guide](https://github.com/firstcontributions/first-contributions)
+
+Don't forget to leave your ⭐, it is also a way to contribute to the project;)
+
+## 📝 License
+
+This project is under the MIT license. See the file [LICENSE](LICENSE) for more details.
+
+---
+
+<div align="center">
+
+Created by [Coding in Community](https://github.com/Coding-in-community) 💜
+
+</div>
