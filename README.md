@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-      <a href="https://github.com/Coding-in-community/whatsappbot-project_alice">
+      <a href="https://github.com/Coding-in-community/alice">
         <img src="https://www.dropbox.com/s/9h3gdgq2ud2q114/circle-cropped.png?raw=1" width="150" height=150">
       </a>
   <br>
@@ -15,8 +15,8 @@
 Clone this project
 
 ```bash
-> git clone https://github.com/Coding-in-community/whatsappbot-project_alice.git
-> cd whatsappbot-project_alice
+> git clone https://github.com/Coding-in-community/alice.git
+> cd alice
 ```
 
 Install dependencies:
