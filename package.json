@@ -1,13 +1,17 @@
 {
-  "name": "sandbox",
+  "name": "alice",
   "version": "0.0.8",
-  "description": "none",
-  "main": "index.js",
+  "description": "A multipurpose system based on Inside Heartz whatsapp bot",
+  "main": "alice/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Coding-in-community/alice"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Bruno Gomes",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.5",

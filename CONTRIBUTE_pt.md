@@ -37,15 +37,15 @@ Você será redirecionado para sua conta assim que o processo for concluído.
 Após ter o repositório em sua conta, faça o **clone** em seu ambiente local:
 
 ```bash
-$ git clone https://github.com/<NOME_DA_SUA_CONTA>/whatsappbot-project_alice.git
+$ git clone https://github.com/<NOME_DA_SUA_CONTA>/alice.git
 ```
 
 ### 3º Passo
 
-Com o clone em seu ambiente, linke o repositório local ao remoto da organização [Coding in Community](https://github.com/Coding-in-community/whatsappbot-project_alice):
+Com o clone em seu ambiente, linke o repositório local ao remoto da organização [Coding in Community](https://github.com/Coding-in-community/alice):
 
 ```bash
-$ git remote add upstream https://github.com/Coding-in-community/whatsappbot-project_alice.git
+$ git remote add upstream https://github.com/Coding-in-community/alice.git
 ```
 
 Isso servirá para sincronizar atualizações feitas no repositório oficial para seu ambiente local.
@@ -61,10 +61,10 @@ $ git remote --v
 Se tudo ocorreu bem, deverá ter uma saída semelhante a essa:
 
 ```bash
-origin  https://github.com/<NOME_DA_SUA_CONTA>/whatsappbot-project_alice.git (fetch)
-origin  https://github.com/<NOME_DA_SUA_CONTA>/whatsappbot-project_alice.git (push)
-upstream        https://github.com/Coding-in-community/whatsappbot-project_alice.git (fetch)
-upstream        https://github.com/Coding-in-community/whatsappbot-project_alice.git (push)
+origin  https://github.com/<NOME_DA_SUA_CONTA>/alice.git (fetch)
+origin  https://github.com/<NOME_DA_SUA_CONTA>/alice.git (push)
+upstream        https://github.com/Coding-in-community/alice.git (fetch)
+upstream        https://github.com/Coding-in-community/alice.git (push)
 ```
 
 ### 4º Passo
