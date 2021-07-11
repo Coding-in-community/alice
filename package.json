@@ -1,37 +1,18 @@
 {
-  "name": "alice",
-  "version": "0.0.9",
-  "description": "whatsapp bot tool",
-  "main": "main.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "name": "sandbox",
+  "version": "0.0.8",
+  "description": "none",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BearingMe/WhatsAppBot_ProjectAlice.git"
-  },
-  "keywords": [
-    "wa",
-    "bot",
-    "whatsappbot",
-    "whatsapp"
-  ],
-  "author": "smith",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/BearingMe/WhatsAppBot_ProjectAlice/issues"
-  },
-  "homepage": "https://github.com/BearingMe/WhatsAppBot_ProjectAlice#readme",
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "express": "^4.17.1",
-    "google-it": "^1.6.1",
+    "cheerio": "^1.0.0-rc.5",
     "jssoup": "0.0.12",
     "qrcode-terminal": "^0.12.0",
-    "whatsapp-web.js": "^1.12.4",
-    "wikijs": "^6.0.1"
+    "whatsapp-web.js": "^1.12.5"
   }
 }

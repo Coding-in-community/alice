@@ -1,6 +1,6 @@
 const axios = require('axios');
 const JSSoup = require('jssoup').default;
-const search = require('../utils/search');
+const search = require('./utils/search');
 
 
 async function makeSoup(url) {
@@ -24,7 +24,9 @@ function removeBr(p) {
   return soup
 }
 
-module.exports = async function(text, _, message) {
+module.exports = async function(data, message) {
+  let text = data.text 
+
   if (text) {
     let results = await search.google(text, 'https://www.letras.mus.br')
   

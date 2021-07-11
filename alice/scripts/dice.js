@@ -6,7 +6,8 @@ Ex:
   - !dice 1d10 + 4 // Joga um dado de dez lados mas *não* faz a soma.
 `
 
-module.exports = function (text) {
+module.exports = function (data) {
+	let text = data.text
 	let regexp = /(\d+)d(\d+)([-|+]\d+)?/
 	let match = text.match(regexp)
 
