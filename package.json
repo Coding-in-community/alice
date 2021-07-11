@@ -15,8 +15,10 @@
   "dependencies": {
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.5",
+    "google-it": "^1.6.2",
     "jssoup": "0.0.12",
     "qrcode-terminal": "^0.12.0",
-    "whatsapp-web.js": "^1.12.5"
+    "whatsapp-web.js": "^1.12.5",
+    "wikijs": "^6.2.1"
   }
 }
