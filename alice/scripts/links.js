@@ -26,12 +26,12 @@ coding in unity:
     https://chat.whatsapp.com/FO82hrN3v6SCjHSgQ2xvu4
 
 coding on linux:
-  https://chat.whatsapp.com/D37sPPhUsiT5LZ8PQeqg4t
-  
-speaking in english:
-  https://chat.whatsapp.com/EOirNapuFe3CVunBqbwj1Z
-`
+    https://chat.whatsapp.com/D37sPPhUsiT5LZ8PQeqg4t
 
-module.exports = function() {
-    return info
-}
+speaking in english:
+    https://chat.whatsapp.com/EOirNapuFe3CVunBqbwj1Z
+`;
+
+module.exports = function () {
+  return info;
+};
