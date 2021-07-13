@@ -5,7 +5,7 @@ function sleep(seconds) {
 function timer(sec, min = 0, hour = 0, day = 0) {
   // segundos
   if (sec >= 0) {
-    sec = sec * 1000;
+    sec *= 1000;
   } else {
     throw Error('seconds must be higher than 0');
   }
@@ -31,7 +31,7 @@ function timer(sec, min = 0, hour = 0, day = 0) {
     throw Error('minutes must be higher than 0');
   }
 
-  let time = sec + min + hour + day;
+  const time = sec + min + hour + day;
   return time;
 }
 

@@ -4,28 +4,27 @@ const parse = require('./parse');
 const build = require('./build');
 
 // instances
-let session = new auth.Session();
-let components = new build.Components();
+const session = new auth.Session();
+const components = new build.Components();
 
 class Alice {
   constructor(componentsArray) {
     this.options = {
-      trigger: 'message',
+      trigger: 'message_create',
     };
 
-    componentsArray.map((elem) => {
+    componentsArray.forEach((elem) => {
       components.set(...elem);
     });
   }
 
-  async main(message) {
-    let content = new parse.Content(message.body);
-    let method = content.method;
+  static async main(message) {
+    const { method, string, args, kwargs } = new parse.Content(message.body);
 
-    let data = {
-      text: content.string,
-      args: content.args,
-      kwargs: content.kwargs,
+    const data = {
+      text: string,
+      args,
+      kwargs,
     };
 
     if (method) {
@@ -37,7 +36,7 @@ class Alice {
     if (session.exists) session.load();
     else session.save();
 
-    session.on(this.options.trigger, this.main);
+    session.on(this.options.trigger, Alice.main);
     session.start();
   }
 }

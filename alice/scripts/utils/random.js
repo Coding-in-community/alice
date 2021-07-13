@@ -1,43 +1,42 @@
 function randint(a, b) {
-  let delta = b + 1 - a;
-  let rng = Math.floor(Math.random() * delta);
+  const delta = b + 1 - a;
+  const rng = Math.floor(Math.random() * delta);
 
   return a + rng;
 }
 
 function choice(array) {
-  let _rng = randint(0, array.length - 1);
+  const rng = randint(0, array.length - 1);
 
-  return array[_rng];
+  return array[rng];
 }
 
 function choices(array, k) {
-  let _choices = [];
+  const choicesArray = [];
 
   for (let i = 0; i < k; i++) {
-    _choices.push(choice(array));
+    choicesArray.push(choice(array));
   }
 
-  return _choices;
+  return choicesArray;
 }
 
 function sample(array, k) {
   if (array.length >= k && k > 0) {
-    let _array = array.slice();
-    let _samples = [];
+    const newArray = array.slice();
+    const samples = [];
 
     for (let i = 0; i < k; i++) {
-      let _rng = randint(0, _array.length - 1);
-      let _aux = _array[_rng];
+      const rng = randint(0, newArray.length - 1);
+      const aux = newArray[rng];
 
-      _samples.push(_aux);
-      _array.splice(_rng, 1);
+      samples.push(aux);
+      newArray.splice(rng, 1);
     }
 
-    return _samples;
-  } else {
-    throw Error('Sample larger than population or is negative');
+    return samples;
   }
+  throw Error('Sample larger than population or is negative');
 }
 
 function shuffle(array) {

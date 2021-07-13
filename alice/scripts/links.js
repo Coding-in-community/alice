@@ -1,4 +1,4 @@
-let info = `coding in python: 
+const info = `coding in python: 
     https://chat.whatsapp.com/I4IpHC0YFPQLUcGHJeqYdF
 
 coding in c/c++:
@@ -32,6 +32,4 @@ speaking in english:
     https://chat.whatsapp.com/EOirNapuFe3CVunBqbwj1Z
 `;
 
-module.exports = function () {
-  return info;
-};
+module.exports = () => info;

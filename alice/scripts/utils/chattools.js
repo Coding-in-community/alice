@@ -4,7 +4,8 @@
  * @return {Array<String>} - Contains serialized phone numbers
  */
 function getSerialList(idList) {
-  let serialList = idList.map((elem) => elem.id._serialized);
+  // eslint-disable-next-line no-underscore-dangle
+  const serialList = idList.map((elem) => elem.id._serialized);
 
   return serialList;
 }
@@ -15,9 +16,9 @@ function getSerialList(idList) {
  * @return {Array<String>} - Contains serialized phone numbers of all members
  */
 async function getMembersList(chat) {
-  let members = await chat.participants;
+  const members = await chat.participants;
 
-  let membersSerialList = getSerialList(members);
+  const membersSerialList = getSerialList(members);
 
   return membersSerialList;
 }
@@ -28,10 +29,10 @@ async function getMembersList(chat) {
  * @return {Array<String>} - Contains serialized phone numbers of all administrators
  */
 async function getAdmsList(chat) {
-  let members = await chat.participants;
+  const members = await chat.participants;
 
-  let admsIdList = members.filter((elem) => elem.isAdmin);
-  let admsSerialList = getSerialList(admsIdList);
+  const admsIdList = members.filter((elem) => elem.isAdmin);
+  const admsSerialList = getSerialList(admsIdList);
 
   return admsSerialList;
 }
@@ -42,12 +43,11 @@ async function getAdmsList(chat) {
  * @return {Boolean}
  */
 async function isAdm(message) {
-  let chat = await message.getChat();
+  const chat = await message.getChat();
 
-  let admList = await getAdmsList(chat);
-  let author = message.author;
+  const admList = await getAdmsList(chat);
+  const { author } = message;
 
-  console.log(admList, author);
   return admList.includes(author);
 }
 

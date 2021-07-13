@@ -1,25 +1,25 @@
 // imports
-let src = require('./src');
-let build = require('./src/build');
+const src = require('./src');
+const build = require('./src/build');
 
 // instance
-let path = new build.Path(__dirname);
+const path = new build.Path(__dirname);
 
-let alice = new src.Alice([
-  path.create('scripts/bot', (alias = 'bot')),
-  path.create('scripts/coin', (alias = 'coin')),
-  path.create('scripts/commands', (alias = 'commands')),
-  path.create('scripts/cron', (alias = 'cron')),
-  path.create('scripts/dice', (alias = 'dice')),
-  path.create('scripts/doc', (alias = 'doc')),
-  path.create('scripts/doc', (alias = 'help')),
-  path.create('scripts/github', (alias = 'github')),
-  path.create('scripts/links', (alias = 'links')),
-  path.create('scripts/lyric', (alias = 'lyric')),
-  path.create('scripts/report', (alias = 'report')),
-  path.create('scripts/search', (alias = 'search')),
-  path.create('scripts/suggest', (alias = 'suggest')),
-  path.create('scripts/wiki', (alias = 'wiki')),
+const alice = new src.Alice([
+  path.create('scripts/bot', 'bot'),
+  path.create('scripts/coin', 'coin'),
+  path.create('scripts/commands', 'commands'),
+  path.create('scripts/cron', 'cron'),
+  path.create('scripts/dice', 'dice'),
+  path.create('scripts/doc', 'doc'),
+  path.create('scripts/doc', 'help'),
+  path.create('scripts/github', 'github'),
+  path.create('scripts/links', 'links'),
+  path.create('scripts/lyric', 'lyric'),
+  path.create('scripts/report', 'report'),
+  path.create('scripts/search', 'search'),
+  path.create('scripts/suggest', 'suggest'),
+  path.create('scripts/wiki', 'wiki'),
 ]);
 
 alice.initialize();

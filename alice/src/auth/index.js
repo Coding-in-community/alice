@@ -17,6 +17,7 @@ class Session extends whatsapp.Client {
     this.isSavedOrLoaded = false;
   }
 
+  // eslint-disable-next-line
   get exists() {
     return fs.existsSync(SESSION_FILE_PATH);
   }
@@ -39,8 +40,8 @@ class Session extends whatsapp.Client {
     this.isSavedOrLoaded = true;
 
     try {
-      let raw = fs.readFileSync(SESSION_FILE_PATH);
-      let data = JSON.parse(raw);
+      const raw = fs.readFileSync(SESSION_FILE_PATH);
+      const data = JSON.parse(raw);
 
       this.options.session = data;
 
@@ -51,15 +52,11 @@ class Session extends whatsapp.Client {
   }
 
   start() {
-    if ((this.isSavedOrLoaded = true)) {
-      this.on('ready', () => {
-        console.log('Client is ready!');
-      });
+    this.on('ready', () => {
+      console.log('Client is ready!');
+    });
 
-      this.initialize();
-    } else {
-      throw Error("session wasn't saved or loaded");
-    }
+    this.initialize();
   }
 }
 

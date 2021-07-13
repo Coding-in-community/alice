@@ -3,8 +3,8 @@ const cheerio = require('cheerio');
 
 async function loadCheerio(url) {
   try {
-    let response = await axios.get(url);
-    let html = response.data;
+    const response = await axios.get(url);
+    const html = response.data;
 
     return cheerio.load(html);
   } catch (err) {
@@ -15,25 +15,24 @@ async function loadCheerio(url) {
 }
 
 async function getData(url) {
-  let $ = await loadCheerio(url);
+  const $ = await loadCheerio(url);
   if (typeof $ === 'function') {
-    let priceStatistics = $('.sc-AxhCb.gsRRvB.container___E9axz');
-    let priceStatisticsTable = priceStatistics.find('table');
-    let priceStatisticsTableBody = priceStatisticsTable.find('tbody');
-    let priceStatisticsTableRow = priceStatisticsTableBody.find('tr');
+    const priceStatistics = $('.sc-AxhCb.gsRRvB.container___E9axz');
+    const priceStatisticsTable = priceStatistics.find('table');
+    const priceStatisticsTableBody = priceStatisticsTable.find('tbody');
+    const priceStatisticsTableRow = priceStatisticsTableBody.find('tr');
 
-    let data = [];
+    const data = [];
     priceStatisticsTableRow.each(function () {
-      let elem = $(this);
+      const elem = $(this);
 
-      let key = elem.find('th').text();
+      const key = elem.find('th').text();
 
       let value = elem.find('td');
       if (value.find('span.sc-1v2ivon-0.gClTFY').text()) {
-        value =
-          value.find('span').first().text() +
-          ' || ' +
-          value.find('span.sc-1v2ivon-0.gClTFY').text();
+        value = `${value.find('span').first().text()} || ${value
+          .find('span.sc-1v2ivon-0.gClTFY')
+          .text()}`;
       } else {
         value = value.text();
       }
@@ -41,7 +40,7 @@ async function getData(url) {
       console.log(value);
 
       if (value !== 'No Data' || value !== 'Sem Dados') {
-        let object = Object.fromEntries([[key, value]]);
+        const object = Object.fromEntries([[key, value]]);
         data.push(object);
       }
     });
@@ -52,14 +51,14 @@ async function getData(url) {
   return null;
 }
 
-let _default = `
+const defaultMessage = `
 uso: *!coin* [--flag] name
 _--all -> mostra todas as informações disponiveis_  
 
 a flag _all_ pode retornar dados em excesso, sua utilização repetida será considera spam
 `;
 
-module.exports = async function (data) {
+module.exports = async (data) => {
   let BASE_URL = 'https://coinmarketcap.com/currencies/';
 
   if (data.args.includes('brl')) {
@@ -67,8 +66,8 @@ module.exports = async function (data) {
   }
 
   if (data.text) {
-    let text = data.text.replace(/\s/g, '-').toLowerCase();
-    let url = BASE_URL + text;
+    const text = data.text.replace(/\s/g, '-').toLowerCase();
+    const url = BASE_URL + text;
     let coinData = await getData(url);
 
     if (coinData) {
@@ -76,17 +75,15 @@ module.exports = async function (data) {
 
       let coinDataString = '';
       coinData.forEach((elem) => {
-        let [key, value] = Object.entries(elem)[0];
+        const [key, value] = Object.entries(elem)[0];
 
-        let string = `*_${key}_*:\n - ${value}\n\n`;
+        const string = `*_${key}_*:\n - ${value}\n\n`;
         coinDataString += string;
       });
 
       return coinDataString.trim();
-    } else {
-      return 'moeda não encontrada';
     }
-  } else {
-    return _default.trim();
+    return 'moeda não encontrada';
   }
+  return defaultMessage.trim();
 };

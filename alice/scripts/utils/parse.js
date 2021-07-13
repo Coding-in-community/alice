@@ -7,13 +7,13 @@ function userID(targetNumber) {
     'you must pass the number as a string'
   );
 
-  targetNumber = targetNumber.replace(/\D/g, '');
+  const target = targetNumber.replace(/\D/g, '');
 
-  let regexp = /\d+/;
-  let matches = targetNumber.match(regexp);
-  let pattern = matches[0];
+  const regexp = /\d+/;
+  const matches = target.match(regexp);
+  const pattern = matches[0];
 
-  return pattern + '@c.us';
+  return `${pattern}@c.us`;
 }
 
 module.exports = {

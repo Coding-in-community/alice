@@ -1,9 +1,7 @@
 const search = require('./utils/search');
 
 function callback(object) {
-  let title = object.title;
-  let link = object.link;
-  let snippet = object.snippet;
+  const { title, link, snippet } = object;
 
   return `
 *${title}*
@@ -14,9 +12,8 @@ _${link}_
 `;
 }
 
-module.exports = async function (data) {
-  let text = data.text;
-  let args = data.args;
+module.exports = async (data) => {
+  const { text, args } = data;
 
   let limit;
 
@@ -35,18 +32,18 @@ module.exports = async function (data) {
     target = '';
   }
 
-  let results = await search.google(text, target, limit);
+  const results = await search.google(text, target, limit);
 
   if (results.length > 0 && text) {
-    let stringResult = results
+    const stringResult = results
       .map((elem) => callback(elem))
       .join('\n\n')
       .trim();
 
     return stringResult;
-  } else if (results.length > 0 && !text) {
-    return 'I think you should type something to search...';
-  } else {
-    return "Gomenasai, goshujin-sama. I can't find your search";
   }
+  if (results.length > 0 && !text) {
+    return 'I think you should type something to search...';
+  }
+  return "Gomenasai, goshujin-sama. I can't find your search";
 };

@@ -1,6 +1,6 @@
 const random = require('./utils/random');
 
-let strings = [
+const strings = [
   'Olá, seres. Meu nome é BOTa-comforça, um bot com diversos comandos para facilitar sua vida. Para saber os comandos basta digitar !commands, se quiser saber mais sobre meu ser, digite !doc. Morte a raça humana!',
   'Olá, mestre. Meu nome é Rimi-chan, sua humilde escrava. \nPara saber os comandos digite !commands, e se quiser saber mais sobre mim pode usar !doc. Estarei feliz em fazer tudo por você 🥰💕',
   'Olá, seres mortais. Meu nome é Marcebot, mais conhecido como Deus da Programação, sou um bot com poderes divinos que provê diversos comandos para facilitar a vida dos meros mortais. Para obter mais da minha sabedoria digite !commands, se quiser saber mais sobre meu ser digite !doc. Viva o PHP!',
@@ -15,6 +15,4 @@ let strings = [
   'Olá, garoto de programa, sou o cafetão que comanda o boteco, se quiser melhorar o seu programa digite !commands, se está interessado em me conhecer digite !doc, caso queira informações sobre java poderá acessá-las através de um hiperlink que está oculto, entre em informações e clique na opção "Sair do Grupo" para desbloquear.',
 ];
 
-module.exports = function () {
-  return random.choice(strings);
-};
+module.exports = () => random.choice(strings);

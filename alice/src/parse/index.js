@@ -5,7 +5,7 @@ const REGEXP = {
   // example: --some_flag
   ARGS: /--([\S]+)(?=\s|$)/g,
 
-  KWARGS: /--([a-zA-Z0-9_-]+)="?([a-z0-9\.]+)"?/g,
+  KWARGS: /--([a-zA-Z0-9_-]+)="?([a-z0-9\.]+)"?/g, // eslint-disable-line
 };
 
 class Content {
@@ -14,25 +14,25 @@ class Content {
   }
 
   get method() {
-    let matches = this.originalText.match(REGEXP.METHOD);
+    const matches = this.originalText.match(REGEXP.METHOD);
 
     return matches ? matches[1] : '';
   }
 
   get args() {
-    let matchesIter = this.originalText.matchAll(REGEXP.ARGS);
-    let matchesArray = [...matchesIter];
-    let matches = matchesArray.map((elem) => elem[1]);
+    const matchesIter = this.originalText.matchAll(REGEXP.ARGS);
+    const matchesArray = [...matchesIter];
+    const matches = matchesArray.map((elem) => elem[1]);
 
     return matches;
   }
 
   get kwargs() {
-    let obj = new Object();
+    const obj = {};
 
-    let matchesIter = this.originalText.matchAll(REGEXP.KWARGS);
-    let matchesArray = [...matchesIter];
-    let matches = matchesArray.map((elem) => {
+    const matchesIter = this.originalText.matchAll(REGEXP.KWARGS);
+    const matchesArray = [...matchesIter];
+    const matches = matchesArray.forEach((elem) => { // eslint-disable-line
       Object.assign(obj, { [elem[1]]: elem[2] });
     });
 
