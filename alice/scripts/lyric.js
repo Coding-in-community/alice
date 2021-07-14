@@ -2,57 +2,51 @@ const axios = require('axios');
 const JSSoup = require('jssoup').default;
 const search = require('./utils/search');
 
-
 async function makeSoup(url) {
-  let response = await axios.get(url)
-  let html = response.data
+  const response = await axios.get(url);
+  const { data: html } = response;
 
-  return new JSSoup(html)
+  return new JSSoup(html);
 }
 
 function removeBr(p) {
-  let html
+  let html = p.prettify();
 
-  html = p.prettify()
-  html_array = html.split('\n')
-  html_array = html_array.filter(elem => !elem.match(/<br[\s]*[\/]?>/))
-  html_array = html_array.map(elem => elem.trim())
-  html = html_array.join('\n')
+  let htmlArray = html.split('\n');
+  htmlArray = htmlArray.filter((elem) => !elem.match(/<br[\s]*[\/]?>/));
+  htmlArray = htmlArray.map((elem) => elem.trim());
+  html = htmlArray.join('\n');
 
-
-  let soup = new JSSoup(html)
-  return soup
+  const soup = new JSSoup(html);
+  return soup;
 }
 
-module.exports = async function(data, message) {
-  let text = data.text 
+module.exports = async (data, message) => {
+  const { text } = data;
 
   if (text) {
-    let results = await search.google(text, 'https://www.letras.mus.br')
-  
-    let url = results[0].link
-  
-    let soup = await makeSoup(url)
-  
+    const results = await search.google(text, 'https://www.letras.mus.br');
+
+    const { link: url } = results[0];
+
+    const soup = await makeSoup(url);
+
     // titulo
-    let h1 = soup.find('div', { 'class': 'cnt-head_title' }).find('h1')
-  
+    const h1 = soup.find('div', { class: 'cnt-head_title' }).find('h1');
+
     // letra
-    let div = soup.find('div', { 'class': 'cnt-letra' })
-    let p_array = div.findAll('p')
-  
+    const div = soup.find('div', { class: 'cnt-letra' });
+    const pArray = div.findAll('p');
+
     // monta a mensagem
-    let output = `*${h1.text}*\n`
-    for (p of p_array) {
-      output += removeBr(p).text
-    }
-    output += `\n_${url}_`
-  
-    message.reply(output)
-  }
+    let output = `*${h1.text}*\n`;
+    pArray.forEach((p) => {
+      output += removeBr(p).text;
+    });
+    output += `\n_${url}_`;
 
-  else {
-    message.reply('please tell me the song name')
+    message.reply(output);
+  } else {
+    message.reply('please tell me the song name');
   }
-
-}
+};

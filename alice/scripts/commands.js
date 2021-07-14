@@ -1,5 +1,5 @@
-module.exports = function () {
-    let string_output = `
+module.exports = () => {
+  const stringOutput = `
     Os seguintes comandos estão disponiveis:
     - !bot
     - !commands
@@ -13,7 +13,7 @@ module.exports = function () {
     - !search
     - !suggest
     - !wiki
-`
+`;
 
-    return string_output.trim()
-}
+  return stringOutput.trim();
+};

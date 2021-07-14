@@ -1,26 +1,17 @@
-const googleIt = require('google-it')
+const googleIt = require('google-it');
 
 async function google(query, target = '', limit = null) {
-  try {
-    let result = await googleIt({
-      query: query,
-      includeSites: target
-    })
+  const result = await googleIt({
+    query,
+    includeSites: target,
+  });
 
-    if (limit) {
-      return result.slice(0, limit)
-    }
-
-    else {
-      return result
-    }
+  if (limit) {
+    return result.slice(0, limit);
   }
-
-  catch (error) {
-    console.log(error)
-  }
+  return result;
 }
 
 module.exports = {
-    google
-}
+  google,
+};
