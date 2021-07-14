@@ -1,56 +1,49 @@
-const search = require('./utils/search')
+const search = require('./utils/search');
 
 function callback(object) {
-	let title = object.title
-	let link = object.link
-	let snippet = object.snippet
+  const { title, link, snippet } = object;
 
-	return `
+  return `
 *${title}*
 
 ${snippet}
 
 _${link}_
-`
+`;
 }
 
-module.exports = async function (data) {
-	let text = data.text
-	let args = data.args
+module.exports = async (data) => {
+  const { text, args } = data;
 
-	let limit
+  let limit;
 
-	if (args.limit && args.limit !== 'none') {
-		limit = Number(args.limit)
-	}
-	else if (args.limit === 'none') {
-		limit = false
-	}
-	else {
-		limit = 1
-	}
+  if (args.limit && args.limit !== 'none') {
+    limit = Number(args.limit);
+  } else if (args.limit === 'none') {
+    limit = false;
+  } else {
+    limit = 1;
+  }
 
-	let target
-	if (args.target) {
-		target = args.target
-	}
-	else {
-		target = ''
-	}
+  let target;
+  if (args.target) {
+    target = args.target;
+  } else {
+    target = '';
+  }
 
-	let results = await search.google(text, target, limit)
+  const results = await search.google(text, target, limit);
 
-	if (results.length > 0 && text) {
-		let stringResult = results.map(elem => callback(elem))
-			.join('\n\n')
-			.trim()
+  if (results.length > 0 && text) {
+    const stringResult = results
+      .map((elem) => callback(elem))
+      .join('\n\n')
+      .trim();
 
-		return stringResult
-	}
-	else if (results.length > 0 && !text) {
-		return 'I think you should type something to search...'
-	}
-	else {
-		return 'Gomenasai, goshujin-sama. I can\'t find your search'
-	}
-}
+    return stringResult;
+  }
+  if (results.length > 0 && !text) {
+    return 'I think you should type something to search...';
+  }
+  return "Gomenasai, goshujin-sama. I can't find your search";
+};

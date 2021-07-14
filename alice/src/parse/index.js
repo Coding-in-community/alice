@@ -1,54 +1,53 @@
 const REGEXP = {
-	// example: !some_method
-	METHOD: /^!([^\s]+)/,
+  // example: !some_method
+  METHOD: /^!([^\s]+)/,
 
-	// example: --some_flag
-	ARGS: /--([\S]+)(?=\s|$)/g,
+  // example: --some_flag
+  ARGS: /--([\S]+)(?=\s|$)/g,
 
-    KWARGS: /--([a-zA-Z0-9_-]+)="?([a-z0-9\.]+)"?/g
-
-}
+  KWARGS: /--([a-zA-Z0-9_-]+)="?([a-z0-9\.]+)"?/g, // eslint-disable-line
+};
 
 class Content {
-    constructor(text) {
-        this.originalText = text.trim()
-    }
+  constructor(text) {
+    this.originalText = text.trim();
+  }
 
-    get method() {
-        let matches = this.originalText.match(REGEXP.METHOD)
-        
-        return matches? matches[1] : ''
-    }
+  get method() {
+    const matches = this.originalText.match(REGEXP.METHOD);
 
-    get args() {
-        let matchesIter = this.originalText.matchAll(REGEXP.ARGS)
-        let matchesArray = [...matchesIter]
-        let matches = matchesArray.map(elem => elem[1])
+    return matches ? matches[1] : '';
+  }
 
-        return matches
-    }
+  get args() {
+    const matchesIter = this.originalText.matchAll(REGEXP.ARGS);
+    const matchesArray = [...matchesIter];
+    const matches = matchesArray.map((elem) => elem[1]);
 
-    get kwargs() {
-        let obj = new Object()
+    return matches;
+  }
 
-        let matchesIter = this.originalText.matchAll(REGEXP.KWARGS)
-        let matchesArray = [...matchesIter]
-        let matches = matchesArray.map(elem => {
-            Object.assign(obj, {[elem[1]]: elem[2]})
-        })
+  get kwargs() {
+    const obj = {};
 
-        return obj
-    }
+    const matchesIter = this.originalText.matchAll(REGEXP.KWARGS);
+    const matchesArray = [...matchesIter];
+    const matches = matchesArray.forEach((elem) => { // eslint-disable-line
+      Object.assign(obj, { [elem[1]]: elem[2] });
+    });
 
-    get string() {
-        return this.originalText
-            .replace(REGEXP.METHOD, '')
-            .replace(REGEXP.ARGS, '')
-            .replace(REGEXP.KWARGS, '')
-            .trim()
-    }
+    return obj;
+  }
+
+  get string() {
+    return this.originalText
+      .replace(REGEXP.METHOD, '')
+      .replace(REGEXP.ARGS, '')
+      .replace(REGEXP.KWARGS, '')
+      .trim();
+  }
 }
 
 module.exports = {
-    Content
-}
+  Content,
+};
