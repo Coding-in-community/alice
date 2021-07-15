@@ -19,9 +19,9 @@ class Components {
     if (isFunction(object)) {
       this.components[name] = object;
     } else if (isEmpty(object)) {
-      throw Error(`${name} component cannot be empty`);
+      throw new Error(`${name} component cannot be empty`);
     } else {
-      throw Error(`${object} must be a function`);
+      throw new Error(`${object} must be a function`);
     }
   }
 
@@ -31,9 +31,9 @@ class Components {
 
       if (response) message.reply(String(response));
     } else if (!this.methods.includes(method)) {
-      throw Error(`${method} is not registered`);
+      throw new Error(`${method} is not registered`);
     } else {
-      throw Error('method call is not found');
+      throw new Error('method call is not found');
     }
   }
 }

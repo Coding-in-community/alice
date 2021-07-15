@@ -7,28 +7,28 @@ function timer(sec, min = 0, hour = 0, day = 0) {
   if (sec >= 0) {
     sec *= 1000;
   } else {
-    throw Error('seconds must be higher than 0');
+    throw new Error('seconds must be higher than 0');
   }
 
   // minutos
   if (min >= 0) {
     min = min * 60 * 1000;
   } else {
-    throw Error('minutes must be higher than 0');
+    throw new Error('minutes must be higher than 0');
   }
 
   // horas
   if (hour >= 0) {
     hour = hour * 60 * 60 * 1000;
   } else {
-    throw Error('hours must be higher than 0');
+    throw new Error('hours must be higher than 0');
   }
 
   // day
   if (day >= 0) {
     day = day * 24 * 60 * 60 * 100;
   } else {
-    throw Error('minutes must be higher than 0');
+    throw new Error('minutes must be higher than 0');
   }
 
   const time = sec + min + hour + day;

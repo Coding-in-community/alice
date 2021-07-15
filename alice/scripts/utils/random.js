@@ -36,7 +36,7 @@ function sample(array, k) {
 
     return samples;
   }
-  throw Error('Sample larger than population or is negative');
+  throw new Error('Sample larger than population or is negative');
 }
 
 function shuffle(array) {
