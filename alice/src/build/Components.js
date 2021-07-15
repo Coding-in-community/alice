@@ -18,8 +18,12 @@ class Components {
     this.components[name] = object;
   }
 
+  has(method) {
+    return this.methods.includes(method);
+  }
+
   async call(method, data, message, client) {
-    if (!this.methods.includes(method)) {
+    if (!this.has(method)) {
       throw new Error(`${method} is not registered`);
     }
 
