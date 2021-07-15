@@ -34,7 +34,7 @@ class Alice {
 
   initialize() {
     if (session.exists) session.load();
-    else session.save();
+    else session.create();
 
     session.on(this.options.trigger, Alice.main);
     session.start();

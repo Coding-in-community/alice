@@ -20,16 +20,16 @@ class Session extends whatsapp.Client {
     return fs.existsSync(this.SESSION_FILE_PATH);
   }
 
-  save() {
+  create() {
     this.on('qr', (qr) => {
       qrcode.generate(qr, { small: true });
     });
+    this.on('authenticated', this.save);
+  }
 
-    this.on('authenticated', (session) => {
-      fs.writeFileSync(this.SESSION_FILE_PATH, JSON.stringify(session));
-
-      console.log('⚠ The current session has been saved ⚠');
-    });
+  save(session) {
+    fs.writeFileSync(this.SESSION_FILE_PATH, JSON.stringify(session));
+    console.log('⚠ The current session has been saved ⚠');
   }
 
   load() {
