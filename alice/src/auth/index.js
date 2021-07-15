@@ -33,16 +33,15 @@ class Session extends whatsapp.Client {
   }
 
   load() {
-    try {
-      const raw = fs.readFileSync(this.SESSION_FILE_PATH);
-      const data = JSON.parse(raw);
-
-      this.options.session = data;
-
-      console.log('⚠ The previous session was loaded ⚠');
-    } catch {
+    if (!this.exists) {
       throw Error(`session data does not exist in ${this.SESSION_FILE_PATH}`);
     }
+
+    const raw = fs.readFileSync(this.SESSION_FILE_PATH);
+    const data = JSON.parse(raw);
+    this.options.session = data;
+
+    console.log('⚠ The previous session was loaded ⚠');
   }
 
   start() {
