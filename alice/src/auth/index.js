@@ -13,8 +13,6 @@ class Session extends whatsapp.Client {
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
       },
     });
-
-    this.isSavedOrLoaded = false;
   }
 
   // eslint-disable-next-line
@@ -23,8 +21,6 @@ class Session extends whatsapp.Client {
   }
 
   save() {
-    this.isSavedOrLoaded = true;
-
     this.on('qr', (qr) => {
       qrcode.generate(qr, { small: true });
     });
@@ -37,8 +33,6 @@ class Session extends whatsapp.Client {
   }
 
   load() {
-    this.isSavedOrLoaded = true;
-
     try {
       const raw = fs.readFileSync(SESSION_FILE_PATH);
       const data = JSON.parse(raw);
