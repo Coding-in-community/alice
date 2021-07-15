@@ -15,7 +15,7 @@ class Components {
     return Object.keys(this.components);
   }
 
-  async set(name, object) {
+  set(name, object) {
     if (isFunction(object)) {
       this.components[name] = object;
     } else if (isEmpty(object)) {
