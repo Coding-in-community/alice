@@ -1,26 +1,26 @@
 const REGEXP = {
   // example: !some_method
-  METHOD: /^!([^\s]+)/,
+  method: /^!([^\s]+)/,
 
   // example: --some_flag
-  ARGS: /--([\S]+)(?=\s|$)/g,
+  args: /--([\S]+)(?=\s|$)/g,
 
-  KWARGS: /--([a-zA-Z0-9_-]+)="?([a-z0-9\.]+)"?/g, // eslint-disable-line
+  kwargs: /--([a-zA-Z0-9_-]+)="?([a-z0-9\.]+)"?/g, // eslint-disable-line
 };
 
 class Content {
   constructor(text) {
-    this.originalText = text.trim();
+    this.text = text.trim();
   }
 
   get method() {
-    const matches = this.originalText.match(REGEXP.METHOD);
+    const matches = this.text.match(REGEXP.method);
 
     return matches ? matches[1] : '';
   }
 
   get args() {
-    const matchesIter = this.originalText.matchAll(REGEXP.ARGS);
+    const matchesIter = this.text.matchAll(REGEXP.args);
     const matchesArray = [...matchesIter];
     const matches = matchesArray.map((elem) => elem[1]);
 
@@ -30,7 +30,7 @@ class Content {
   get kwargs() {
     const obj = {};
 
-    const matchesIter = this.originalText.matchAll(REGEXP.KWARGS);
+    const matchesIter = this.text.matchAll(REGEXP.kwargs);
     const matchesArray = [...matchesIter];
     matchesArray.forEach((elem) => {
       Object.assign(obj, { [elem[1]]: elem[2] });
@@ -40,10 +40,10 @@ class Content {
   }
 
   get string() {
-    return this.originalText
-      .replace(REGEXP.METHOD, '')
-      .replace(REGEXP.ARGS, '')
-      .replace(REGEXP.KWARGS, '')
+    return this.text
+      .replace(REGEXP.method, '')
+      .replace(REGEXP.args, '')
+      .replace(REGEXP.kwargs, '')
       .trim();
   }
 }
