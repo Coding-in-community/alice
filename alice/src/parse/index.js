@@ -32,7 +32,7 @@ class Content {
 
     const matchesIter = this.originalText.matchAll(REGEXP.KWARGS);
     const matchesArray = [...matchesIter];
-    const matches = matchesArray.forEach((elem) => { // eslint-disable-line
+    matchesArray.forEach((elem) => {
       Object.assign(obj, { [elem[1]]: elem[2] });
     });
 
