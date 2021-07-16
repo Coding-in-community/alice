@@ -1,6 +1,6 @@
 class Parse {
   constructor(text) {
-    this.text = text.trim();
+    this.rawText = text.trim();
     this.REGEXP = {
       method: /^!([^\s]+)/,
       args: /--([\S]+)(?=\s|$)/g,
@@ -9,13 +9,13 @@ class Parse {
   }
 
   get method() {
-    const matches = this.text.match(this.REGEXP.method);
+    const matches = this.rawText.match(this.REGEXP.method);
 
     return matches ? matches[1] : '';
   }
 
   get args() {
-    const matchesIter = this.text.matchAll(this.REGEXP.args);
+    const matchesIter = this.rawText.matchAll(this.REGEXP.args);
     const matchesArray = [...matchesIter];
     const matches = matchesArray.map((elem) => elem[1]);
 
@@ -25,7 +25,7 @@ class Parse {
   get kwargs() {
     const obj = {};
 
-    const matchesIter = this.text.matchAll(this.REGEXP.kwargs);
+    const matchesIter = this.rawText.matchAll(this.REGEXP.kwargs);
     const matchesArray = [...matchesIter];
     matchesArray.forEach((elem) => {
       Object.assign(obj, { [elem[1]]: elem[2] });
@@ -35,7 +35,7 @@ class Parse {
   }
 
   get string() {
-    return this.text
+    return this.rawText
       .replace(this.REGEXP.method, '')
       .replace(this.REGEXP.args, '')
       .replace(this.REGEXP.kwargs, '')
