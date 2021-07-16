@@ -6,7 +6,7 @@ module.exports = async (data) => {
   const response = await wiki({ apiUrl: 'https://pt.wikipedia.org/w/api.php' });
 
   let output;
-  if (args.search) {
+  if (args.includes('search')) {
     const search = await response.search(text);
 
     output = '*Resultados encontrados: *\n\n';
