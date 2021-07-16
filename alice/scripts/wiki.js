@@ -8,20 +8,20 @@ module.exports = async (data) => {
   let output;
   if (args.includes('search')) {
     const search = await response.search(text);
-
-    output = '*Resultados encontrados: *\n\n';
+    output = '*Resultados encontrados:*\n\n';
     output += search.results.join('\n');
-  } else {
-    const page = await response.page(text);
 
-    const { title } = page.raw;
-    const summary = await page.summary();
-    const url = await page.url();
-
-    output = `*${title}*\n\n`;
-    output += `${summary}\n`;
-    output += `_${url}_`;
+    return output;
   }
+
+  const page = await response.page(text);
+  const { title } = page.raw;
+  const summary = await page.summary();
+  const url = await page.url();
+
+  output = `*${title}*\n\n`;
+  output += `${summary}\n`;
+  output += `_${url}_`;
 
   return output;
 };
