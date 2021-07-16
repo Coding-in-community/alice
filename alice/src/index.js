@@ -19,16 +19,10 @@ class Alice {
   }
 
   static async onMessage(message) {
-    const { method, string, args, kwargs } = new Parse(message.body);
+    const data = new Parse(message.body);
 
-    const data = {
-      text: string,
-      args,
-      kwargs,
-    };
-
-    if (method) {
-      await components.call(method, data, message, session);
+    if (data.method) {
+      await components.call(data.method, data, message, session);
     }
   }
 

@@ -34,7 +34,7 @@ class Parse {
     return obj;
   }
 
-  get string() {
+  get text() {
     return this.rawText
       .replace(this.REGEXP.method, '')
       .replace(this.REGEXP.args, '')
