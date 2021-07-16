@@ -1,9 +1,7 @@
-// imports
 const auth = require('./auth');
 const { Parse } = require('./parse');
 const build = require('./build');
 
-// instances
 const session = new auth.Session();
 const components = new build.Components();
 

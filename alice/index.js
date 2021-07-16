@@ -1,8 +1,6 @@
-// imports
 const src = require('./src');
 const build = require('./src/build');
 
-// instance
 const path = new build.Path(__dirname);
 
 const alice = new src.Alice([
