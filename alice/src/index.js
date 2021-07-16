@@ -18,7 +18,7 @@ class Alice {
     });
   }
 
-  static async main(message) {
+  static async onMessage(message) {
     const { method, string, args, kwargs } = new Parse(message.body);
 
     const data = {
@@ -36,7 +36,7 @@ class Alice {
     if (session.exists) session.load();
     else session.create();
 
-    session.on(this.options.trigger, Alice.main);
+    session.on(this.options.trigger, Alice.onMessage);
     session.start();
   }
 }
