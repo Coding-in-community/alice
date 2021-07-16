@@ -1,27 +1,24 @@
-const wiki = require('wikijs').default;
+const wikijs = require('wikijs').default;
 
 module.exports = async (data) => {
   const { text, args } = data;
 
-  const response = await wiki({ apiUrl: 'https://pt.wikipedia.org/w/api.php' });
+  const wiki = wikijs({ apiUrl: 'https://pt.wikipedia.org/w/api.php' });
 
   let output;
   if (args.includes('search')) {
-    const search = await response.search(text);
+    const { results } = await wiki.search(text, 10);
     output = '*Resultados encontrados:*\n\n';
-    output += search.results.join('\n');
+    output += results.join('\n');
 
     return output;
   }
 
-  const page = await response.page(text);
-  const { title } = page.raw;
+  const page = await wiki.page(text);
+  const { title, canonicalurl: url } = page.raw;
   const summary = await page.summary();
-  const url = await page.url();
 
-  output = `*${title}*\n\n`;
-  output += `${summary}\n`;
-  output += `_${url}_`;
+  output = `*${title}*\n\n${summary}\n\n_${url}_`;
 
   return output;
 };
