@@ -1,4 +1,4 @@
-class Content {
+class Parse {
   constructor(text) {
     this.text = text.trim();
     this.REGEXP = {
@@ -44,5 +44,5 @@ class Content {
 }
 
 module.exports = {
-  Content,
+  Parse,
 };

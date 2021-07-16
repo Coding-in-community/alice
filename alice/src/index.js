@@ -1,6 +1,6 @@
 // imports
 const auth = require('./auth');
-const parse = require('./parse');
+const { Parse } = require('./parse');
 const build = require('./build');
 
 // instances
@@ -19,7 +19,7 @@ class Alice {
   }
 
   static async main(message) {
-    const { method, string, args, kwargs } = new parse.Content(message.body);
+    const { method, string, args, kwargs } = new Parse(message.body);
 
     const data = {
       text: string,
