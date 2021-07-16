@@ -2,14 +2,14 @@ class Parse {
   constructor(text) {
     this.rawText = text.trim();
     this.REGEXP = {
-      method: /^!([^\s]+)/,
+      command: /^!([^\s]+)/,
       args: /--([\S]+)(?=\s|$)/g,
       kwargs: /--([a-zA-Z0-9_-]+)="?([a-z0-9\.]+)"?/g, // eslint-disable-line
     };
   }
 
-  get method() {
-    const matches = this.rawText.match(this.REGEXP.method);
+  get command() {
+    const matches = this.rawText.match(this.REGEXP.command);
 
     return matches ? matches[1] : '';
   }
@@ -36,7 +36,7 @@ class Parse {
 
   get text() {
     return this.rawText
-      .replace(this.REGEXP.method, '')
+      .replace(this.REGEXP.command, '')
       .replace(this.REGEXP.args, '')
       .replace(this.REGEXP.kwargs, '')
       .trim();

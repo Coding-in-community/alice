@@ -3,30 +3,32 @@ const { Parse } = require('./parse');
 const build = require('./build');
 
 const session = new auth.Session();
-const components = new build.Components();
+const commands = new build.Commands();
 
 class Alice {
-  constructor(componentsArray) {
+  constructor(commandsArray) {
     this.options = {
       trigger: 'message_create',
     };
 
-    componentsArray.forEach((elem) => {
-      components.set(...elem);
+    commandsArray.forEach((cmd) => {
+      commands.set(...cmd);
     });
   }
 
   static async onMessage(message) {
     const data = new Parse(message.body);
-
-    if (data.method) {
-      await components.call(data.method, data, message, session);
+    if (data.command) {
+      await commands.call(data.command, data, message, session);
     }
   }
 
   initialize() {
-    if (session.exists) session.load();
-    else session.create();
+    if (session.exists) {
+      session.load();
+    } else {
+      session.create();
+    }
 
     session.on(this.options.trigger, Alice.onMessage);
     session.start();
