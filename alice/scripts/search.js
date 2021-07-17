@@ -15,18 +15,19 @@ _${link}_
 module.exports = async (data) => {
   const { text } = data;
 
+  if (!text) {
+    return 'Nenhum texto para pesquisa foi especificado.';
+  }
+
   const results = await search.google(text, undefined, 1);
 
-  if (results.length > 0 && text) {
+  if (results.length > 0) {
     const stringResult = results
-      .map((elem) => callback(elem))
+      .map((r) => callback(r))
       .join('\n\n')
       .trim();
 
     return stringResult;
   }
-  if (results.length > 0 && !text) {
-    return 'I think you should type something to search...';
-  }
-  return "Gomenasai, goshujin-sama. I can't find your search";
+  return `Nenhum resultado foi encontrado para: _${text}_`;
 };
