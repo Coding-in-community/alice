@@ -13,26 +13,9 @@ _${link}_
 }
 
 module.exports = async (data) => {
-  const { text, args } = data;
+  const { text } = data;
 
-  let limit;
-
-  if (args.limit && args.limit !== 'none') {
-    limit = Number(args.limit);
-  } else if (args.limit === 'none') {
-    limit = false;
-  } else {
-    limit = 1;
-  }
-
-  let target;
-  if (args.target) {
-    target = args.target;
-  } else {
-    target = '';
-  }
-
-  const results = await search.google(text, target, limit);
+  const results = await search.google(text, undefined, 1);
 
   if (results.length > 0 && text) {
     const stringResult = results
