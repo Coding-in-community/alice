@@ -38,7 +38,7 @@ module.exports = async (data, message) => {
 
 ${pArray.map((p) => removeBr(p).text).join('')}
 
-_${url}_`;
+_${link}_`;
 
   message.reply(output);
 };
