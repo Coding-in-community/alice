@@ -1,41 +1,35 @@
 const parse = require('./utils/parse');
 
-module.exports = (data, message, client) => {
-  const defaultMessage = `
+const myID = parse.userID('+55 11 96734-3809');
+
+const strings = {
+  defaultMessage: `
 uso: _!report [--flag] [descrição]_
 
 argumentos:
   _--bug  descreva um problema no bot_
   _--user  denuncie um usuário_ 
 
-⚠️ *o uso indevido dessa função resultará em ban de 3 dias* ⚠️
-    `;
+⚠️ *o uso indevido dessa função resultará em ban de 3 dias* ⚠️`,
+  bug: 'sua solicitação será analisada. caso confirmada, abriremos uma issue',
+  user: 'o usuário foi reportado a administração',
+};
 
-  const bug = `
-sua solicitação será analisada. caso confirmada, abriremos uma issue      
-`;
+module.exports = (data, message, client) => {
+  const { args, text } = data;
 
-  const user = `
-o usuário foi reportado a administração
-`;
-
-  const myID = parse.userID('+55 11 96734-3809');
-
-  if (data.args.length === 0 && data.text) {
+  if (args.length === 0 && text) {
     return 'nenhuma flag foi fornecida';
   }
-  if (data.args.length > 0 && !data.text) {
+  if (args.length > 0 && !text) {
     return 'nenhuma descrição foi fornecida';
   }
-  if (data.args.includes('bug')) {
-    const text = `⚠️ *bug report* ⚠️\n\n${data.text}`;
-    client.sendMessage(myID, text);
-    return bug.trim();
+
+  const reportMsg = `⚠️ *${args[0]} report* ⚠️\n\n${text}`;
+
+  if (args.includes('bug') || args.includes('user')) {
+    client.sendMessage(myID, reportMsg);
+    return strings[args[0]];
   }
-  if (data.args.includes('user')) {
-    const text = `⚠️ *user report* ⚠️\n\n${data.text}`;
-    client.sendMessage(myID, text);
-    return user.trim();
-  }
-  return defaultMessage.trim();
+  return strings.defaultMessage.trim();
 };
