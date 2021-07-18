@@ -1,56 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-async function loadCheerio(url) {
-  try {
-    const response = await axios.get(url);
-    const html = response.data;
-
-    return cheerio.load(html);
-  } catch (err) {
-    console.log('error', err.response.status);
-
-    return null;
-  }
-}
-
-async function getData(url) {
-  const $ = await loadCheerio(url);
-  if (typeof $ === 'function') {
-    const priceStatistics = $('.sc-AxhCb.gsRRvB.container___E9axz');
-    const priceStatisticsTable = priceStatistics.find('table');
-    const priceStatisticsTableBody = priceStatisticsTable.find('tbody');
-    const priceStatisticsTableRow = priceStatisticsTableBody.find('tr');
-
-    const data = [];
-    priceStatisticsTableRow.each(function () {
-      const elem = $(this);
-
-      const key = elem.find('th').text();
-
-      let value = elem.find('td');
-      if (value.find('span.sc-1v2ivon-0.gClTFY').text()) {
-        value = `${value.find('span').first().text()} || ${value
-          .find('span.sc-1v2ivon-0.gClTFY')
-          .text()}`;
-      } else {
-        value = value.text();
-      }
-
-      console.log(value);
-
-      if (value !== 'No Data' || value !== 'Sem Dados') {
-        const object = Object.fromEntries([[key, value]]);
-        data.push(object);
-      }
-    });
-
-    return data;
-  }
-
-  return null;
-}
-
 const defaultMessage = `
 uso: *!coin* [--flag] name
 _--all -> mostra todas as informações disponiveis_  
@@ -58,32 +8,80 @@ _--all -> mostra todas as informações disponiveis_
 a flag _all_ pode retornar dados em excesso, sua utilização repetida será considera spam
 `;
 
-module.exports = async (data) => {
-  let BASE_URL = 'https://coinmarketcap.com/currencies/';
+async function loadCheerio(url) {
+  try {
+    const { data } = await axios.get(url);
+    return cheerio.load(data);
+  } catch {
+    return null;
+  }
+}
 
-  if (data.args.includes('brl')) {
-    BASE_URL = 'https://coinmarketcap.com/pt-br/currencies/';
+async function getData(url) {
+  const $ = await loadCheerio(url);
+  if (!(typeof $ === 'function')) {
+    return null;
   }
 
-  if (data.text) {
-    const text = data.text.replace(/\s/g, '-').toLowerCase();
-    const url = BASE_URL + text;
-    let coinData = await getData(url);
+  const priceStatistics = $('.sc-16r8icm-0.nds9rn-0.dAxhCK')
+    .find('table')
+    .find('tbody')
+    .find('tr');
+  const statsArray = [];
 
-    if (coinData) {
-      if (!data.args.includes('all')) coinData = coinData.slice(0, 3);
+  priceStatistics.each(function () {
+    const tr = $(this);
+    const key = tr.find('th').text();
 
-      let coinDataString = '';
-      coinData.forEach((elem) => {
-        const [key, value] = Object.entries(elem)[0];
-
-        const string = `*_${key}_*:\n - ${value}\n\n`;
-        coinDataString += string;
-      });
-
-      return coinDataString.trim();
+    let value = tr.find('td');
+    if (value.find('.sc-15yy2pl-0.hzgCfk').text()) {
+      const valueInCash = value.find('span').first().text();
+      const valueInPerc = value.find('.sc-15yy2pl-0.hzgCfk').text();
+      value = `${valueInCash} || ${valueInPerc}`;
+    } else {
+      value = value.text();
     }
+
+    if (value !== 'No Data' || value !== 'Sem Dados') {
+      const object = Object.fromEntries([[key, value]]);
+      statsArray.push(object);
+    }
+  });
+  return statsArray;
+}
+
+function getUrl(args, text) {
+  let baseURL = 'https://coinmarketcap.com/currencies/';
+  if (args.includes('brl')) {
+    baseURL = 'https://coinmarketcap.com/pt-br/currencies/';
+  }
+
+  const path = text.replace(/\s/g, '-').toLowerCase();
+  return baseURL + path;
+}
+
+module.exports = async (data) => {
+  const { args, text } = data;
+  if (!text) {
+    return defaultMessage.trim();
+  }
+
+  const url = getUrl(args, text);
+  let coinStats = await getData(url);
+  if (!coinStats) {
     return 'moeda não encontrada';
   }
-  return defaultMessage.trim();
+
+  if (!args.includes('all')) {
+    coinStats = coinStats.slice(0, 3);
+  }
+
+  let output = '';
+  coinStats.forEach((s) => {
+    const [key, value] = Object.entries(s)[0];
+    const string = `*_${key}_*:\n - ${value}\n\n`;
+    output += string;
+  });
+
+  return output.trim();
 };
