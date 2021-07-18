@@ -3,6 +3,22 @@ const chattools = require('./utils/chattools');
 const time = require('./utils/time');
 
 const emitter = new events.EventEmitter();
+let threads = [];
+let counter = 0;
+
+function Thread(id, text, message, timer) {
+  this.id = id;
+  this.description = text.slice(0, 30);
+  this.intervalRef = null;
+  this.text = text;
+
+  this.start = emitter.on(`start-cron${this.id}`, () => {
+    this.intervalRef = setInterval(() => message.reply(this.text), timer);
+  });
+  this.stop = emitter.on(`stop-cron${this.id}`, () => {
+    clearInterval(this.intervalRef);
+  });
+}
 
 function toPositiveNumber(value) {
   const number = Number.parseFloat(value);
@@ -16,8 +32,6 @@ function toPositiveNumber(value) {
   return -number;
 }
 
-let threads = [];
-let counter = 0;
 class Cron {
   constructor(data, message) {
     this.data = data;
@@ -49,19 +63,7 @@ class Cron {
     const { message, text, timer } = this;
     counter++;
 
-    const thread = {
-      id: counter,
-      description: this.text.slice(0, 30),
-    };
-
-    let intervalRef = null;
-    thread.start = emitter.on(`start-cron${thread.id}`, () => {
-      intervalRef = setInterval(() => message.reply(text), timer);
-    });
-    thread.stop = emitter.on(`stop-cron${thread.id}`, () => {
-      clearInterval(intervalRef);
-    });
-
+    const thread = new Thread(counter, text, message, timer);
     threads.push(thread);
 
     return `thread created using id: ${thread.id}`;
