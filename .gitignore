@@ -1,2 +1,2 @@
 node_modules/
-alice/src/auth/session.json
+**/session.json
