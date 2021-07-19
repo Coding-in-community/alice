@@ -11,6 +11,7 @@ class Commands {
     if (!isFunction(callback)) {
       throw new Error(`${callback} must be a function`);
     }
+
     this.commands[name] = callback;
   }
 
@@ -25,6 +26,7 @@ class Commands {
     }
 
     const response = await this.commands[cmd](data, message, client);
+
     if (response) {
       message.reply(String(response));
     }

@@ -1,7 +1,6 @@
 const parse = require('./utils/parse');
 
 const myID = parse.userID('+55 11 96734-3809');
-
 const strings = {
   defaultMessage: `
 uso: _!report [--flag] [descrição]_
@@ -31,5 +30,6 @@ module.exports = (data, message, client) => {
     client.sendMessage(myID, reportMsg);
     return strings[args[0]];
   }
+
   return strings.defaultMessage.trim();
 };

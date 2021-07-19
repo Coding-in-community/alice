@@ -31,5 +31,6 @@ module.exports = (data, msg, client) => {
     client.sendMessage(myID, reportMsg);
     return 'obrigado pela colaboração';
   }
+
   return defaultMessage.trim();
 };

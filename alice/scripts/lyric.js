@@ -8,13 +8,12 @@ async function makeSoup(url) {
 }
 
 function removeBr(raw) {
-  let html = raw.prettify();
-
-  let htmlArray = html.split('\n');
-  htmlArray = htmlArray.filter((e) => !e.match(/<br[\s]*[\/]?>/));
-  htmlArray = htmlArray.map((e) => e.trim());
-  html = htmlArray.join('\n');
-
+  const html = raw
+    .prettify()
+    .split('\n')
+    .filter((e) => !e.match(/<br[\s]*[\/]?>/))
+    .map((e) => e.trim())
+    .join('\n');
   return new JSSoup(html);
 }
 
@@ -28,11 +27,9 @@ module.exports = async (data, message) => {
   const results = await search.google(text, 'https://www.letras.mus.br');
   const { link } = results[0];
   const soup = await makeSoup(link);
-
   const title = soup.find('div', { class: 'cnt-head_title' }).find('h1');
   const lyricsDiv = soup.find('div', { class: 'cnt-letra' });
   const pArray = lyricsDiv.findAll('p');
-
   const output = `\
 *${title.text}*
 

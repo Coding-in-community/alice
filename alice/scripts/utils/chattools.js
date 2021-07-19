@@ -5,8 +5,7 @@
  */
 function getSerialList(idList) {
   // eslint-disable-next-line no-underscore-dangle
-  const serialList = idList.map((elem) => elem.id._serialized);
-
+  const serialList = idList.map((id) => id.id._serialized);
   return serialList;
 }
 
@@ -17,9 +16,7 @@ function getSerialList(idList) {
  */
 async function getMembersList(chat) {
   const members = await chat.participants;
-
   const membersSerialList = getSerialList(members);
-
   return membersSerialList;
 }
 
@@ -30,10 +27,8 @@ async function getMembersList(chat) {
  */
 async function getAdmsList(chat) {
   const members = await chat.participants;
-
-  const admsIdList = members.filter((elem) => elem.isAdmin);
+  const admsIdList = members.filter((id) => id.isAdmin);
   const admsSerialList = getSerialList(admsIdList);
-
   return admsSerialList;
 }
 
@@ -44,10 +39,8 @@ async function getAdmsList(chat) {
  */
 async function isAdm(message) {
   const chat = await message.getChat();
-
   const admList = await getAdmsList(chat);
   const { author } = message;
-
   return admList.includes(author);
 }
 

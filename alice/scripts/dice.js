@@ -15,15 +15,13 @@ module.exports = (data) => {
     const multiplier = Number(match[1]);
     const value = Math.ceil(Math.random() * Number(match[2]));
     const adder = Number(match[3]) || 0;
-
-    const result = `Resultado: ${value}\nMultiplicador: ${multiplier}\nAdicional: ${adder}\nTotal: ${
-      multiplier * value + adder
-    }\n`;
-
+    const total = multiplier * value + adder;
+    const result = `Resultado: ${value}\nMultiplicador: ${multiplier}\nAdicional: ${adder}\nTotal: ${total}\n`;
     return result;
   }
   if (text) {
     return 'Não foi possivel achar o valor, use !dice para mais informações.';
   }
+
   return help;
 };

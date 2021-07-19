@@ -18,6 +18,7 @@ class Alice {
 
   static async onMessage(message) {
     const data = new Parse(message.body);
+
     if (data.command) {
       await commands.call(data.command, data, message, session);
     }

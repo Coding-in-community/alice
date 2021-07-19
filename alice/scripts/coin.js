@@ -19,6 +19,7 @@ async function loadCheerio(url) {
 
 async function getData(url) {
   const $ = await loadCheerio(url);
+
   if (!(typeof $ === 'function')) {
     return null;
   }
@@ -32,8 +33,8 @@ async function getData(url) {
   priceStatistics.each(function () {
     const tr = $(this);
     const key = tr.find('th').text();
-
     let value = tr.find('td');
+
     if (value.find('.sc-15yy2pl-0.hzgCfk').text()) {
       const valueInCash = value.find('span').first().text();
       const valueInPerc = value.find('.sc-15yy2pl-0.hzgCfk').text();
@@ -47,36 +48,40 @@ async function getData(url) {
       statsArray.push(object);
     }
   });
+
   return statsArray;
 }
 
 function getUrl(args, text) {
   let baseURL = 'https://coinmarketcap.com/currencies/';
+  const path = text.replace(/\s/g, '-').toLowerCase();
+
   if (args.includes('brl')) {
     baseURL = 'https://coinmarketcap.com/pt-br/currencies/';
   }
 
-  const path = text.replace(/\s/g, '-').toLowerCase();
   return baseURL + path;
 }
 
 module.exports = async (data) => {
   const { args, text } = data;
+
   if (!text) {
     return defaultMessage.trim();
   }
 
   const url = getUrl(args, text);
   let coinStats = await getData(url);
+
   if (!coinStats) {
     return 'moeda não encontrada';
   }
-
   if (!args.includes('all')) {
     coinStats = coinStats.slice(0, 3);
   }
 
   let output = '';
+
   coinStats.forEach((s) => {
     const [key, value] = Object.entries(s)[0];
     const string = `*_${key}_*:\n - ${value}\n\n`;

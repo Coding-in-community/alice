@@ -29,6 +29,7 @@ function toPositiveNumber(value) {
   if (Number.isNaN(number)) {
     return 0;
   }
+
   return -number;
 }
 
@@ -53,16 +54,17 @@ class Cron {
     if (isAdm) {
       return this.runsArg(args);
     }
-    return this.runsArg(args); // 'staff only.'
+
+    return 'staff only.';
   }
 
   create() {
     if (!(this.timer > 0)) {
       return 'you must add a valid time';
     }
-    const { message, text, timer } = this;
-    counter++;
 
+    counter++;
+    const { message, text, timer } = this;
     const thread = new Thread(counter, text, message, timer);
     threads.push(thread);
 
@@ -73,6 +75,7 @@ class Cron {
     if (!Cron.isIdValid(this.text)) {
       return 'thread not found';
     }
+
     const thread = threads.find((t) => t.id === Number(this.text));
     this.stop();
 
@@ -80,7 +83,6 @@ class Cron {
     emitter.removeAllListeners(`stop-cron${this.text}`, thread.stop);
 
     threads = threads.filter((t) => !(t.id === Number(this.text)));
-
     return 'thread destroyed successfully';
   }
 
@@ -89,6 +91,7 @@ class Cron {
       emitter.emit(`start-cron${this.text}`);
       return `starting thread ${this.text}`;
     }
+
     return 'thread not found';
   }
 
@@ -97,6 +100,7 @@ class Cron {
       emitter.emit(`stop-cron${this.text}`);
       return `stopping thread ${this.text}`;
     }
+
     return 'thread not found';
   }
 
@@ -135,6 +139,7 @@ class Cron {
     if (seila[args[0]]) {
       return seila[args[0]]();
     }
+
     return Cron.default();
   }
 

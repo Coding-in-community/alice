@@ -13,8 +13,6 @@ module.exports = () => {
     - !report
     - !search
     - !suggest
-    - !wiki
-`;
-
+    - !wiki`;
   return output.trim();
 };

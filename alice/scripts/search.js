@@ -2,7 +2,6 @@ const search = require('./utils/search');
 
 function callback(object) {
   const { title, link, snippet } = object;
-
   return `
 *${title}*
 
@@ -26,8 +25,8 @@ module.exports = async (data) => {
       .map((r) => callback(r))
       .join('\n\n')
       .trim();
-
     return stringResult;
   }
+
   return `Nenhum resultado foi encontrado para: _${text}_`;
 };

@@ -64,5 +64,6 @@ module.exports = (data) => {
   if (strings[args[0]]) {
     return strings[args[0]].trim();
   }
+
   return strings.defaultMessage.trim();
 };

@@ -13,6 +13,7 @@ class Path {
     if (alias) {
       return [alias, func];
     }
+
     return [name, func];
   }
 }

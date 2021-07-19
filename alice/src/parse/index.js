@@ -10,7 +10,6 @@ class Parse {
 
   get command() {
     const matches = this.rawText.match(this.REGEXP.command);
-
     return matches ? matches[1] : '';
   }
 
@@ -18,15 +17,14 @@ class Parse {
     const matchesIter = this.rawText.matchAll(this.REGEXP.args);
     const matchesArray = [...matchesIter];
     const matches = matchesArray.map((elem) => elem[1]);
-
     return matches;
   }
 
   get kwargs() {
     const obj = {};
-
     const matchesIter = this.rawText.matchAll(this.REGEXP.kwargs);
     const matchesArray = [...matchesIter];
+
     matchesArray.forEach((elem) => {
       Object.assign(obj, { [elem[1]]: elem[2] });
     });
