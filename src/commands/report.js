@@ -1,6 +1,6 @@
-const parse = require('./utils/parse');
+const { chattools } = require('../utils');
 
-const myID = parse.userID('+55 11 96734-3809');
+const myID = chattools.userID('+55 11 96734-3809');
 const strings = {
   defaultMessage: `
 uso: _!report [--flag] [descrição]_

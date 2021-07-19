@@ -1,5 +1,5 @@
 const auth = require('./auth');
-const { Parse } = require('./parse');
+const { Parse } = require('./utils/Parse');
 const build = require('./build');
 
 const session = new auth.Session();

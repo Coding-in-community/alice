@@ -1,6 +1,6 @@
 const axios = require('axios');
 const JSSoup = require('jssoup').default;
-const search = require('./utils/search');
+const { search } = require('../utils');
 
 async function makeSoup(url) {
   const { data } = await axios.get(url);

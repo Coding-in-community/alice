@@ -4,7 +4,7 @@ Ele deve ser escrito na forma <multiplicador>d<quantidade de lados>+<valor adici
 Caso seja passado o valor adicional, ele deve ser escrito sem espaços, ou será considerado nulo.
 Ex: 
   - !dice 1d10 + 4 // Joga um dado de dez lados mas *não* faz a soma.
-`;
+`.trim();
 
 module.exports = (data) => {
   const { text } = data;
