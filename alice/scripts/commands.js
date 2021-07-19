@@ -1,19 +1,18 @@
 module.exports = () => {
-  const stringOutput = `
+  const output = `
     Os seguintes comandos estão disponiveis:
     - !bot
+    - !coin
     - !commands
     - !cron
-    - !doc
     - !dice
+    - !doc
     - !github
     - !links
     - !lyric
     - !report
     - !search
     - !suggest
-    - !wiki
-`;
-
-  return stringOutput.trim();
+    - !wiki`;
+  return output.trim();
 };

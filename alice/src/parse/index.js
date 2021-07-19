@@ -1,53 +1,46 @@
-const REGEXP = {
-  // example: !some_method
-  METHOD: /^!([^\s]+)/,
-
-  // example: --some_flag
-  ARGS: /--([\S]+)(?=\s|$)/g,
-
-  KWARGS: /--([a-zA-Z0-9_-]+)="?([a-z0-9\.]+)"?/g, // eslint-disable-line
-};
-
-class Content {
+class Parse {
   constructor(text) {
-    this.originalText = text.trim();
+    this.rawText = text.trim();
+    this.REGEXP = {
+      command: /^!([^\s]+)/,
+      args: /--([\S]+)(?=\s|$)/g,
+      kwargs: /--([a-zA-Z0-9_-]+)="?([a-z0-9\.]+)"?/g, // eslint-disable-line
+    };
   }
 
-  get method() {
-    const matches = this.originalText.match(REGEXP.METHOD);
-
+  get command() {
+    const matches = this.rawText.match(this.REGEXP.command);
     return matches ? matches[1] : '';
   }
 
   get args() {
-    const matchesIter = this.originalText.matchAll(REGEXP.ARGS);
+    const matchesIter = this.rawText.matchAll(this.REGEXP.args);
     const matchesArray = [...matchesIter];
     const matches = matchesArray.map((elem) => elem[1]);
-
     return matches;
   }
 
   get kwargs() {
     const obj = {};
-
-    const matchesIter = this.originalText.matchAll(REGEXP.KWARGS);
+    const matchesIter = this.rawText.matchAll(this.REGEXP.kwargs);
     const matchesArray = [...matchesIter];
-    const matches = matchesArray.forEach((elem) => { // eslint-disable-line
+
+    matchesArray.forEach((elem) => {
       Object.assign(obj, { [elem[1]]: elem[2] });
     });
 
     return obj;
   }
 
-  get string() {
-    return this.originalText
-      .replace(REGEXP.METHOD, '')
-      .replace(REGEXP.ARGS, '')
-      .replace(REGEXP.KWARGS, '')
+  get text() {
+    return this.rawText
+      .replace(this.REGEXP.command, '')
+      .replace(this.REGEXP.args, '')
+      .replace(this.REGEXP.kwargs, '')
       .trim();
   }
 }
 
 module.exports = {
-  Content,
+  Parse,
 };

@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 
 const FILE_NAME = 'session.json';
-const SESSION_FILE_PATH = path.join(__dirname, FILE_NAME);
 
 class Session extends whatsapp.Client {
   constructor() {
@@ -14,41 +13,35 @@ class Session extends whatsapp.Client {
       },
     });
 
-    this.isSavedOrLoaded = false;
+    this.SESSION_FILE_PATH = path.join(__dirname, FILE_NAME);
   }
 
-  // eslint-disable-next-line
   get exists() {
-    return fs.existsSync(SESSION_FILE_PATH);
+    return fs.existsSync(this.SESSION_FILE_PATH);
   }
 
-  save() {
-    this.isSavedOrLoaded = true;
-
+  create() {
     this.on('qr', (qr) => {
       qrcode.generate(qr, { small: true });
     });
+    this.on('authenticated', this.save);
+  }
 
-    this.on('authenticated', (session) => {
-      fs.writeFileSync(SESSION_FILE_PATH, JSON.stringify(session));
-
-      console.log('⚠ The current session has been saved ⚠');
-    });
+  save(session) {
+    fs.writeFileSync(this.SESSION_FILE_PATH, JSON.stringify(session));
+    console.log('⚠ The current session has been saved ⚠');
   }
 
   load() {
-    this.isSavedOrLoaded = true;
-
-    try {
-      const raw = fs.readFileSync(SESSION_FILE_PATH);
-      const data = JSON.parse(raw);
-
-      this.options.session = data;
-
-      console.log('⚠ The previous session was loaded ⚠');
-    } catch {
-      throw Error(`session data does not exist in ${SESSION_FILE_PATH}`);
+    if (!this.exists) {
+      throw Error(`session data does not exist in ${this.SESSION_FILE_PATH}`);
     }
+
+    const raw = fs.readFileSync(this.SESSION_FILE_PATH);
+    const data = JSON.parse(raw);
+    this.options.session = data;
+
+    console.log('⚠ The previous session was loaded ⚠');
   }
 
   start() {

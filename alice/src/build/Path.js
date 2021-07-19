@@ -8,13 +8,13 @@ class Path {
   create(RELATIVE_PATH, alias) {
     const FILE_PATH = path.join(this.BASE_PATH, RELATIVE_PATH);
     const { name } = path.parse(FILE_PATH);
+    const func = require(FILE_PATH); // eslint-disable-line global-require
 
-    alias = alias || name;
+    if (alias) {
+      return [alias, func];
+    }
 
-    const object = require(FILE_PATH);
-    console.log(`Initialized "${alias}" function...`);
-
-    return [alias, object];
+    return [name, func];
   }
 }
 

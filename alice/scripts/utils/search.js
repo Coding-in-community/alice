@@ -9,6 +9,7 @@ async function google(query, target = '', limit = null) {
   if (limit) {
     return result.slice(0, limit);
   }
+
   return result;
 }
 

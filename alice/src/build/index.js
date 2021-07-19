@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 
 module.exports = {
-  Components: require('./Components'),
+  Commands: require('./Commands'),
   Path: require('./Path'),
 };

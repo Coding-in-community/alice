@@ -1,34 +1,25 @@
-const info = `coding in python: 
+const info = `Coding in python: 
     https://chat.whatsapp.com/I4IpHC0YFPQLUcGHJeqYdF
 
-coding in c/c++:
+Coding in C/C++:
     https://chat.whatsapp.com/Csn56Bpj8hVIQ3FiZoxBKh
 
-coding in javascript: 
+Coding in Javascript: 
     https://chat.whatsapp.com/IUXcqbAPdJC2IuNfd7aaF5
 
-coding in php: 
+Coding in PHP: 
     https://chat.whatsapp.com/C6wcXZhyT869Q29PIL1J20
 
-coding in ruby: 
-    https://chat.whatsapp.com/By4nO7V0koLBORztI1eb0h
-
-coding in java: 
+Coding in Java: 
     https://chat.whatsapp.com/KDjc7IoCAYWAjCAwNEJ5cF
 
-coding in vue: 
-    https://chat.whatsapp.com/EnzuLWfJS1rBw7sYFhjU3o
-
-coding in react: 
-    https://chat.whatsapp.com/FWnZsMvE3OTEK0k0LeFjRP
-
-coding in unity: 
-    https://chat.whatsapp.com/FO82hrN3v6SCjHSgQ2xvu4
-
-coding on linux:
+Coding on Linux:
     https://chat.whatsapp.com/D37sPPhUsiT5LZ8PQeqg4t
 
-speaking in english:
+Coding in Taberna:
+    https://chat.whatsapp.com/GOXnIXSXEFH7wHvO9aTuFs
+
+Speaking in English:
     https://chat.whatsapp.com/EOirNapuFe3CVunBqbwj1Z
 `;
 

@@ -1,42 +1,37 @@
-// imports
 const auth = require('./auth');
-const parse = require('./parse');
+const { Parse } = require('./parse');
 const build = require('./build');
 
-// instances
 const session = new auth.Session();
-const components = new build.Components();
+const commands = new build.Commands();
 
 class Alice {
-  constructor(componentsArray) {
+  constructor(commandsArray) {
     this.options = {
       trigger: 'message_create',
     };
 
-    componentsArray.forEach((elem) => {
-      components.set(...elem);
+    commandsArray.forEach((cmd) => {
+      commands.set(...cmd);
     });
   }
 
-  static async main(message) {
-    const { method, string, args, kwargs } = new parse.Content(message.body);
+  static async onMessage(message) {
+    const data = new Parse(message.body);
 
-    const data = {
-      text: string,
-      args,
-      kwargs,
-    };
-
-    if (method) {
-      await components.call(method, data, message, session);
+    if (data.command) {
+      await commands.call(data.command, data, message, session);
     }
   }
 
   initialize() {
-    if (session.exists) session.load();
-    else session.save();
+    if (session.exists) {
+      session.load();
+    } else {
+      session.create();
+    }
 
-    session.on(this.options.trigger, Alice.main);
+    session.on(this.options.trigger, Alice.onMessage);
     session.start();
   }
 }
