@@ -1,4 +1,4 @@
-const search = require('./utils/search');
+const { search } = require('../utils');
 
 function callback(object) {
   const { title, link, snippet } = object;

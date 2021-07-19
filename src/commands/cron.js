@@ -1,6 +1,5 @@
 const events = require('events');
-const chattools = require('./utils/chattools');
-const time = require('./utils/time');
+const { chattools, time } = require('../utils');
 
 const emitter = new events.EventEmitter();
 let threads = [];
