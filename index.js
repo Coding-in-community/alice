@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { Alice } = require('./src/Alice');
 const build = require('./src/build');
 

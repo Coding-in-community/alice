@@ -1,6 +1,6 @@
 const { chattools } = require('../utils');
 
-const myID = chattools.userID('+55 11 96734-3809');
+const myID = chattools.userID(process.env.REPORT_NUMBER);
 const strings = {
   defaultMessage: `
 uso: _!report [--flag] [descrição]_
