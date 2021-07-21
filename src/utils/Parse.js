@@ -1,6 +1,25 @@
+/**
+ * Extract useful data from a given string (usually the content of a message).
+ * @example
+ * const messageContent = '!command --arg1 --kwarg=1 any text here'
+ * const data = new Parse(messageContent)
+ * data.command // command
+ * data.args // ['arg1']
+ * data.kwargs // { kwarg: 1 }
+ * data.text // 'any text here'
+ * @param {string} text - Text to be parsed.
+ */
 class Parse {
   constructor(text) {
+    /** The original text. */
     this.rawText = text.trim();
+
+    /**
+     * A collection of regular expressions used in the extraction of data from the `this.rawText`.
+     * @property {string} REGEXP.command - Regular expression for commands. Ex: !command
+     * @property {string[]} REGEXP.args - Regular expression for args. Ex: --arg1
+     * @property {object} REGEXP.kwargs - Regular expression for kwargs. Ex: --kwarg=1
+     */
     this.REGEXP = {
       command: /^!([^\s]+)/,
       args: /--([\S]+)(?=\s|$)/g,
@@ -8,11 +27,19 @@ class Parse {
     };
   }
 
+  /**
+   * Gets the command extracted from the `this.rawText`.
+   * @returns {string}
+   */
   get command() {
     const matches = this.rawText.match(this.REGEXP.command);
     return matches ? matches[1] : '';
   }
 
+  /**
+   * Gets the args extracted from `this.rawText`.
+   * @returns {string[]}
+   */
   get args() {
     const matchesIter = this.rawText.matchAll(this.REGEXP.args);
     const matchesArray = [...matchesIter];
@@ -20,6 +47,10 @@ class Parse {
     return matches;
   }
 
+  /**
+   * Gets the kwargs extracted from `this.rawText`.
+   * @returns {object}
+   */
   get kwargs() {
     const obj = {};
     const matchesIter = this.rawText.matchAll(this.REGEXP.kwargs);
@@ -32,6 +63,10 @@ class Parse {
     return obj;
   }
 
+  /**
+   * Gets the text extracted from `this.rawText`.
+   * @returns {string}
+   */
   get text() {
     return this.rawText
       .replace(this.REGEXP.command, '')
