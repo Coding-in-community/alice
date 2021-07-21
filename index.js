@@ -11,8 +11,6 @@ const alice = new Alice([
   path.create('src/commands/cron', 'cron'),
   path.create('src/commands/dice', 'dice'),
   path.create('src/commands/doc', 'doc'),
-  path.create('src/commands/doc', 'help'),
-  path.create('src/commands/github', 'github'),
   path.create('src/commands/links', 'links'),
   path.create('src/commands/lyric', 'lyric'),
   path.create('src/commands/report', 'report'),

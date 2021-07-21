@@ -3,6 +3,8 @@ const strings = {
 Alice foi criada utilizando a biblioteca \`\`\`whatsapp-web.js\`\`\` como base sob licença Apache 2.0. Saiba mais em _https://github.com/pedroslopez/whatsapp-web.js_
 
 Quer a documentação de um comando especifico? Use o comando \`\`\`!doc\`\`\` com a flag de seu nome, ex: \`\`\`!doc --lyric\`\`\`. Se não conhece os comandos, use \`\`\`!commands\`\`\`
+
+_Quer contribuir? Então dá uma olhada em https://github.com/Coding-in-community/alice_
 `,
   bot: `
 comando: *!bot*
@@ -25,10 +27,6 @@ descrição: lanca um dado de rpg e retorna seu valor
   doc: `
 comando: *!doc*
 descrição: documentação do bot
-`,
-  github: `
-comando: *!github*
-descrição: link da ultima versão estável do sistema
 `,
   links: `
 comando: *!links*
