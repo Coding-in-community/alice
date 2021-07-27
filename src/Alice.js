@@ -12,7 +12,7 @@ class Alice {
     };
 
     commandsArray.forEach((cmd) => {
-      commands.set(...cmd);
+      commands.register(cmd);
     });
   }
 

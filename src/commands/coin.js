@@ -1,13 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const defaultMessage = `
-uso: *!coin* [--flag] name
-_--all -> mostra todas as informações disponiveis_  
-
-a flag _all_ pode retornar dados em excesso, sua utilização repetida será considera spam
-`;
-
 async function loadCheerio(url) {
   try {
     const { data } = await axios.get(url);
@@ -63,30 +56,46 @@ function getUrl(args, text) {
   return baseURL + path;
 }
 
-module.exports = async (data) => {
-  const { args, text } = data;
+class Coin {
+  constructor() {
+    this.name = 'coin';
+    this.defaultMessage = `
+uso: *!coin* [--flag] name
+_--all -> mostra todas as informações disponiveis_  
 
-  if (!text) {
-    return defaultMessage.trim();
+a flag _all_ pode retornar dados em excesso, sua utilização repetida será considera spam
+    `.trim();
   }
 
-  const url = getUrl(args, text);
-  let coinStats = await getData(url);
+  async execute(data, message) {
+    const { args, text } = data;
 
-  if (!coinStats) {
-    return 'moeda não encontrada';
+    if (!text) {
+      message.reply(this.defaultMessage.trim());
+      return;
+    }
+
+    const url = getUrl(args, text);
+    let coinStats = await getData(url);
+
+    if (!coinStats) {
+      message.reply('moeda não encontrada');
+      return;
+    }
+    if (!args.includes('all')) {
+      coinStats = coinStats.slice(0, 3);
+    }
+
+    let output = '';
+
+    coinStats.forEach((s) => {
+      const [key, value] = Object.entries(s)[0];
+      const string = `*_${key}_*:\n - ${value}\n\n`;
+      output += string;
+    });
+
+    message.reply(output.trim());
   }
-  if (!args.includes('all')) {
-    coinStats = coinStats.slice(0, 3);
-  }
+}
 
-  let output = '';
-
-  coinStats.forEach((s) => {
-    const [key, value] = Object.entries(s)[0];
-    const string = `*_${key}_*:\n - ${value}\n\n`;
-    output += string;
-  });
-
-  return output.trim();
-};
+module.exports = Coin;

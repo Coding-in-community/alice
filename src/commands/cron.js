@@ -34,6 +34,7 @@ function toPositiveNumber(value) {
 
 class Cron {
   constructor(data, message) {
+    this.name = 'cron';
     this.data = data;
     this.text = data.text;
     this.message = message;
@@ -46,15 +47,16 @@ class Cron {
     this.timer = time.timer(seconds, minutes, hours, days);
   }
 
-  async init() {
+  async execute(_, message) {
     const { args } = this.data;
     const isAdm = await chattools.isAdm(this.message);
 
     if (isAdm) {
-      return this.runsArg(args);
+      message.reply(this.runsArg(args));
+      return;
     }
 
-    return 'staff only.';
+    message.reply('staff only.');
   }
 
   create() {
@@ -166,7 +168,4 @@ _--d  -> define um intervalor de dias_
   }
 }
 
-module.exports = async (data, message) => {
-  const cron = new Cron(data, message);
-  return cron.init();
-};
+module.exports = Cron;

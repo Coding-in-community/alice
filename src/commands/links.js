@@ -1,5 +1,8 @@
-module.exports = () =>
-  `Coding in python: 
+class Links {
+  constructor() {
+    this.name = 'links';
+    this.defaultMessage = `
+Coding in python: 
 https://chat.whatsapp.com/I4IpHC0YFPQLUcGHJeqYdF
 
 Coding in C/C++:
@@ -22,4 +25,12 @@ https://chat.whatsapp.com/GOXnIXSXEFH7wHvO9aTuFs
 
 Speaking in English:
 https://chat.whatsapp.com/EOirNapuFe3CVunBqbwj1Z
-`.trim();
+    `.trim();
+  }
+
+  execute(_, message) {
+    message.reply(this.defaultMessage);
+  }
+}
+
+module.exports = Links;

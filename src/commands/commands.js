@@ -1,15 +1,25 @@
-module.exports = () =>
-  `Os seguintes comandos estão disponiveis:
+class Commands {
+  constructor() {
+    this.name = 'commands';
+    this.defaultMessage = `
+Os seguintes comandos estão disponiveis:
 - !bot
 - !coin
 - !commands
 - !cron
-- !dice
 - !doc
-- !github
 - !links
 - !lyric
 - !report
 - !search
 - !suggest
-- !wiki`.trim();
+- !wiki
+    `.trim();
+  }
+
+  execute(_, message) {
+    message.reply(this.defaultMessage);
+  }
+}
+
+module.exports = Commands;

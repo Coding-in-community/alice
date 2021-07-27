@@ -20,10 +20,6 @@ args: --create, --destroy, --start, --stop
 kwargs: --s, --m, --h, --d
 descrição: repete uma mensagem a cada determinado periodo de tempo
 `,
-  dice: `
-comando: *!dice*
-descrição: lanca um dado de rpg e retorna seu valor
-`,
   doc: `
 comando: *!doc*
 descrição: documentação do bot
@@ -56,12 +52,22 @@ descrição: retorna o primeiro resultado de uma pesquisa na wikipedia
 `,
 };
 
-module.exports = (data) => {
-  const { args } = data;
-
-  if (strings[args[0]]) {
-    return strings[args[0]].trim();
+class Doc {
+  constructor() {
+    this.name = 'doc';
+    this.strings = strings;
   }
 
-  return strings.defaultMessage.trim();
-};
+  execute(data, message) {
+    const { args } = data;
+
+    if (strings[args[0]]) {
+      message.reply(strings[args[0]].trim());
+      return;
+    }
+
+    message.reply(this.strings.defaultMessage.trim());
+  }
+}
+
+module.exports = Doc;
