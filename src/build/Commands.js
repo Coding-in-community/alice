@@ -1,7 +1,3 @@
-function isFunction(object) {
-  return typeof object === 'function';
-}
-
 /**
  * Commands wrapper
  * @param {object} commands - Object that contains the commands.
@@ -17,12 +13,8 @@ class Commands {
    * @param {string} name - Command's name.
    * @param {function} callback - Callback to command.
    */
-  set(name, callback) {
-    if (!isFunction(callback)) {
-      throw new Error(`${callback} must be a function`);
-    }
-
-    this.commands[name] = callback;
+  register(cmd) {
+    this.commands[cmd.name] = cmd;
   }
 
   /**
@@ -48,15 +40,15 @@ class Commands {
    * @see https://docs.wwebjs.dev/Message.html
    * @see https://docs.wwebjs.dev/Client.html
    */
-  async call(cmd, data, message, client) {
-    if (!this.has(cmd)) {
-      throw new Error(`${cmd} is not registered`);
+  async call(cmdName, data, message, client) {
+    if (!this.has(cmdName)) {
+      throw new Error(`${cmdName} is not registered.`);
     }
 
-    const response = await this.commands[cmd](data, message, client);
-
-    if (response) {
-      message.reply(String(response));
+    try {
+      await this.commands[cmdName].execute(data, message, client);
+    } catch (e) {
+      message.reply(`❗ ${e.message}`);
     }
   }
 }

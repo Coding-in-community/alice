@@ -2,5 +2,4 @@
 
 module.exports = {
   Commands: require('./Commands'),
-  Path: require('./Path'),
 };
