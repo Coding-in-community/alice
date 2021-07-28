@@ -1,9 +1,7 @@
 const events = require('events');
-const { chattools, time } = require('../utils');
+const { chattools, Time } = require('../utils');
 
 const emitter = new events.EventEmitter();
-let threads = [];
-let counter = 0;
 
 function Thread(id, text, message, timer) {
   this.id = id;
@@ -19,137 +17,12 @@ function Thread(id, text, message, timer) {
   });
 }
 
-function toPositiveNumber(value) {
-  const number = Number.parseFloat(value);
-
-  if (number >= 0) {
-    return number;
-  }
-  if (Number.isNaN(number)) {
-    return 0;
-  }
-
-  return -number;
-}
-
 class Cron {
-  constructor(data, message) {
+  constructor() {
     this.name = 'cron';
-    this.data = data;
-    this.text = data.text;
-    this.message = message;
-
-    const seconds = toPositiveNumber(data.kwargs.s);
-    const minutes = toPositiveNumber(data.kwargs.m);
-    const hours = toPositiveNumber(data.kwargs.h);
-    const days = toPositiveNumber(data.kwargs.d);
-
-    this.timer = time.timer(seconds, minutes, hours, days);
-  }
-
-  async execute(_, message) {
-    const { args } = this.data;
-    const isAdm = await chattools.isAdm(this.message);
-
-    if (isAdm) {
-      message.reply(this.runsArg(args));
-      return;
-    }
-
-    message.reply('staff only.');
-  }
-
-  create() {
-    if (!(this.timer > 0)) {
-      return 'you must add a valid time';
-    }
-
-    counter++;
-    const { message, text, timer } = this;
-    const thread = new Thread(counter, text, message, timer);
-    threads.push(thread);
-
-    return `thread created using id: ${thread.id}`;
-  }
-
-  destroy() {
-    if (!Cron.isIdValid(this.text)) {
-      return 'thread not found';
-    }
-
-    const thread = threads.find((t) => t.id === Number(this.text));
-    this.stop();
-
-    emitter.removeAllListeners(`start-cron${this.text}`, thread.start);
-    emitter.removeAllListeners(`stop-cron${this.text}`, thread.stop);
-
-    threads = threads.filter((t) => !(t.id === Number(this.text)));
-    return 'thread destroyed successfully';
-  }
-
-  start() {
-    if (Cron.isIdValid(this.text)) {
-      emitter.emit(`start-cron${this.text}`);
-      return `starting thread ${this.text}`;
-    }
-
-    return 'thread not found';
-  }
-
-  stop() {
-    if (Cron.isIdValid(this.text)) {
-      emitter.emit(`stop-cron${this.text}`);
-      return `stopping thread ${this.text}`;
-    }
-
-    return 'thread not found';
-  }
-
-  static log() {
-    let output = '';
-
-    if (threads.length === 0) {
-      output += 'thread not open';
-    } else {
-      output += 'threads open:\n\n';
-    }
-
-    threads.forEach((thread) => {
-      const id = `id: ${thread.id}\n`;
-      const description = `desc: ${thread.description}\n`;
-      output += `${id}${description}\n`;
-    });
-
-    return output.trim();
-  }
-
-  static killall() {
-    return null;
-  }
-
-  runsArg(args) {
-    const seila = {
-      log: () => Cron.log(),
-      killall: () => 'sorry, this function is not done yet',
-      create: () => this.create(),
-      destroy: () => this.destroy(),
-      start: () => this.start(),
-      stop: () => this.stop(),
-    };
-
-    if (seila[args[0]]) {
-      return seila[args[0]]();
-    }
-
-    return Cron.default();
-  }
-
-  static isIdValid(id) {
-    return threads.some((t) => t.id === Number(id));
-  }
-
-  static default() {
-    return `
+    this.threads = [];
+    this.counter = 0;
+    this.defaultMessage = `
 *criação*: _!cron --create --[time]=<int>_
 *outros*: _!cron [--flag] [<int>]_
 
@@ -164,7 +37,105 @@ _--h -> define um intervalor de horas_
 _--d  -> define um intervalor de dias_ 
 
 ⚠️ *o uso indevido dessa função resultará em ban de 3 dias* ⚠️
-`.trim();
+    `.trim();
+  }
+
+  async execute(data, message) {
+    const isAdm = await chattools.isAdm(message);
+
+    if (isAdm) {
+      message.reply(this.runs(data, message));
+      return;
+    }
+
+    message.reply('staff only.');
+  }
+
+  create(data, message) {
+    const { kwargs, text } = data;
+    const timer = Time.timer(
+      Math.abs(kwargs.s || 0),
+      Math.abs(kwargs.m || 0),
+      Math.abs(kwargs.h || 0),
+      Math.abs(kwargs.d || 0)
+    );
+
+    if (timer <= 0) {
+      throw new Error('Time invalid.');
+    }
+
+    this.counter += 1;
+    const thread = new Thread(this.counter, text, message, timer);
+    this.threads.push(thread);
+
+    return `Thread criada usando o id ${thread.id}`;
+  }
+
+  destroy(id) {
+    if (!this.isIdValid(id)) {
+      return 'Thread não encontrada.';
+    }
+
+    const thread = this.threads.find((t) => t.id === Number(id));
+    this.stop(id);
+
+    emitter.removeAllListeners(`start-cron${id}`, thread.start);
+    emitter.removeAllListeners(`stop-cron${id}`, thread.stop);
+
+    this.threads = this.threads.filter((t) => !(t.id === Number(id)));
+    return 'Thread destruida com sucesso.';
+  }
+
+  start(id) {
+    if (this.isIdValid(id)) {
+      emitter.emit(`start-cron${id}`);
+      return `starting thread ${id}`;
+    }
+
+    return 'thread not found';
+  }
+
+  stop(id) {
+    if (this.isIdValid(id)) {
+      emitter.emit(`stop-cron${id}`);
+      return `Parando a thread de id ${id}...`;
+    }
+
+    return 'Thread não encontrada.';
+  }
+
+  log() {
+    if (this.threads.length === 0) {
+      return 'Nenhuma thread aberta.';
+    }
+
+    let output = 'Threads abertas:\n\n';
+
+    this.threads.forEach((t) => {
+      output += `id: ${t.id}\ndesc: ${t.description}\n\n`;
+    });
+
+    return output.trim();
+  }
+
+  runs(data, message) {
+    const methods = {
+      log: () => this.log(),
+      create: () => this.create(data, message),
+      destroy: () => this.destroy(data.text),
+      start: () => this.start(data.text),
+      stop: () => this.stop(data.text),
+    };
+
+    if (methods[data.args[0]]) {
+      return methods[data.args[0]]();
+    }
+
+    return this.defaultMessage;
+  }
+
+  isIdValid(id) {
+    return this.threads.some((t) => t.id === Number(id));
   }
 }
 

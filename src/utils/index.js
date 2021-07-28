@@ -4,5 +4,5 @@ module.exports = {
   Parse: require('./Parse'),
   chattools: require('./chattools'),
   search: require('./search'),
-  time: require('./time'),
+  Time: require('./time'),
 };
