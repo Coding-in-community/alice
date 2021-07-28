@@ -17,25 +17,32 @@ function removeBr(raw) {
   return new JSSoup(html);
 }
 
-module.exports = async (data, message) => {
-  const { text } = data;
-
-  if (!text) {
-    message.reply('please tell me the song name');
+class Lyric {
+  constructor() {
+    this.name = 'lyric';
   }
 
-  const results = await search.google(text, 'https://www.letras.mus.br');
-  const { link } = results[0];
-  const soup = await makeSoup(link);
-  const title = soup.find('div', { class: 'cnt-head_title' }).find('h1');
-  const lyricsDiv = soup.find('div', { class: 'cnt-letra' });
-  const pArray = lyricsDiv.findAll('p');
-  const output = `\
-*${title.text}*
+  // eslint-disable-next-line
+  async execute(data, message) {
+    const { text } = data;
 
-${pArray.map((p) => removeBr(p).text).join('')}
+    if (!text) {
+      throw new Error('Nenhum nome foi passado');
+    }
 
-_${link}_`;
+    const results = await search.google(text, 'https://www.letras.mus.br');
+    const { link } = results[0];
+    const soup = await makeSoup(link);
+    const title = soup.find('div', { class: 'cnt-head_title' }).find('h1');
+    const lyrics = soup
+      .find('div', { class: 'cnt-letra' })
+      .findAll('p')
+      .map((p) => removeBr(p).text)
+      .join('');
+    const output = `*${title.text}*\n\n${lyrics}\n\n_${link}_`;
 
-  message.reply(output);
-};
+    message.reply(output);
+  }
+}
+
+module.exports = Lyric;

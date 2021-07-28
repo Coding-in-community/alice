@@ -1,20 +1,34 @@
 const wikijs = require('wikijs').default;
 
-module.exports = async (data) => {
-  const { text, args } = data;
-  const wiki = wikijs({ apiUrl: 'https://pt.wikipedia.org/w/api.php' });
-  let output;
-
-  if (args.includes('search')) {
-    const { results } = await wiki.search(text, 10);
-    output = '*Resultados encontrados:*\n\n';
-    output += results.join('\n');
-    return output;
+class Wiki {
+  constructor() {
+    this.name = 'wiki';
+    this.wikiOptions = { apiUrl: 'https://pt.wikipedia.org/w/api.php' };
   }
 
-  const page = await wiki.page(text);
-  const { title, canonicalurl: url } = page.raw;
-  const summary = await page.summary();
-  output = `*${title}*\n\n${summary}\n\n_${url}_`;
-  return output;
-};
+  async execute(data, message) {
+    const { text, args } = data;
+    const wiki = wikijs(this.wikiOptions);
+    let output;
+
+    if (!text) {
+      throw new Error('Nenhum texto para pesquisa foi especificado.');
+    }
+
+    if (args.includes('search')) {
+      const { results } = await wiki.search(text, 10);
+      output = '*Resultados encontrados:*\n\n';
+      output += results.join('\n');
+      message.reply(output);
+      return;
+    }
+
+    const page = await wiki.page(text);
+    const { title, canonicalurl: url } = page.raw;
+    const summary = await page.summary();
+    output = `*${title}*\n\n${summary}\n\n_${url}_`;
+    message.reply(output);
+  }
+}
+
+module.exports = Wiki;

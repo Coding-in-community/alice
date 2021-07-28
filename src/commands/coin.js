@@ -1,13 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const defaultMessage = `
-uso: *!coin* [--flag] name
-_--all -> mostra todas as informações disponiveis_  
-
-a flag _all_ pode retornar dados em excesso, sua utilização repetida será considera spam
-`;
-
 async function loadCheerio(url) {
   try {
     const { data } = await axios.get(url);
@@ -17,7 +10,7 @@ async function loadCheerio(url) {
   }
 }
 
-async function getData(url) {
+async function getCoinStats(url) {
   const $ = await loadCheerio(url);
 
   if (!(typeof $ === 'function')) {
@@ -30,8 +23,8 @@ async function getData(url) {
     .find('tr');
   const statsArray = [];
 
-  priceStatistics.each(function () {
-    const tr = $(this);
+  priceStatistics.each((_, pS) => {
+    const tr = $(pS);
     const key = tr.find('th').text();
     let value = tr.find('td');
 
@@ -43,7 +36,7 @@ async function getData(url) {
       value = value.text();
     }
 
-    if (value !== 'No Data' || value !== 'Sem Dados') {
+    if (value !== 'No Data') {
       const object = Object.fromEntries([[key, value]]);
       statsArray.push(object);
     }
@@ -52,41 +45,53 @@ async function getData(url) {
   return statsArray;
 }
 
-function getUrl(args, text) {
-  let baseURL = 'https://coinmarketcap.com/currencies/';
-  const path = text.replace(/\s/g, '-').toLowerCase();
+class Coin {
+  constructor() {
+    this.name = 'coin';
+    this.BASE_URL = 'https://coinmarketcap.com/currencies/';
+    this.defaultMessage = `
+uso: *!coin* [--flag] name
+_--all -> mostra todas as informações disponiveis_  
 
-  if (args.includes('brl')) {
-    baseURL = 'https://coinmarketcap.com/pt-br/currencies/';
+a flag _all_ pode retornar dados em excesso, sua utilização repetida será considera spam
+    `.trim();
   }
 
-  return baseURL + path;
+  async execute(data, message) {
+    const { args, text } = data;
+
+    if (!text) {
+      message.reply(this.defaultMessage);
+      return;
+    }
+
+    const url = this.getUrl(text);
+    let coinStats = await getCoinStats(url);
+
+    if (!coinStats) {
+      message.reply('Moeda não encontrada.');
+      return;
+    }
+
+    if (!args.includes('all')) {
+      coinStats = coinStats.slice(0, 3);
+    }
+
+    let output = '';
+
+    coinStats.forEach((s) => {
+      const [key, value] = Object.entries(s)[0];
+      const string = `*_${key}_*:\n - ${value}\n\n`;
+      output += string;
+    });
+
+    message.reply(output.trim());
+  }
+
+  getUrl(text) {
+    const path = text.replace(/\s/g, '-').toLowerCase();
+    return this.BASE_URL + path;
+  }
 }
 
-module.exports = async (data) => {
-  const { args, text } = data;
-
-  if (!text) {
-    return defaultMessage.trim();
-  }
-
-  const url = getUrl(args, text);
-  let coinStats = await getData(url);
-
-  if (!coinStats) {
-    return 'moeda não encontrada';
-  }
-  if (!args.includes('all')) {
-    coinStats = coinStats.slice(0, 3);
-  }
-
-  let output = '';
-
-  coinStats.forEach((s) => {
-    const [key, value] = Object.entries(s)[0];
-    const string = `*_${key}_*:\n - ${value}\n\n`;
-    output += string;
-  });
-
-  return output.trim();
-};
+module.exports = Coin;

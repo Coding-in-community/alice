@@ -1,5 +1,5 @@
 const auth = require('./auth');
-const { Parse } = require('./utils/Parse');
+const { Parse } = require('./utils');
 const build = require('./build');
 
 const session = new auth.Session();
@@ -12,7 +12,7 @@ class Alice {
     };
 
     commandsArray.forEach((cmd) => {
-      commands.set(...cmd);
+      commands.register(cmd);
     });
   }
 

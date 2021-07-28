@@ -76,6 +76,4 @@ class Parse {
   }
 }
 
-module.exports = {
-  Parse,
-};
+module.exports = Parse;

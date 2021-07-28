@@ -1,6 +1,5 @@
 const { chattools } = require('../utils');
 
-const myID = chattools.userID(process.env.REPORT_NUMBER);
 const strings = {
   defaultMessage: `
 uso: _!report [--flag] [descrição]_
@@ -14,22 +13,32 @@ argumentos:
   user: 'o usuário foi reportado a administração',
 };
 
-module.exports = (data, message, client) => {
-  const { args, text } = data;
-
-  if (args.length === 0 && text) {
-    return 'nenhuma flag foi fornecida';
-  }
-  if (args.length > 0 && !text) {
-    return 'nenhuma descrição foi fornecida';
+class Report {
+  constructor() {
+    this.name = 'report';
+    this.reportID = chattools.userID(process.env.REPORT_NUMBER);
+    this.strings = strings;
   }
 
-  const reportMsg = `⚠️ *${args[0]} report* ⚠️\n\n${text}`;
+  execute(data, message, client) {
+    const { args, text } = data;
+    const reportMsg = `⚠️ *${args[0]} report* ⚠️\n\n${text}`;
 
-  if (args.includes('bug') || args.includes('user')) {
-    client.sendMessage(myID, reportMsg);
-    return strings[args[0]];
+    if (args.length === 0 && text) {
+      throw new Error('Nenhuma flag foi fornecida.');
+    }
+    if (args.length > 0 && !text) {
+      throw new Error('Nenhuma descrição foi fornecida.');
+    }
+
+    if (args.includes('bug') || args.includes('user')) {
+      client.sendMessage(this.reportID, reportMsg);
+      message.reply(this.strings[args[0]]);
+      return;
+    }
+
+    message.reply(this.strings.defaultMessage.trim());
   }
+}
 
-  return strings.defaultMessage.trim();
-};
+module.exports = Report;
