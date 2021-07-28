@@ -14,22 +14,38 @@ class Commands {
    * @param {function} callback - Callback to command.
    */
   register(cmd) {
+    if (!Commands.isValid(cmd)) {
+      throw new Error(`${cmd} isn't a valid Command!`);
+    }
+
     this.commands[cmd.name] = cmd;
   }
 
   /**
    * Checks if a command is set in Commands instance.
-   * @param {string} cmd - The command's name.
+   * @param {string} cmdName - The command's name.
    * @returns {boolean} `True` if the command is set in Commands instance, `False` if not.
    */
-  has(cmd) {
+  has(cmdName) {
     const availableCommands = Object.keys(this.commands);
-    return availableCommands.includes(cmd);
+    return availableCommands.includes(cmdName);
+  }
+
+  /**
+   * Checks if a command is valid.
+   * @param {any} cmd - The command instance.
+   * @returns {boolean} `True` if the command is valid, `False` if not.
+   */
+  static isValid(cmd) {
+    if (cmd.name && cmd.execute && typeof cmd.execute === 'function') {
+      return true;
+    }
+    return false;
   }
 
   /**
    * Calls (executes) a command.
-   * @param {string} cmd - The command's name to be called.
+   * @param {string} cmdName - The command's name to be called.
    * @param {object} data - The data extracted from the message that called the command.
    * @param {string} data.command - The command's name extracted from the message.
    * @param {string[]} data.args - The args extracted from the message.
