@@ -23,21 +23,23 @@ class Cron {
     this.threads = [];
     this.counter = 0;
     this.defaultMessage = `
-*criação*: _!cron --create --[time]=<int>_
-*outros*: _!cron [--flag] [<int>]_
+Repete uma mensagem em um determinado período de tempo. Cada mensagem é representada por uma thread.
 
-*argumentos*:
-_--create -> cria uma nova thread_
-_--destroy -> apaga uma thread_
-_--start -> inicia uma thread_
-_--stop -> para uma thread_ 
-_--s -> define um intervalor de segundos_ 
-_--m -> define um intervalor de minutos_ 
-_--h -> define um intervalor de horas_ 
-_--d  -> define um intervalor de dias_ 
+*uso:* \`\`\`!command [--args] [--kwargs=<type>] ...\`\`\`
 
-⚠️ *o uso indevido dessa função resultará em ban de 3 dias* ⚠️
-    `.trim();
+*args válidos:* 
+  \`\`\`--create\`\`\` -> _cria uma nova thread._
+  \`\`\`--destroy\`\`\` -> _para e apaga uma thread._
+  \`\`\`--stop\`\`\` -> _para uma thread._
+  \`\`\`--start\`\`\` -> _inicia uma thread._
+  \`\`\`--log\`\`\` -> _mostra as threads existentes._
+
+*kwargs válidos:*
+  \`\`\`--s=<int>\`\`\` -> _define um periodo em segundos._
+  \`\`\`--m=<int>\`\`\` -> _define um periodo em minutos._
+  \`\`\`--h=<int>\`\`\` -> _define um periodo em horas._
+  \`\`\`--d=<int>\`\`\` -> _define um periodo em dias._
+`.trim();
   }
 
   async execute(data, message) {
