@@ -26,8 +26,8 @@ class Search {
     message.reply(`Nenhum resultado foi encontrado para: _${text}_`);
   }
 
-  static formatResult(object) {
-    const { title, link, snippet } = object;
+  static formatResult(result) {
+    const { title, link, snippet } = result;
     return `*${title}*\n\n${snippet}\n\n_${link}_`;
   }
 }

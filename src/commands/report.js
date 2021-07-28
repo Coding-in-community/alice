@@ -1,6 +1,5 @@
 const { chattools } = require('../utils');
 
-const myID = chattools.userID(process.env.REPORT_NUMBER);
 const strings = {
   defaultMessage: `
 uso: _!report [--flag] [descrição]_
@@ -17,12 +16,12 @@ argumentos:
 class Report {
   constructor() {
     this.name = 'report';
+    this.reportID = chattools.userID(process.env.REPORT_NUMBER);
     this.strings = strings;
   }
 
   execute(data, message, client) {
     const { args, text } = data;
-
     const reportMsg = `⚠️ *${args[0]} report* ⚠️\n\n${text}`;
 
     if (args.length === 0 && text) {
@@ -33,7 +32,7 @@ class Report {
     }
 
     if (args.includes('bug') || args.includes('user')) {
-      client.sendMessage(myID, reportMsg);
+      client.sendMessage(this.reportID, reportMsg);
       message.reply(this.strings[args[0]]);
       return;
     }

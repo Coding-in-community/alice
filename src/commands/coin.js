@@ -10,7 +10,7 @@ async function loadCheerio(url) {
   }
 }
 
-async function getData(url) {
+async function getCoinStats(url) {
   const $ = await loadCheerio(url);
 
   if (!(typeof $ === 'function')) {
@@ -23,8 +23,8 @@ async function getData(url) {
     .find('tr');
   const statsArray = [];
 
-  priceStatistics.each(function () {
-    const tr = $(this);
+  priceStatistics.each((_, pS) => {
+    const tr = $(pS);
     const key = tr.find('th').text();
     let value = tr.find('td');
 
@@ -36,7 +36,7 @@ async function getData(url) {
       value = value.text();
     }
 
-    if (value !== 'No Data' || value !== 'Sem Dados') {
+    if (value !== 'No Data') {
       const object = Object.fromEntries([[key, value]]);
       statsArray.push(object);
     }
@@ -45,20 +45,10 @@ async function getData(url) {
   return statsArray;
 }
 
-function getUrl(args, text) {
-  let baseURL = 'https://coinmarketcap.com/currencies/';
-  const path = text.replace(/\s/g, '-').toLowerCase();
-
-  if (args.includes('brl')) {
-    baseURL = 'https://coinmarketcap.com/pt-br/currencies/';
-  }
-
-  return baseURL + path;
-}
-
 class Coin {
   constructor() {
     this.name = 'coin';
+    this.BASE_URL = 'https://coinmarketcap.com/currencies/';
     this.defaultMessage = `
 uso: *!coin* [--flag] name
 _--all -> mostra todas as informações disponiveis_  
@@ -71,17 +61,18 @@ a flag _all_ pode retornar dados em excesso, sua utilização repetida será con
     const { args, text } = data;
 
     if (!text) {
-      message.reply(this.defaultMessage.trim());
+      message.reply(this.defaultMessage);
       return;
     }
 
-    const url = getUrl(args, text);
-    let coinStats = await getData(url);
+    const url = this.getUrl(text);
+    let coinStats = await getCoinStats(url);
 
     if (!coinStats) {
-      message.reply('moeda não encontrada');
+      message.reply('Moeda não encontrada.');
       return;
     }
+
     if (!args.includes('all')) {
       coinStats = coinStats.slice(0, 3);
     }
@@ -95,6 +86,11 @@ a flag _all_ pode retornar dados em excesso, sua utilização repetida será con
     });
 
     message.reply(output.trim());
+  }
+
+  getUrl(text) {
+    const path = text.replace(/\s/g, '-').toLowerCase();
+    return this.BASE_URL + path;
   }
 }
 

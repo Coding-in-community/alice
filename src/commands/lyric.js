@@ -34,10 +34,12 @@ class Lyric {
     const { link } = results[0];
     const soup = await makeSoup(link);
     const title = soup.find('div', { class: 'cnt-head_title' }).find('h1');
-    const lyricsDiv = soup.find('div', { class: 'cnt-letra' });
-    const pArray = lyricsDiv.findAll('p');
-    const lyric = pArray.map((p) => removeBr(p).text).join('');
-    const output = `*${title.text}*\n\n${lyric}\n\n_${link}_`;
+    const lyrics = soup
+      .find('div', { class: 'cnt-letra' })
+      .findAll('p')
+      .map((p) => removeBr(p).text)
+      .join('');
+    const output = `*${title.text}*\n\n${lyrics}\n\n_${link}_`;
 
     message.reply(output);
   }

@@ -1,10 +1,9 @@
 const { chattools } = require('../utils');
 
-const myID = chattools.userID(process.env.REPORT_NUMBER);
-
 class Suggest {
   constructor() {
     this.name = 'suggest';
+    this.reportID = chattools.userID(process.env.REPORT_NUMBER);
     this.defaultMessage = `
 uso: _!suggest [--flag] [sugestão]_
 
@@ -19,7 +18,6 @@ argumentos:
 
   execute(data, message, client) {
     const { args, text } = data;
-
     const reportMsg = `⚠️ *${args[0]} suggestion* ⚠️\n\n${text}`;
 
     if (args.length === 0 && text) {
@@ -34,7 +32,7 @@ argumentos:
       args.includes('remove') ||
       args.includes('change')
     ) {
-      client.sendMessage(myID, reportMsg);
+      client.sendMessage(this.reportID, reportMsg);
       message.reply('Obrigado pela colaboração!');
       return;
     }
