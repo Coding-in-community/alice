@@ -1,7 +1,14 @@
-class Links {
-  constructor() {
-    this.name = 'links';
-    this.defaultMessage = `
+const STRINGS = {
+  help: `
+Lista links para os grupos coding.
+
+*uso:* \`\`\`!links [--args]\`\`\`
+
+*args válidos:* 
+  \`\`\`--help\`\`\` -> _mostra esta mensagem._
+  `.trim(),
+
+  groupsLinks: `
 Coding in python: 
 https://chat.whatsapp.com/I4IpHC0YFPQLUcGHJeqYdF
 
@@ -25,11 +32,24 @@ https://chat.whatsapp.com/GOXnIXSXEFH7wHvO9aTuFs
 
 Speaking in English:
 https://chat.whatsapp.com/EOirNapuFe3CVunBqbwj1Z
-    `.trim();
+  `.trim(),
+};
+
+class Links {
+  constructor() {
+    this.name = 'links';
+    this.strings = STRINGS;
   }
 
-  execute(_, message) {
-    message.reply(this.defaultMessage);
+  execute(data, message) {
+    const { args } = data;
+
+    if (args.includes('help')) {
+      message.reply(this.strings.help);
+      return;
+    }
+
+    message.reply(this.strings.groupsLinks);
   }
 }
 

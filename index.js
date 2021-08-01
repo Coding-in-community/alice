@@ -1,11 +1,10 @@
 require('dotenv').config();
 const { Alice } = require('./src/Alice');
 const {
-  Bot,
+  About,
   Coin,
   Commands,
   Cron,
-  Doc,
   Links,
   Lyric,
   Report,
@@ -15,11 +14,10 @@ const {
 } = require('./src/commands');
 
 const alice = new Alice([
-  new Bot(),
+  new About(),
   new Coin(),
   new Commands(),
   new Cron(),
-  new Doc(),
   new Links(),
   new Lyric(),
   new Report(),

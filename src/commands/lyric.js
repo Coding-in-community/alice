@@ -2,6 +2,17 @@ const axios = require('axios');
 const JSSoup = require('jssoup').default;
 const { search } = require('../utils');
 
+const STRINGS = {
+  help: `
+Retorna a letra de uma música.
+
+*uso:* \`\`\`!lyric [--args] music_name\`\`\`
+
+*args válidos:* 
+  \`\`\`--help\`\`\` -> _mostra esta mensagem._
+  `.trim(),
+};
+
 async function makeSoup(url) {
   const { data } = await axios.get(url);
   return new JSSoup(data);
@@ -20,11 +31,17 @@ function removeBr(raw) {
 class Lyric {
   constructor() {
     this.name = 'lyric';
+    this.strings = STRINGS;
   }
 
   // eslint-disable-next-line
   async execute(data, message) {
-    const { text } = data;
+    const { text, args } = data;
+
+    if (args.includes('help')) {
+      message.reply(this.strings.help);
+      return;
+    }
 
     if (!text) {
       throw new Error('Nenhum nome foi passado');

@@ -1,13 +1,29 @@
 const { search } = require('../utils');
 
+const STRINGS = {
+  help: `
+Retorna o primeiro resultado de uma pesquisa no google.
+
+*uso:* \`\`\`!cron [--args] ...\`\`\`
+
+*args válidos:*
+  \`\`\`--help\`\`\` -> _mostra esta mensagem._
+  `.trim(),
+};
+
 class Search {
   constructor() {
     this.name = 'search';
+    this.strings = STRINGS;
   }
 
-  // eslint-disable-next-line
   async execute(data, message) {
-    const { text } = data;
+    const { args, text } = data;
+
+    if (args.includes('help')) {
+      message.reply(this.strings.help);
+      return;
+    }
 
     if (!text) {
       throw new Error('Nenhum texto para pesquisa foi especificado.');

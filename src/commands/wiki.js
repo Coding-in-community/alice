@@ -1,19 +1,38 @@
 const wikijs = require('wikijs').default;
 
+const STRINGS = {
+  help: `
+Faz uma pesquisa na wikipedia.
+
+*uso:* \`\`\`!wiki [--args] ...\`\`\`
+
+*args válidos:*
+  \`\`\`--search\`\`\` -> _retorna uma lista com os títulos dos artigos encontrados._
+  \`\`\`--help\`\`\` -> _mostra esta mensagem._
+`.trim(),
+};
+
 class Wiki {
   constructor() {
     this.name = 'wiki';
+    this.strings = STRINGS;
     this.wikiOptions = { apiUrl: 'https://pt.wikipedia.org/w/api.php' };
   }
 
   async execute(data, message) {
     const { text, args } = data;
-    const wiki = wikijs(this.wikiOptions);
-    let output;
+
+    if (args.includes('help')) {
+      message.reply(this.strings.help);
+      return;
+    }
 
     if (!text) {
       throw new Error('Nenhum texto para pesquisa foi especificado.');
     }
+
+    const wiki = wikijs(this.wikiOptions);
+    let output;
 
     if (args.includes('search')) {
       const { results } = await wiki.search(text, 10);
