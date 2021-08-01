@@ -28,4 +28,4 @@ const alice = new Alice([
   new Wiki(),
 ]);
 
-alice.initialize();
+alice.init();
