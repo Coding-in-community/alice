@@ -45,7 +45,6 @@ class Commands {
 
   /**
    * Calls (executes) a command.
-   * @param {string} cmdName - The command's name to be called.
    * @param {object} data - The data extracted from the message that called the command.
    * @param {string} data.command - The command's name extracted from the message.
    * @param {string[]} data.args - The args extracted from the message.
@@ -56,13 +55,13 @@ class Commands {
    * @see https://docs.wwebjs.dev/Message.html
    * @see https://docs.wwebjs.dev/Client.html
    */
-  async call(cmdName, data, message, client) {
-    if (!this.has(cmdName)) {
-      throw new Error(`${cmdName} is not registered.`);
+  async call(data, message, client) {
+    if (!this.has(data.command)) {
+      throw new Error(`${data.command} is not registered.`);
     }
 
     try {
-      await this.commands[cmdName].execute(data, message, client);
+      await this.commands[data.command].execute(data, message, client);
     } catch (e) {
       message.reply(`❗ ${e.message}`);
     }

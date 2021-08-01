@@ -1,38 +1,60 @@
-const auth = require('./auth');
+const { Session } = require('./auth');
 const { Parse } = require('./utils');
-const build = require('./build');
+const { Commands } = require('./build');
 
-const session = new auth.Session();
-const commands = new build.Commands();
+const session = new Session();
+const commands = new Commands();
 
 class Alice {
   constructor(commandsArray) {
-    this.options = {
-      trigger: 'message_create',
-    };
+    this.events = [
+      {
+        name: 'message_create',
+        callback: Alice.onMessage,
+      },
+      {
+        name: 'group_join',
+        callback: Alice.onJoinedGroup,
+      },
+    ];
 
     commandsArray.forEach((cmd) => {
       commands.register(cmd);
     });
   }
 
-  static async onMessage(message) {
-    const data = new Parse(message.body);
-
-    if (data.command) {
-      await commands.call(data.command, data, message, session);
-    }
-  }
-
-  initialize() {
+  init() {
     if (session.exists) {
       session.load();
     } else {
       session.create();
     }
 
-    session.on(this.options.trigger, Alice.onMessage);
+    this.events.forEach((e) => {
+      session.on(e.name, e.callback);
+    });
+
     session.start();
+  }
+
+  // --- Only events callbacks below ---
+
+  static async onMessage(message) {
+    const data = new Parse(message.body);
+
+    if (data.command) {
+      await commands.call(data, message, session);
+    }
+  }
+
+  static async onJoinedGroup(notification) {
+    const contacts = await notification.getRecipients();
+    contacts.forEach(async (c) => {
+      const chat = await c.getChat();
+      await chat.sendMessage(
+        `Bem vindo(a) a comunidade Coding, ${c.pushname}!`
+      );
+    });
   }
 }
 
