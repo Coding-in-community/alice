@@ -1,7 +1,14 @@
-class Commands {
-  constructor() {
-    this.name = 'commands';
-    this.defaultMessage = `
+const STRINGS = {
+  help: `
+Lista todos os comandos disponíveis.
+
+*uso:* \`\`\`!commands [--args]\`\`\`
+
+*args válidos:* 
+  \`\`\`--help\`\`\` -> _mostra esta mensagem._
+  `.trim(),
+
+  availableCommands: `
 Os seguintes comandos estão disponiveis:
 - !bot
 - !coin
@@ -14,11 +21,24 @@ Os seguintes comandos estão disponiveis:
 - !search
 - !suggest
 - !wiki
-    `.trim();
+  `.trim(),
+};
+
+class Commands {
+  constructor() {
+    this.name = 'commands';
+    this.strings = STRINGS;
   }
 
-  execute(_, message) {
-    message.reply(this.defaultMessage);
+  execute(data, message) {
+    const { args } = data;
+
+    if (args.includes('help')) {
+      message.reply(this.strings.help);
+      return;
+    }
+
+    message.reply(this.strings.availableCommands);
   }
 }
 

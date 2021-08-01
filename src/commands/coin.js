@@ -1,6 +1,18 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
+const STRINGS = {
+  help: `
+Retorna dados de uma moeda disponível no CoinMarketCap (https://coinmarketcap.com).
+
+*uso:* \`\`\`!coin [--args] coin_name\`\`\`
+
+*args válidos:* 
+  \`\`\`--all\`\`\` -> _retorna todos os dados disponíveis._
+  \`\`\`--help\`\`\` -> _mostra essa mensagem._
+  `.trim(),
+};
+
 async function loadCheerio(url) {
   try {
     const { data } = await axios.get(url);
@@ -13,8 +25,8 @@ async function loadCheerio(url) {
 async function getCoinStats(url) {
   const $ = await loadCheerio(url);
 
-  if (!(typeof $ === 'function')) {
-    return null;
+  if (typeof $ !== 'function') {
+    throw new Error('Moeda não encontrada.');
   }
 
   const priceStatistics = $('.sc-16r8icm-0.nds9rn-0.dAxhCK')
@@ -49,34 +61,38 @@ class Coin {
   constructor() {
     this.name = 'coin';
     this.BASE_URL = 'https://coinmarketcap.com/currencies/';
-    this.defaultMessage = `
-uso: *!coin* [--flag] name
-_--all -> mostra todas as informações disponiveis_  
-
-a flag _all_ pode retornar dados em excesso, sua utilização repetida será considera spam
-    `.trim();
+    this.strings = STRINGS;
   }
 
   async execute(data, message) {
     const { args, text } = data;
 
-    if (!text) {
-      message.reply(this.defaultMessage);
+    if (args.includes('help')) {
+      message.reply(this.strings.help, undefined, { linkPreview: false });
       return;
     }
 
     const url = this.getUrl(text);
     let coinStats = await getCoinStats(url);
 
-    if (!coinStats) {
-      message.reply('Moeda não encontrada.');
-      return;
-    }
-
     if (!args.includes('all')) {
       coinStats = coinStats.slice(0, 3);
     }
 
+    const output = Coin.formatStats(coinStats);
+    message.reply(output);
+  }
+
+  getUrl(text) {
+    if (!text) {
+      throw new Error('Nenhuma moeda foi passada.');
+    }
+
+    const path = text.replace(/\s/g, '-').toLowerCase();
+    return this.BASE_URL + path;
+  }
+
+  static formatStats(coinStats) {
     let output = '';
 
     coinStats.forEach((s) => {
@@ -85,12 +101,7 @@ a flag _all_ pode retornar dados em excesso, sua utilização repetida será con
       output += string;
     });
 
-    message.reply(output.trim());
-  }
-
-  getUrl(text) {
-    const path = text.replace(/\s/g, '-').toLowerCase();
-    return this.BASE_URL + path;
+    return output.trim();
   }
 }
 

@@ -1,6 +1,27 @@
 const events = require('events');
 const { chattools, Time } = require('../utils');
 
+const STRINGS = {
+  help: `
+Repete uma mensagem em um determinado período de tempo. Cada mensagem é representada por uma thread.
+
+*uso:* \`\`\`!cron --args [--kwargs=<type>] ...\`\`\`
+
+*args válidos:* 
+  \`\`\`--create\`\`\` -> _cria uma nova thread._
+  \`\`\`--destroy\`\`\` -> _para e apaga uma thread._
+  \`\`\`--stop\`\`\` -> _para uma thread._
+  \`\`\`--start\`\`\` -> _inicia uma thread._
+  \`\`\`--log\`\`\` -> _mostra as threads existentes._
+  \`\`\`--help\`\`\` -> _mostra esta mensagem._
+
+*kwargs válidos:*
+  \`\`\`--s=<int>\`\`\` -> _define um periodo em segundos._
+  \`\`\`--m=<int>\`\`\` -> _define um periodo em minutos._
+  \`\`\`--h=<int>\`\`\` -> _define um periodo em horas._
+  \`\`\`--d=<int>\`\`\` -> _define um periodo em dias._
+  `.trim(),
+};
 const emitter = new events.EventEmitter();
 
 function Thread(id, text, message, timer) {
@@ -22,35 +43,18 @@ class Cron {
     this.name = 'cron';
     this.threads = [];
     this.counter = 0;
-    this.defaultMessage = `
-Repete uma mensagem em um determinado período de tempo. Cada mensagem é representada por uma thread.
-
-*uso:* \`\`\`!command [--args] [--kwargs=<type>] ...\`\`\`
-
-*args válidos:* 
-  \`\`\`--create\`\`\` -> _cria uma nova thread._
-  \`\`\`--destroy\`\`\` -> _para e apaga uma thread._
-  \`\`\`--stop\`\`\` -> _para uma thread._
-  \`\`\`--start\`\`\` -> _inicia uma thread._
-  \`\`\`--log\`\`\` -> _mostra as threads existentes._
-
-*kwargs válidos:*
-  \`\`\`--s=<int>\`\`\` -> _define um periodo em segundos._
-  \`\`\`--m=<int>\`\`\` -> _define um periodo em minutos._
-  \`\`\`--h=<int>\`\`\` -> _define um periodo em horas._
-  \`\`\`--d=<int>\`\`\` -> _define um periodo em dias._
-`.trim();
+    this.strings = STRINGS;
   }
 
   async execute(data, message) {
     const isAdm = await chattools.isAdm(message);
 
-    if (isAdm) {
-      message.reply(this.runs(data, message));
+    if (!isAdm) {
+      message.reply('staff only.');
       return;
     }
 
-    message.reply('staff only.');
+    message.reply(this.runs(data, message));
   }
 
   create(data, message) {
@@ -127,13 +131,14 @@ Repete uma mensagem em um determinado período de tempo. Cada mensagem é repres
       destroy: () => this.destroy(data.text),
       start: () => this.start(data.text),
       stop: () => this.stop(data.text),
+      help: () => this.strings.help,
     };
 
     if (methods[data.args[0]]) {
       return methods[data.args[0]]();
     }
 
-    return this.defaultMessage;
+    throw new Error('Nenhum arg válido foi passado.');
   }
 
   isIdValid(id) {
