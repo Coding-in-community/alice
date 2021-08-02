@@ -11,6 +11,7 @@ async function google(query, target = '', limit = 0) {
   const result = await googleIt({
     query,
     includeSites: target,
+    disableConsole: true,
   });
 
   if (limit) {
