@@ -7,10 +7,11 @@ const googleIt = require('google-it');
  * @param {number} [limit=0] Max number of results that must be returned.
  * @returns {object[]} Array of results found.
  */
-async function google(query, target = '', limit = 0) {
+async function search(query, target = '', limit = 1) {
   const result = await googleIt({
     query,
     includeSites: target,
+    disableConsole: true,
   });
 
   if (limit) {
@@ -20,6 +21,4 @@ async function google(query, target = '', limit = 0) {
   return result;
 }
 
-module.exports = {
-  google,
-};
+module.exports = search;

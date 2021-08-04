@@ -13,6 +13,7 @@ Repete uma mensagem em um determinado período de tempo. Cada mensagem é repres
   \`\`\`--stop\`\`\` -> _para uma thread._
   \`\`\`--start\`\`\` -> _inicia uma thread._
   \`\`\`--log\`\`\` -> _mostra as threads existentes._
+  \`\`\`--killall\`\`\` -> _para e apaga todas as threads._
   \`\`\`--help\`\`\` -> _mostra esta mensagem._
 
 *kwargs válidos:*
@@ -124,6 +125,14 @@ class Cron {
     return output.trim();
   }
 
+  killall() {
+    this.threads.forEach((t) => {
+      this.destroy(t.id);
+    });
+
+    return 'Todas as threads foram destruidas.';
+  }
+
   runs(data, message) {
     const methods = {
       log: () => this.log(),
@@ -132,6 +141,7 @@ class Cron {
       start: () => this.start(data.text),
       stop: () => this.stop(data.text),
       help: () => this.strings.help,
+      killall: () => this.killall(),
     };
 
     if (methods[data.args[0]]) {
