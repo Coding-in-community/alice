@@ -34,7 +34,6 @@ class Lyric {
     this.strings = STRINGS;
   }
 
-  // eslint-disable-next-line
   async execute(data, message) {
     const { text, args } = data;
 
