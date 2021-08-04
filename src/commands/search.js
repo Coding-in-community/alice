@@ -29,7 +29,7 @@ class Search {
       throw new Error('Nenhum texto para pesquisa foi especificado.');
     }
 
-    const results = await search.google(text, undefined, 1);
+    const results = await search(text);
 
     if (results.length > 0) {
       const stringResult = results

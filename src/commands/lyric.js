@@ -47,7 +47,7 @@ class Lyric {
       throw new Error('Nenhum nome foi passado');
     }
 
-    const results = await search.google(text, 'https://www.letras.mus.br');
+    const results = await search(text, 'https://www.letras.mus.br');
     const { link } = results[0];
     const soup = await makeSoup(link);
     const title = soup.find('div', { class: 'cnt-head_title' }).find('h1');
