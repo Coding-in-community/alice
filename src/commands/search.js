@@ -8,6 +8,8 @@ Retorna o primeiro resultado de uma pesquisa no google.
 
 *args válidos:*
   \`\`\`--help\`\`\` -> _mostra esta mensagem._
+  \`\`\`--target\`\`\` -> _define um site especifico para pesquisa._
+  \`\`\`--limit\`\`\` -> _define um limite de resultados. O padrão é 1._
   `.trim(),
 };
 
@@ -18,7 +20,7 @@ class Search {
   }
 
   async execute(data, message) {
-    const { args, text } = data;
+    const { args, text, kwargs } = data;
 
     if (args.includes('help')) {
       message.reply(this.strings.help);
@@ -29,12 +31,12 @@ class Search {
       throw new Error('Nenhum texto para pesquisa foi especificado.');
     }
 
-    const results = await search(text);
+    const results = await search(text, kwargs.target, kwargs.limit);
 
     if (results.length > 0) {
       const stringResult = results
         .map((r) => Search.formatResult(r))
-        .join('\n\n');
+        .join('\n\n🔹🔹🔹\n\n');
       message.reply(stringResult);
       return;
     }
