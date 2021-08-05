@@ -10,11 +10,10 @@ Lista todos os comandos disponíveis.
 
   availableCommands: `
 Os seguintes comandos estão disponiveis:
-- !bot
+- !about
 - !coin
 - !commands
 - !cron
-- !doc
 - !links
 - !lyric
 - !report
