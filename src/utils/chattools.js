@@ -29,6 +29,10 @@ async function getMembersList(chat) {
  * @returns {string[]} - Serialized phone numbers of all administrators.
  */
 async function getAdmsList(chat) {
+  if (!chat.isGroup) {
+    throw new Error(`This chat isn't a group.`);
+  }
+
   const members = await chat.participants;
   const admsIdList = members.filter((id) => id.isAdmin);
   const admsSerialList = getSerialList(admsIdList);
