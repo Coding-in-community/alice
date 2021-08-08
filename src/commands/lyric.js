@@ -1,16 +1,16 @@
 const axios = require('axios');
 const JSSoup = require('jssoup').default;
-const { search } = require('../utils');
+const { search, Command } = require('../utils');
 
 const STRINGS = {
-  help: `
-Retorna a letra de uma música.
+  help: Command.message`
+  Retorna a letra de uma música.
 
-*uso:* \`\`\`!lyric [--args] music_name\`\`\`
+  *uso:* \`\`\`!lyric [--args] music_name\`\`\`
 
-*args válidos:* 
+  *args válidos:* 
   \`\`\`--help\`\`\` -> _mostra esta mensagem._
-  `.trim(),
+  `,
 };
 
 async function makeSoup(url) {

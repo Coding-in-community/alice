@@ -1,16 +1,16 @@
-const { chattools } = require('../utils');
+const { chattools, Command } = require('../utils');
 
 const STRINGS = {
-  help: `
-Reporte problemas no bot ou um usuário.
+  help: Command.message`
+  Reporte problemas no bot ou um usuário.
 
-*uso:* \`\`\`!report --args ...\`\`\`
+  *uso:* \`\`\`!report --args ...\`\`\`
 
-*args válidos:* 
+  *args válidos:* 
   \`\`\`--bug\`\`\` -> _reporta um bug._
   \`\`\`--user\`\`\` -> reporta um usuário._
   \`\`\`--help\`\`\` -> _mostra esta mensagem._
-`.trim(),
+  `,
   bug: 'sua solicitação será analisada. caso confirmada, abriremos uma issue',
   user: 'o usuário foi reportado a administração',
 };

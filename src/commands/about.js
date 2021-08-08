@@ -1,20 +1,22 @@
+const { Command } = require('../utils');
+
 const STRINGS = {
-  help: `
-Mostra informações sobre o bot.
+  help: Command.message`
+  Mostra informações sobre o bot.
 
-*uso:* \`\`\`!about [--args]\`\`\`
+  *uso:* \`\`\`!about [--args]\`\`\`
 
-*args válidos:* 
+  *args válidos:* 
   \`\`\`--help\`\`\` -> _mostra esta mensagem._
-  `.trim(),
+  `,
 
-  about: `
-Alice foi criada utilizando a biblioteca \`\`\`whatsapp-web.js\`\`\` como base sob licença Apache 2.0. Saiba mais em _https://github.com/pedroslopez/whatsapp-web.js_
+  about: Command.message`
+  Alice foi criada utilizando a biblioteca \`\`\`whatsapp-web.js\`\`\` como base sob licença Apache 2.0. Saiba mais em _https://github.com/pedroslopez/whatsapp-web.js_
 
-Não sabe como usar um comando? Use a flag help, ex: \`\`\`!lyric --help\`\`\`. Se não conhece os comandos, use \`\`\`!commands\`\`\`
+  Não sabe como usar um comando? Use a flag help, ex: \`\`\`!lyric --help\`\`\`. Se não conhece os comandos, use \`\`\`!commands\`\`\`
 
-_Quer contribuir? Então dá uma olhada em https://github.com/Coding-in-community/alice_
-  `.trim(),
+  _Quer contribuir? Então dá uma olhada em https://github.com/Coding-in-community/alice_
+  `,
 };
 
 class About {

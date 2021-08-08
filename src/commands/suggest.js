@@ -1,17 +1,17 @@
-const { chattools } = require('../utils');
+const { chattools, Command } = require('../utils');
 
 const STRINGS = {
-  help: `
-Sugira algo com este comando.
+  help: Command.message`
+  Sugira algo com este comando.
 
-*uso:* \`\`\`!suggest --args ...\`\`\`
+  *uso:* \`\`\`!suggest --args ...\`\`\`
 
-*args válidos:* 
+  *args válidos:* 
   \`\`\`--feature\`\`\` -> _sugira algo novo._
   \`\`\`--remove\`\`\` -> _sugira remoções._
   \`\`\`--change\`\`\` -> _sugira mudanças._
   \`\`\`--help\`\`\` -> _mostra esta mensagem._
-`.trim(),
+  `,
 };
 
 class Suggest {

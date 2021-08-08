@@ -1,26 +1,28 @@
+const { Command } = require('../utils');
+
 const STRINGS = {
-  help: `
-Lista todos os comandos disponíveis.
+  help: Command.message`
+  Lista todos os comandos disponíveis.
 
-*uso:* \`\`\`!commands [--args]\`\`\`
+  *uso:* \`\`\`!commands [--args]\`\`\`
 
-*args válidos:* 
+  *args válidos:* 
   \`\`\`--help\`\`\` -> _mostra esta mensagem._
-  `.trim(),
+  `,
 
-  availableCommands: `
-Os seguintes comandos estão disponiveis:
-- !about
-- !coin
-- !commands
-- !cron
-- !links
-- !lyric
-- !report
-- !search
-- !suggest
-- !wiki
-  `.trim(),
+  availableCommands: Command.message`
+  Os seguintes comandos estão disponiveis:
+  - !about
+  - !coin
+  - !commands
+  - !cron
+  - !links
+  - !lyric
+  - !report
+  - !search
+  - !suggest
+  - !wiki
+  `,
 };
 
 class Commands {
