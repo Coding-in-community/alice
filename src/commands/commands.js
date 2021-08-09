@@ -14,6 +14,7 @@ Os seguintes comandos estão disponiveis:
 - !coin
 - !commands
 - !cron
+- !everyone
 - !doc
 - !links
 - !lyric
