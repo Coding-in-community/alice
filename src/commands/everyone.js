@@ -10,7 +10,7 @@ Marca todos os membros do grupo.
   \`\`\`--quoted\`\`\` -> _marca com a mensagem citada._
   \`\`\`--help\`\`\` -> _mostra esta mensagem._
   `.trim(),
-  defaultMessage: 'Marcando todo mundo.',
+  defaultMessage: '@everyone',
 };
 
 class Everyone {
@@ -20,7 +20,7 @@ class Everyone {
   }
 
   async execute(data, message) {
-    const { text, args } = data;
+    const { args } = data;
     const isAdm = await chattools.isAdm(message);
 
     if (!isAdm) {
@@ -36,24 +36,18 @@ class Everyone {
     const chat = await message.getChat();
     const { participants } = chat;
 
-    if (args.includes('quoted')) {
+    if (message.hasQuotedMsg) {
       const quotedMessage = await message.getQuotedMessage();
-      await chat.sendMessage(quotedMessage.body, {
+
+      chat.sendMessage(this.strings.defaultMessage, {
+        // eslint-disable-next-line no-underscore-dangle
+        quotedMessageId: quotedMessage.id._serialized,
         mentions: participants,
       });
       return;
     }
 
-    if (text) {
-      await chat.sendMessage(text, {
-        mentions: participants,
-      });
-      return;
-    }
-
-    await chat.sendMessage(this.strings.defaultMessage, {
-      mentions: participants,
-    });
+    throw new Error('No message was replied.');
   }
 }
 
