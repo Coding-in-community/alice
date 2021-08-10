@@ -5,6 +5,7 @@ module.exports = {
   Coin: require('./coin'),
   Commands: require('./commands'),
   Cron: require('./cron'),
+  Everyone: require('./everyone'),
   Links: require('./links'),
   Lyric: require('./lyric'),
   Report: require('./report'),
