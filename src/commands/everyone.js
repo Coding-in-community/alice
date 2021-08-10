@@ -2,12 +2,11 @@ const { chattools } = require('../utils');
 
 const STRINGS = {
   help: `
-Marca todos os membros do grupo.
+Marca todos os membros do grupo com a mensagem citada.
 
-*uso:* \`\`\`!everyone [--args] [text]\`\`\`
+*uso:* \`\`\`!everyone [--args]\`\`\`
 
 *args válidos:*
-  \`\`\`--quoted\`\`\` -> _marca com a mensagem citada._
   \`\`\`--help\`\`\` -> _mostra esta mensagem._
   `.trim(),
   defaultMessage: '@everyone',
