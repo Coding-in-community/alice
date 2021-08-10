@@ -38,9 +38,7 @@ class Everyone {
     if (message.hasQuotedMsg) {
       const quotedMessage = await message.getQuotedMessage();
 
-      chat.sendMessage(this.strings.defaultMessage, {
-        // eslint-disable-next-line no-underscore-dangle
-        quotedMessageId: quotedMessage.id._serialized,
+      quotedMessage.reply(this.strings.defaultMessage, undefined, {
         mentions: participants,
       });
       return;
