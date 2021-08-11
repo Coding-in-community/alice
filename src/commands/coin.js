@@ -1,16 +1,17 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const { Command } = require('../utils');
 
 const STRINGS = {
-  help: `
-Retorna dados de uma moeda disponível no CoinMarketCap (https://coinmarketcap.com).
-
-*uso:* \`\`\`!coin [--args] coin_name\`\`\`
-
-*args válidos:* 
-  \`\`\`--all\`\`\` -> _retorna todos os dados disponíveis._
-  \`\`\`--help\`\`\` -> _mostra essa mensagem._
-  `.trim(),
+  help: Command.helper({
+    description:
+      'Retorna dados de uma moeda disponível no CoinMarketCap (https://coinmarketcap.com).',
+    usage: '!coin [--args] coin_name',
+    args: {
+      all: 'retorna todos os dados disponíveis.',
+      help: 'mostra esta mensagem.',
+    },
+  }),
 };
 
 async function loadCheerio(url) {

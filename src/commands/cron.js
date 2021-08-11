@@ -1,27 +1,27 @@
 const events = require('events');
-const { chattools, Time } = require('../utils');
+const { chattools, Time, Command } = require('../utils');
 
 const STRINGS = {
-  help: `
-Repete uma mensagem em um determinado período de tempo. Cada mensagem é representada por uma thread.
-
-*uso:* \`\`\`!cron --args [--kwargs=<type>] ...\`\`\`
-
-*args válidos:* 
-  \`\`\`--create\`\`\` -> _cria uma nova thread._
-  \`\`\`--destroy\`\`\` -> _para e apaga uma thread._
-  \`\`\`--stop\`\`\` -> _para uma thread._
-  \`\`\`--start\`\`\` -> _inicia uma thread._
-  \`\`\`--log\`\`\` -> _mostra as threads existentes._
-  \`\`\`--killall\`\`\` -> _para e apaga todas as threads._
-  \`\`\`--help\`\`\` -> _mostra esta mensagem._
-
-*kwargs válidos:*
-  \`\`\`--s=<int>\`\`\` -> _define um periodo em segundos._
-  \`\`\`--m=<int>\`\`\` -> _define um periodo em minutos._
-  \`\`\`--h=<int>\`\`\` -> _define um periodo em horas._
-  \`\`\`--d=<int>\`\`\` -> _define um periodo em dias._
-  `.trim(),
+  help: Command.helper({
+    description:
+      'Repete uma mensagem em um determinado período de tempo. Cada mensagem é representada por uma thread.',
+    usage: '!cron --args [--kwargs=<type>] ...',
+    args: {
+      create: 'cria uma nova thread.',
+      destroy: 'para e apaga uma thread.',
+      stop: 'para uma thread.',
+      start: 'inicia uma thread.',
+      log: 'mostra as threads existentes.',
+      killall: 'para e apaga todas as threads.',
+      help: 'mostra esta mensagem.',
+    },
+    kwargs: {
+      's=<int>': 'define um periodo em segundos.',
+      'm=<int>': 'define um periodo em minutos.',
+      'h=<int>': 'define um periodo em horas.',
+      'd=<int>': 'define um periodo em dias.',
+    },
+  }),
 };
 const emitter = new events.EventEmitter();
 

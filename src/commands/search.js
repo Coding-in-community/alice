@@ -1,16 +1,15 @@
-const { search } = require('../utils');
+const { search, Command } = require('../utils');
 
 const STRINGS = {
-  help: `
-Retorna o primeiro resultado de uma pesquisa no google.
-
-*uso:* \`\`\`!cron [--args] ...\`\`\`
-
-*args válidos:*
-  \`\`\`--help\`\`\` -> _mostra esta mensagem._
-  \`\`\`--target\`\`\` -> _define um site especifico para pesquisa._
-  \`\`\`--limit\`\`\` -> _define um limite de resultados. O padrão é 1._
-  `.trim(),
+  help: Command.helper({
+    description: 'Retorna o primeiro resultado de uma pesquisa no google.',
+    usage: '!cron [--args] ...',
+    args: {
+      help: 'mostra esta mensagem.',
+      target: 'define um site especifico para pesquisa.',
+      limit: 'define um limite de resultados. O padrão é 1.',
+    },
+  }),
 };
 
 class Search {

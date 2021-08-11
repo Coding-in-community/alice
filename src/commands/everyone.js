@@ -1,15 +1,15 @@
-const { chattools } = require('../utils');
+const { chattools, Command } = require('../utils');
 
 const STRINGS = {
-  help: `
-Marca todos os membros do grupo com a mensagem citada.
+  help: Command.helper({
+    description: 'Marca todos os membros do grupo com a mensagem citada.',
+    usage: '!everyone [--args]',
+    args: {
+      help: 'mostra esta mensagem.',
+    },
+  }),
 
-*uso:* \`\`\`!everyone [--args]\`\`\`
-
-*args válidos:*
-  \`\`\`--help\`\`\` -> _mostra esta mensagem._
-  `.trim(),
-  defaultMessage: '@everyone',
+  defaultMessage: Command.message`@everyone`,
 };
 
 class Everyone {
@@ -37,7 +37,6 @@ class Everyone {
 
     if (message.hasQuotedMsg) {
       const quotedMessage = await message.getQuotedMessage();
-
       quotedMessage.reply(this.strings.defaultMessage, undefined, {
         mentions: participants,
       });

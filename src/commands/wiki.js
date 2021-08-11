@@ -1,15 +1,15 @@
 const wikijs = require('wikijs').default;
+const { Command } = require('../utils');
 
 const STRINGS = {
-  help: `
-Faz uma pesquisa na wikipedia.
-
-*uso:* \`\`\`!wiki [--args] ...\`\`\`
-
-*args válidos:*
-  \`\`\`--search\`\`\` -> _retorna uma lista com os títulos dos artigos encontrados._
-  \`\`\`--help\`\`\` -> _mostra esta mensagem._
-`.trim(),
+  help: Command.helper({
+    description: 'Faz uma pesquisa na wikipedia.',
+    usage: '!wiki [--args] ...',
+    args: {
+      search: 'retorna uma lista com os títulos dos artigos encontrados.',
+      help: 'mostra esta mensagem.',
+    },
+  }),
 };
 
 class Wiki {
