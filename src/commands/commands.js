@@ -1,14 +1,13 @@
 const { Command } = require('../utils');
 
 const STRINGS = {
-  help: Command.message`
-  Lista todos os comandos disponíveis.
-
-  *uso:* \`\`\`!commands [--args]\`\`\`
-
-  *args válidos:* 
-  \`\`\`--help\`\`\` -> _mostra esta mensagem._
-  `,
+  help: Command.helper({
+    description: 'Lista todos os comandos disponíveis.',
+    usage: '!commands [--args]',
+    args: {
+      help: 'mostra esta mensagem.',
+    },
+  }),
 
   availableCommands: Command.message`
   Os seguintes comandos estão disponiveis:
@@ -16,6 +15,7 @@ const STRINGS = {
   - !coin
   - !commands
   - !cron
+  - !everyone
   - !links
   - !lyric
   - !report

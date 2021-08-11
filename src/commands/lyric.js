@@ -3,14 +3,13 @@ const JSSoup = require('jssoup').default;
 const { search, Command } = require('../utils');
 
 const STRINGS = {
-  help: Command.message`
-  Retorna a letra de uma música.
-
-  *uso:* \`\`\`!lyric [--args] music_name\`\`\`
-
-  *args válidos:* 
-  \`\`\`--help\`\`\` -> _mostra esta mensagem._
-  `,
+  help: Command.helper({
+    description: 'Retorna a letra de uma música.',
+    usage: '!lyric [--args] music_name',
+    args: {
+      help: 'mostra esta mensagem.',
+    },
+  }),
 };
 
 async function makeSoup(url) {

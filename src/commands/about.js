@@ -1,14 +1,11 @@
 const { Command } = require('../utils');
 
 const STRINGS = {
-  help: Command.message`
-  Mostra informações sobre o bot.
-
-  *uso:* \`\`\`!about [--args]\`\`\`
-
-  *args válidos:* 
-  \`\`\`--help\`\`\` -> _mostra esta mensagem._
-  `,
+  help: Command.helper({
+    description: 'Mostra informações sobre o bot.',
+    usage: '!about [--args]',
+    args: { help: 'mostra esta mensagem.' },
+  }),
 
   about: Command.message`
   Alice foi criada utilizando a biblioteca \`\`\`whatsapp-web.js\`\`\` como base sob licença Apache 2.0. Saiba mais em _https://github.com/pedroslopez/whatsapp-web.js_

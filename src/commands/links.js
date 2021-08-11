@@ -1,14 +1,13 @@
 const { Command } = require('../utils');
 
 const STRINGS = {
-  help: Command.message`
-  Lista links para os grupos coding.
-
-  *uso:* \`\`\`!links [--args]\`\`\`
-
-  *args válidos:* 
-  \`\`\`--help\`\`\` -> _mostra esta mensagem._
-  `,
+  help: Command.helper({
+    description: 'Lista links para os grupos coding.',
+    usage: '!links [--args]',
+    args: {
+      help: 'mostra esta mensagem.',
+    },
+  }),
 
   groupsLinks: Command.message`
   Coding in python:
