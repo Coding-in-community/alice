@@ -1,7 +1,7 @@
 {
   "name": "alice",
   "version": "0.0.8",
-  "description": "A multipurpose system based on Inside Heartz whatsapp bot",
+  "description": "A whatsapp bot made to manage coding groups.",
   "main": "index.js",
   "repository": {
     "type": "git",
