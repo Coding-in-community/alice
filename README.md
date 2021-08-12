@@ -4,7 +4,7 @@
     alice
   </h1>
   <blockquote>
-    A multipurpose system based on Inside Heartz whatsapp bot
+    A whatsapp bot made to manage coding groups.
   </blockquote>
   <div id="badges">
     <img src="https://img.shields.io/github/repo-size/Coding-in-community/alice?color=4000FF" alt="repo-size" />
@@ -18,11 +18,12 @@
 - [About the project](#-about-the-project)
   - [How to run](#-how-to-run)
 - [How to contribute](#-how-to-contribute)
+- [Credits](#-credits)
 - [License](#-license)
 
 ## 💻 About the project
 
-A multipurpose system based on <a href="https://github.com/fdciabdul/InsideHeartz-WhatsApp-Bot">Inside Heartz</a> whatsapp bot
+Alice is a whatsapp bot made to manage coding groups.
 
 ### 🚀 How to run
 
@@ -39,13 +40,15 @@ A multipurpose system based on <a href="https://github.com/fdciabdul/InsideHeart
    npm install
    ```
 
-3. Run the application
+3. set up `.env` file. See [.env.example](/.env.example)
+
+4. Run the application
 
    ```bash
-   node alice/index.js
+   npm start
    ```
 
-4. Scan QR code using whatsapp
+5. Scan QR code with whatsapp
 
 ## 🤝 How to contribute
 
@@ -53,13 +56,17 @@ Every kind of contribution is welcome, we admire it!
 
 Is there any problem? Found a bug? Do you have any tips? Open an [issue](https://github.com/Coding-in-community/alice/issues) describing it.
 
-Want to contribute code? We ask that you first read [this contribution guide](https://github.com/firstcontributions/first-contributions)
+Want to contribute code? We ask that you first read [this contribution guide](/CONTRIBUTE.md)
 
 Don't forget to leave your ⭐, it is also a way to contribute to the project;)
 
+## 👾 Credits
+
+API used in this Bot: [whatsapp-web.js](https://github.com/pedroslopez/whatsapp-web.js)
+
 ## 📝 License
 
-This project is under the MIT license. See the file [LICENSE](LICENSE) for more details.
+This project is under the MIT license. See [LICENSE](LICENSE) for more details.
 
 ---
 
