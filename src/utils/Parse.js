@@ -15,7 +15,7 @@ class Parse {
     this.rawText = text.trim();
 
     /**
-     * A collection of regular expressions used in the extraction of data from the `this.rawText`.
+     * A collection of regular expressions used in the extraction of data.
      * @property {string} REGEXP.command - Regular expression for commands. Ex: !command
      * @property {string[]} REGEXP.args - Regular expression for args. Ex: --arg1
      * @property {object} REGEXP.kwargs - Regular expression for kwargs. Ex: --kwarg=1
@@ -28,7 +28,7 @@ class Parse {
   }
 
   /**
-   * Gets the command extracted from the `this.rawText`.
+   * Gets the command extracted.
    * @returns {string}
    */
   get command() {
@@ -37,7 +37,7 @@ class Parse {
   }
 
   /**
-   * Gets the args extracted from `this.rawText`.
+   * Gets the args extracted.
    * @returns {string[]}
    */
   get args() {
@@ -48,7 +48,7 @@ class Parse {
   }
 
   /**
-   * Gets the kwargs extracted from `this.rawText`.
+   * Gets the kwargs extracted.
    * @returns {object}
    */
   get kwargs() {
@@ -64,7 +64,7 @@ class Parse {
   }
 
   /**
-   * Gets the text extracted from `this.rawText`.
+   * Gets the text extracted.
    * @returns {string}
    */
   get text() {

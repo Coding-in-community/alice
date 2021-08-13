@@ -1,15 +1,12 @@
-const { Client } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal');
 const fs = require('fs');
 const path = require('path');
-
-const FILE_NAME = 'session.json';
+const qrcode = require('qrcode-terminal');
+const { Client } = require('whatsapp-web.js');
 
 /**
  * Starting point for interacting with the WhatsApp Web API.
- * @param {string} SESSION_FILE_PATH - Path to `session.json` file.
- * @see https://docs.wwebjs.dev/Client.html
  * @extends {Client}
+ * @see https://docs.wwebjs.dev/Client.html
  */
 class Session extends Client {
   constructor() {
@@ -19,12 +16,12 @@ class Session extends Client {
       },
     });
 
-    this.SESSION_FILE_PATH = path.join(__dirname, FILE_NAME);
+    this.SESSION_FILE_PATH = path.join(__dirname, 'session.json');
   }
 
   /**
-   * Checks if the `session.json` file already exists.
-   * @returns {boolean} - `True` if exists, `False` if not.
+   * Checks if the `session.json` file exists.
+   * @returns {boolean} - `true` if exists, `false` if not.
    */
   get exists() {
     return fs.existsSync(this.SESSION_FILE_PATH);
@@ -32,6 +29,7 @@ class Session extends Client {
 
   /**
    * Throws the QR-Code to authenticate the session. When the QR-Code is read, the session file is written.
+   * @private
    */
   create() {
     this.on('qr', (qr) => {
@@ -42,15 +40,16 @@ class Session extends Client {
 
   /**
    * Writes the session in a .json file (`this.SESSION_FILE_PATH`)
-   * @param {object} session - The session file returned in the authentication.
+   * @private
+   * @param {object} session - The session object.
    */
   save(session) {
     fs.writeFileSync(this.SESSION_FILE_PATH, JSON.stringify(session));
-    console.log('⚠ The current session has been saved ⚠');
   }
 
   /**
    * Loads the saved session file.
+   * @private
    */
   load() {
     if (!this.exists) {
@@ -60,18 +59,21 @@ class Session extends Client {
     const raw = fs.readFileSync(this.SESSION_FILE_PATH);
     const data = JSON.parse(raw);
     this.options.session = data;
-
-    console.log('⚠ The previous session was loaded ⚠');
   }
 
   /**
-   * Starts the session.
+   * Starts the session (Creates it if doesn't exists).
    */
   start() {
+    if (this.exists) {
+      this.load();
+    } else {
+      this.create();
+    }
+
     this.on('ready', () => {
       console.log('Client is ready!');
     });
-
     this.initialize();
   }
 }

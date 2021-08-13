@@ -21,7 +21,7 @@ class Command {
   }
 
   /**
-   * For a given object of information about a command, returns a help message.
+   * For a given object of information about an command, returns a help message.
    * @param {object} commandInfo - Information about the command.
    * @param {string} commandInfo.description - The command's description.
    * @param {string} commandInfo.usage - The command's usage.

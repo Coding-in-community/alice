@@ -1,10 +1,13 @@
 const { Session } = require('./auth');
-const { Parse } = require('./utils');
 const { Commands } = require('./build');
+const { Parse } = require('./utils');
 
 const session = new Session();
 const commands = new Commands();
 
+/**
+ * @param {object[]} commandsArray
+ */
 class Alice {
   constructor(commandsArray) {
     this.events = [
@@ -24,12 +27,6 @@ class Alice {
   }
 
   init() {
-    if (session.exists) {
-      session.load();
-    } else {
-      session.create();
-    }
-
     this.events.forEach((e) => {
       session.on(e.name, e.callback);
     });
@@ -49,6 +46,7 @@ class Alice {
 
   static async onJoinedGroup(notification) {
     const contacts = await notification.getRecipients();
+
     contacts.forEach(async (c) => {
       const chat = await c.getChat();
       await chat.sendMessage(
