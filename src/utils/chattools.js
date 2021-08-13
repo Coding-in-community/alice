@@ -1,55 +1,55 @@
 /**
  * Get serialized phone number from a given array of users.
- * @param {Contact[]} users - Whatsapp users.
  * @see https://docs.wwebjs.dev/Contact.html
+ * @param {Contact[]} users - Whatsapp users.
  * @returns {string[]} - Serialized phone numbers.
  */
-function getSerialList(users) {
+function getSerials(users) {
   // eslint-disable-next-line no-underscore-dangle
-  const serialList = users.map((u) => u.id._serialized);
-  return serialList;
+  const serials = users.map((u) => u.id._serialized);
+  return serials;
 }
 
 /**
  * Get serialized phone number of all members from a given group.
- * @param {Chat} chat - A whatsapp chat.
  * @see https://docs.wwebjs.dev/Chat.html
+ * @param {Chat} chat - A whatsapp chat.
  * @returns {string[]} - Serialized phone numbers of all members.
  */
-async function getMembersList(chat) {
+async function getMembers(chat) {
   const members = await chat.participants;
-  const membersSerialList = getSerialList(members);
-  return membersSerialList;
+  const membersSerials = getSerials(members);
+  return membersSerials;
 }
 
 /**
  * Get serialized phone number of all administrators from a given group.
- * @param {Chat} chat - A whatsapp chat.
  * @see https://docs.wwebjs.dev/Chat.html
+ * @param {Chat} chat - A whatsapp chat.
  * @returns {string[]} - Serialized phone numbers of all administrators.
  */
-async function getAdmsList(chat) {
+function getAdms(chat) {
   if (!chat.isGroup) {
     throw new Error(`This chat isn't a group.`);
   }
 
-  const members = await chat.participants;
-  const admsIdList = members.filter((id) => id.isAdmin);
-  const admsSerialList = getSerialList(admsIdList);
-  return admsSerialList;
+  const { participants } = chat;
+  const admsIds = participants.filter((id) => id.isAdmin);
+  const admsSerials = getSerials(admsIds);
+  return admsSerials;
 }
 
 /**
- * Checks if a message is from an ADM.
- * @param {Message} message - Message to check if is from an ADM.
+ * Checks if an message is from an ADM.
  * @see https://docs.wwebjs.dev/Message.html
+ * @param {Message} message - Message to check if is from an ADM.
  * @returns {boolean}
  */
-async function isAdm(message) {
+async function isFromAdm(message) {
   const chat = await message.getChat();
-  const admList = await getAdmsList(chat);
+  const adms = getAdms(chat);
   const { author } = message;
-  return admList.includes(author);
+  return adms.includes(author);
 }
 
 /**
@@ -70,9 +70,9 @@ function userID(phoneNumber) {
 }
 
 module.exports = {
-  getAdmsList,
-  getMembersList,
-  getSerialList,
-  isAdm,
+  getAdms,
+  getMembers,
+  getSerials,
+  isFromAdm,
   userID,
 };

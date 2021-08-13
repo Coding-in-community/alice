@@ -20,9 +20,9 @@ class Everyone {
 
   async execute(data, message) {
     const { args } = data;
-    const isAdm = await chattools.isAdm(message);
+    const isFromAdm = await chattools.isFromAdm(message);
 
-    if (!isAdm) {
+    if (!isFromAdm) {
       message.reply('staff only.');
       return;
     }
