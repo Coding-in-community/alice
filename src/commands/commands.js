@@ -37,6 +37,9 @@ function execute(message) {
 }
 
 module.exports = {
-  name: 'commands',
   execute,
+  name: 'commands',
+  options: {
+    scope: ['private_chat', 'group'],
+  },
 };

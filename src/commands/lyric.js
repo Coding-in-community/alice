@@ -55,6 +55,9 @@ async function execute(message) {
 }
 
 module.exports = {
-  name: 'lyric',
   execute,
+  name: 'lyric',
+  options: {
+    scope: ['private_chat', 'group'],
+  },
 };

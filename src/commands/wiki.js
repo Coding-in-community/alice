@@ -44,6 +44,9 @@ async function execute(message) {
 }
 
 module.exports = {
-  name: 'wiki',
   execute,
+  name: 'wiki',
+  options: {
+    scope: ['private_chat', 'group'],
+  },
 };

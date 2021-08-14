@@ -43,6 +43,9 @@ async function execute(message) {
 }
 
 module.exports = {
-  name: 'search',
   execute,
+  name: 'search',
+  options: {
+    scope: ['private_chat', 'group'],
+  },
 };

@@ -1,5 +1,5 @@
 const events = require('events');
-const { chattools, Time, Command, Parse } = require('../utils');
+const { Time, Command, Parse } = require('../utils');
 
 const emitter = new events.EventEmitter();
 const STRINGS = {
@@ -47,14 +47,7 @@ class Cron {
   }
 
   async execute(message) {
-    const isFromAdm = await chattools.isFromAdm(message);
     const data = new Parse(message.body);
-
-    if (!isFromAdm) {
-      message.reply('staff only.');
-      return;
-    }
-
     message.reply(this.runs(data, message));
   }
 
@@ -157,6 +150,10 @@ class Cron {
 }
 
 module.exports = {
+  execute: (...params) => new Cron().execute(...params),
   name: 'cron',
-  execute: new Cron().execute,
+  options: {
+    scope: ['group'],
+    isAdmOnly: true,
+  },
 };

@@ -1,4 +1,4 @@
-const { Parse } = require('../utils');
+const { Parse, inhibitor } = require('../utils');
 
 /**
  * Commands wrapper.
@@ -47,6 +47,10 @@ class Commands {
 
     if (!this.has(command)) {
       throw new Error(`${command} is not registered.`);
+    }
+
+    if (await inhibitor(this.commands[command].options, message)) {
+      return;
     }
 
     try {

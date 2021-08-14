@@ -1,4 +1,4 @@
-const { chattools, Command, Parse } = require('../utils');
+const { Command, Parse } = require('../utils');
 
 const STRINGS = {
   help: Command.helper({
@@ -14,12 +14,6 @@ const STRINGS = {
 
 async function execute(message) {
   const { args } = new Parse(message.body);
-  const isFromAdm = await chattools.isFromAdm(message);
-
-  if (!isFromAdm) {
-    message.reply('staff only.');
-    return;
-  }
 
   if (args.includes('help')) {
     message.reply(STRINGS.help);
@@ -41,6 +35,10 @@ async function execute(message) {
 }
 
 module.exports = {
-  name: 'everyone',
   execute,
+  name: 'everyone',
+  options: {
+    scope: ['group'],
+    isAdmOnly: true,
+  },
 };

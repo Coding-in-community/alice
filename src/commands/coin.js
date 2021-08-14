@@ -100,6 +100,9 @@ async function execute(message) {
 }
 
 module.exports = {
-  name: 'coin',
   execute,
+  name: 'coin',
+  options: {
+    scope: ['private_chat', 'group'],
+  },
 };

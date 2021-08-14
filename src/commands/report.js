@@ -43,6 +43,9 @@ function execute(message, client) {
 }
 
 module.exports = {
-  name: 'report',
   execute,
+  name: 'report',
+  options: {
+    scope: ['private_chat', 'group'],
+  },
 };

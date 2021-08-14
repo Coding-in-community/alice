@@ -28,6 +28,9 @@ function execute(message) {
 }
 
 module.exports = {
-  name: 'about',
   execute,
+  name: 'about',
+  options: {
+    scope: ['private_chat', 'group'],
+  },
 };

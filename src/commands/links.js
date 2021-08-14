@@ -48,6 +48,9 @@ function execute(message) {
 }
 
 module.exports = {
-  name: 'links',
   execute,
+  name: 'links',
+  options: {
+    scope: ['private_chat', 'group'],
+  },
 };
