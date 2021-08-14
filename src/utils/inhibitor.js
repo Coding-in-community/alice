@@ -1,10 +1,11 @@
 const chattools = require('./chattools');
 
 /**
+ * For a given message that called an command/module and its options, checks if the command/module should be inhibited.
  * @see https://docs.wwebjs.dev/Message.html
  * @param {object} options
- * @param {object} options.isAdmOnly
- * @param {object} options.scope
+ * @param {boolean} options.isAdmOnly
+ * @param {string[]} options.scope
  * @param {Message} message
  * @returns {boolean} `true` if the command/module should be inhibited, `false` if not.
  */
