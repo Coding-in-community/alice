@@ -1,6 +1,7 @@
 const events = require('events');
-const { chattools, Time, Command } = require('../utils');
+const { Time, Command, Parse } = require('../utils');
 
+const emitter = new events.EventEmitter();
 const STRINGS = {
   help: Command.helper({
     description:
@@ -23,7 +24,6 @@ const STRINGS = {
     },
   }),
 };
-const emitter = new events.EventEmitter();
 
 function Thread(id, text, message, timer) {
   this.id = id;
@@ -41,20 +41,13 @@ function Thread(id, text, message, timer) {
 
 class Cron {
   constructor() {
-    this.name = 'cron';
     this.threads = [];
     this.counter = 0;
     this.strings = STRINGS;
   }
 
-  async execute(data, message) {
-    const isFromAdm = await chattools.isFromAdm(message);
-
-    if (!isFromAdm) {
-      message.reply('staff only.');
-      return;
-    }
-
+  async execute(message) {
+    const data = new Parse(message.body);
     message.reply(this.runs(data, message));
   }
 
@@ -156,4 +149,11 @@ class Cron {
   }
 }
 
-module.exports = Cron;
+module.exports = {
+  execute: (...params) => new Cron().execute(...params),
+  name: 'cron',
+  options: {
+    scope: ['group'],
+    isAdmOnly: true,
+  },
+};

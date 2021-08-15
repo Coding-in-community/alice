@@ -1,3 +1,5 @@
+const { Parse, inhibitor } = require('../utils');
+
 /**
  * Commands wrapper.
  */
@@ -7,7 +9,7 @@ class Commands {
   }
 
   /**
-   * Sets an command in Commands instance.
+   * Registers an command.
    * @param {object} cmd - A command.
    */
   register(cmd) {
@@ -19,9 +21,49 @@ class Commands {
   }
 
   /**
-   * Checks if an command is set in Commands instance.
+   * Checks if a message contains an command call. If `true`, call this command.
+   * @see https://docs.wwebjs.dev/Message.html
+   * @see https://docs.wwebjs.dev/Client.html
+   * @param {Message} message
+   * @param {Client} client
+   */
+  async observe(message, client) {
+    const { command } = new Parse(message.body);
+
+    if (command) {
+      await this.call(message, client);
+    }
+  }
+
+  /**
+   * Calls (executes) an command.
+   * @see https://docs.wwebjs.dev/Message.html
+   * @see https://docs.wwebjs.dev/Client.html
+   * @param {Message} message - The message that called the command.
+   * @param {Session} client - The whatsapp web session.
+   */
+  async call(message, client) {
+    const { command } = new Parse(message.body);
+
+    if (!this.has(command)) {
+      throw new Error(`${command} is not registered.`);
+    }
+
+    if (await inhibitor(this.commands[command].options, message)) {
+      return;
+    }
+
+    try {
+      await this.commands[command].execute(message, client);
+    } catch (e) {
+      message.reply(`❗ ${e.message}`);
+    }
+  }
+
+  /**
+   * Checks if an command is registered.
    * @param {string} cmdName - The command's name.
-   * @returns {boolean} `true` if the command is set in Commands instance, `false` if not.
+   * @returns {boolean} `true` if the command is registered, `false` if not.
    */
   has(cmdName) {
     const availableCommands = Object.keys(this.commands);
@@ -38,30 +80,6 @@ class Commands {
       return true;
     }
     return false;
-  }
-
-  /**
-   * Calls (executes) a command.
-   * @see https://docs.wwebjs.dev/Message.html
-   * @see https://docs.wwebjs.dev/Client.html
-   * @param {object} data - The data extracted from the message that called the command.
-   * @param {string} data.command - The command's name.
-   * @param {string[]} data.args - The command's args.
-   * @param {object} data.kwargs - The command's kwargs.
-   * @param {string} data.text - The text. This text NOT includes command's name, args and kwargs.
-   * @param {Message} message - The message that called the command.
-   * @param {Session} client - The whatsapp web session.
-   */
-  async call(data, message, client) {
-    if (!this.has(data.command)) {
-      throw new Error(`${data.command} is not registered.`);
-    }
-
-    try {
-      await this.commands[data.command].execute(data, message, client);
-    } catch (e) {
-      message.reply(`❗ ${e.message}`);
-    }
   }
 }
 

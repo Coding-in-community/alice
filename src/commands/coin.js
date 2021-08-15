@@ -1,7 +1,8 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const { Command } = require('../utils');
+const { Command, Parse } = require('../utils');
 
+const BASE_URL = 'https://coinmarketcap.com/currencies/';
 const STRINGS = {
   help: Command.helper({
     description:
@@ -58,52 +59,50 @@ async function getCoinStats(url) {
   return statsArray;
 }
 
-class Coin {
-  constructor() {
-    this.name = 'coin';
-    this.BASE_URL = 'https://coinmarketcap.com/currencies/';
-    this.strings = STRINGS;
+function getUrl(text) {
+  if (!text) {
+    throw new Error('Nenhuma moeda foi passada.');
   }
 
-  async execute(data, message) {
-    const { args, text } = data;
-
-    if (args.includes('help')) {
-      message.reply(this.strings.help, undefined, { linkPreview: false });
-      return;
-    }
-
-    const url = this.getUrl(text);
-    let coinStats = await getCoinStats(url);
-
-    if (!args.includes('all')) {
-      coinStats = coinStats.slice(0, 3);
-    }
-
-    const output = Coin.formatStats(coinStats);
-    message.reply(output);
-  }
-
-  getUrl(text) {
-    if (!text) {
-      throw new Error('Nenhuma moeda foi passada.');
-    }
-
-    const path = text.replace(/\s/g, '-').toLowerCase();
-    return this.BASE_URL + path;
-  }
-
-  static formatStats(coinStats) {
-    let output = '';
-
-    coinStats.forEach((s) => {
-      const [key, value] = Object.entries(s)[0];
-      const string = `*_${key}_*:\n - ${value}\n\n`;
-      output += string;
-    });
-
-    return output.trim();
-  }
+  const path = text.replace(/\s/g, '-').toLowerCase();
+  return BASE_URL + path;
 }
 
-module.exports = Coin;
+function formatStats(coinStats) {
+  let output = '';
+
+  coinStats.forEach((s) => {
+    const [key, value] = Object.entries(s)[0];
+    const string = `*_${key}_*:\n - ${value}\n\n`;
+    output += string;
+  });
+
+  return output.trim();
+}
+
+async function execute(message) {
+  const { args, text } = new Parse(message.body);
+
+  if (args.includes('help')) {
+    message.reply(STRINGS.help, undefined, { linkPreview: false });
+    return;
+  }
+
+  const url = getUrl(text);
+  let coinStats = await getCoinStats(url);
+
+  if (!args.includes('all')) {
+    coinStats = coinStats.slice(0, 3);
+  }
+
+  const output = formatStats(coinStats);
+  message.reply(output);
+}
+
+module.exports = {
+  execute,
+  name: 'coin',
+  options: {
+    scope: ['private_chat', 'group'],
+  },
+};

@@ -1,4 +1,4 @@
-const { search, Command } = require('../utils');
+const { search, Command, Parse } = require('../utils');
 
 const STRINGS = {
   help: Command.helper({
@@ -12,41 +12,40 @@ const STRINGS = {
   }),
 };
 
-class Search {
-  constructor() {
-    this.name = 'search';
-    this.strings = STRINGS;
-  }
-
-  async execute(data, message) {
-    const { args, text, kwargs } = data;
-
-    if (args.includes('help')) {
-      message.reply(this.strings.help);
-      return;
-    }
-
-    if (!text) {
-      throw new Error('Nenhum texto para pesquisa foi especificado.');
-    }
-
-    const results = await search(text, kwargs.target, kwargs.limit);
-
-    if (results.length > 0) {
-      const stringResult = results
-        .map((r) => Search.formatResult(r))
-        .join('\n\n🔹🔹🔹\n\n');
-      message.reply(stringResult);
-      return;
-    }
-
-    message.reply(`Nenhum resultado foi encontrado para: _${text}_`);
-  }
-
-  static formatResult(result) {
-    const { title, link, snippet } = result;
-    return `*${title}*\n\n${snippet}\n\n_${link}_`;
-  }
+function formatResult(result) {
+  const { title, link, snippet } = result;
+  return `*${title}*\n\n${snippet}\n\n_${link}_`;
 }
 
-module.exports = Search;
+async function execute(message) {
+  const { args, text, kwargs } = new Parse(message.body);
+
+  if (args.includes('help')) {
+    message.reply(STRINGS.help);
+    return;
+  }
+
+  if (!text) {
+    throw new Error('Nenhum texto para pesquisa foi especificado.');
+  }
+
+  const results = await search(text, kwargs.target, kwargs.limit);
+
+  if (results.length > 0) {
+    const stringResult = results
+      .map((r) => formatResult(r))
+      .join('\n\n🔹🔹🔹\n\n');
+    message.reply(stringResult);
+    return;
+  }
+
+  message.reply(`Nenhum resultado foi encontrado para: _${text}_`);
+}
+
+module.exports = {
+  execute,
+  name: 'search',
+  options: {
+    scope: ['private_chat', 'group'],
+  },
+};

@@ -1,4 +1,4 @@
-const { Command } = require('../utils');
+const { Command, Parse } = require('../utils');
 
 const STRINGS = {
   help: Command.helper({
@@ -16,22 +16,21 @@ const STRINGS = {
   `,
 };
 
-class About {
-  constructor() {
-    this.name = 'about';
-    this.strings = STRINGS;
+function execute(message) {
+  const { args } = new Parse(message.body);
+
+  if (args.includes('help')) {
+    message.reply(STRINGS.help);
+    return;
   }
 
-  execute(data, message) {
-    const { args } = data;
-
-    if (args.includes('help')) {
-      message.reply(this.strings.help);
-      return;
-    }
-
-    message.reply(this.strings.about);
-  }
+  message.reply(STRINGS.about);
 }
 
-module.exports = About;
+module.exports = {
+  execute,
+  name: 'about',
+  options: {
+    scope: ['private_chat', 'group'],
+  },
+};
