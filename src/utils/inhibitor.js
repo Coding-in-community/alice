@@ -44,11 +44,8 @@ async function inhibitor(options, message) {
     return true;
   }
 
-  if (
-    excludes.length > 0 &&
-    // eslint-disable-next-line no-underscore-dangle
-    excludes.some((id) => id === chat.id._serialized)
-  ) {
+  // eslint-disable-next-line no-underscore-dangle
+  if (excludes.some((i) => i === chat.id._serialized)) {
     return true;
   }
 

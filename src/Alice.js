@@ -25,7 +25,7 @@ class Alice {
     );
 
     this.options.modules.forEach((m) => {
-      this.session.on(m.trigger, (_) => m.callback(_, this.session));
+      this.session.on(m.trigger, (..._) => m.callback(this.session, ..._));
     });
 
     this.session.start();

@@ -2,10 +2,10 @@
  * Sends a welcome message in private chat to every new contact that joined a group.
  * @see https://docs.wwebjs.dev/GroupNotification.html
  * @see https://docs.wwebjs.dev/Client.html
- * @param {GroupNotification} notification
  * @param {Client} client
+ * @param {GroupNotification} notification
  */
-async function callback(notification, client) {
+async function callback(client, notification) {
   const contacts = await notification.getRecipients();
 
   contacts.forEach(async (c) => {

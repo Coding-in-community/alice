@@ -4,10 +4,10 @@ const BLACK_LIST = JSON.parse(process.env.BLACK_LIST);
  * Bans a user right after he joins a group if he is in black list.
  * @see https://docs.wwebjs.dev/GroupNotification.html
  * @see https://docs.wwebjs.dev/Client.html
- * @param {GroupParticipant} notification
  * @param {Client} client
+ * @param {GroupParticipant} notification
  */
-async function callback(notification, client) {
+async function callback(client, notification) {
   const contacts = await notification.getRecipients();
   const chat = await client.getChatById(notification.id.remote);
 
