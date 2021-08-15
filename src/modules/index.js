@@ -1,3 +1,3 @@
 /* eslint-disable global-require */
 
-module.exports = [require('./welcome')];
+module.exports = [require('./banBlacklistedUser'), require('./welcome')];
