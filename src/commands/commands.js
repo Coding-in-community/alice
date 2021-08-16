@@ -19,6 +19,7 @@ const STRINGS = {
   - !everyone
   - !links
   - !lyric
+  - !promote
   - !report
   - !search
   - !suggest

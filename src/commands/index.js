@@ -9,6 +9,7 @@ module.exports = [
   require('./everyone'),
   require('./links'),
   require('./lyric'),
+  require('./promote'),
   require('./report'),
   require('./search'),
   require('./suggest'),
