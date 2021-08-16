@@ -12,6 +12,7 @@ const STRINGS = {
   availableCommands: Command.message`
   Os seguintes comandos estão disponiveis:
   - !about
+  - !ban
   - !coin
   - !commands
   - !cron

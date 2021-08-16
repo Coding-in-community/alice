@@ -2,6 +2,7 @@
 
 module.exports = [
   require('./about'),
+  require('./ban'),
   require('./coin'),
   require('./commands'),
   require('./cron'),
