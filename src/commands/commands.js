@@ -16,6 +16,7 @@ const STRINGS = {
   - !coin
   - !commands
   - !cron
+  - !demote
   - !everyone
   - !links
   - !lyric

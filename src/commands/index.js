@@ -6,6 +6,7 @@ module.exports = [
   require('./coin'),
   require('./commands'),
   require('./cron'),
+  require('./demote'),
   require('./everyone'),
   require('./links'),
   require('./lyric'),
