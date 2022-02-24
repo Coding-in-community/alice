@@ -37,7 +37,7 @@ Alice is a whatsapp bot made to manage coding groups.
 
    ```bash
    cd alice
-   npm install
+   yarn install
    ```
 
 3. set up `.env` file. See [.env.example](/.env.example)
@@ -45,7 +45,7 @@ Alice is a whatsapp bot made to manage coding groups.
 4. Run the application
 
    ```bash
-   npm start
+   yarn start
    ```
 
 5. Scan QR code with whatsapp
