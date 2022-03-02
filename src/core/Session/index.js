@@ -31,6 +31,4 @@ class Session extends Client {
   }
 }
 
-module.exports = {
-  Session,
-};
+module.exports = Session;

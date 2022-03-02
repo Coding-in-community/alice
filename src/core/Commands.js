@@ -2,10 +2,13 @@ const { Parse, inhibitor } = require('../utils');
 
 /**
  * Commands wrapper.
+ * @param {object[]} [commands=[]] - An array with commands to load.
  */
 class Commands {
-  constructor() {
+  constructor(commands = []) {
     this.commands = {};
+
+    commands.forEach(this.register, this);
   }
 
   /**

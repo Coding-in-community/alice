@@ -2,4 +2,5 @@
 
 module.exports = {
   Commands: require('./Commands'),
+  Session: require('./Session'),
 };
