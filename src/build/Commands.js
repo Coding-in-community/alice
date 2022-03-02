@@ -46,7 +46,7 @@ class Commands {
     const { command } = new Parse(message.body);
 
     if (!this.has(command)) {
-      throw new Error(`${command} is not registered.`);
+      return;
     }
 
     if (await inhibitor(this.commands[command].options, message)) {
