@@ -1,34 +1,32 @@
+import { Contact, Message, GroupChat, GroupParticipant } from 'whatsapp-web.js';
+
 /**
  * Get serialized phone number from a given array of users.
- * @see https://docs.wwebjs.dev/Contact.html
- * @param {Contact[]} users - Whatsapp users.
- * @returns {string[]} - Serialized phone numbers.
  */
-function getSerials(users) {
-  // eslint-disable-next-line no-underscore-dangle
+function getSerials(users: Contact[] | GroupParticipant[]): string[] {
   const serials = users.map((u) => u.id._serialized);
+
   return serials;
 }
 
 /**
  * Get serialized phone number of all members from a given group.
- * @see https://docs.wwebjs.dev/Chat.html
- * @param {Chat} chat - A whatsapp chat.
- * @returns {string[]} - Serialized phone numbers of all members.
  */
-async function getMembers(chat) {
-  const members = await chat.participants;
+function getMembers(chat: GroupChat): string[] {
+  if (!chat.isGroup) {
+    throw new Error(`This chat isn't a group.`);
+  }
+
+  const members = chat.participants;
   const membersSerials = getSerials(members);
+
   return membersSerials;
 }
 
 /**
  * Get serialized phone number of all administrators from a given group.
- * @see https://docs.wwebjs.dev/Chat.html
- * @param {Chat} chat - A whatsapp chat.
- * @returns {string[]} - Serialized phone numbers of all administrators.
  */
-function getAdms(chat) {
+function getAdms(chat: GroupChat): string[] {
   if (!chat.isGroup) {
     throw new Error(`This chat isn't a group.`);
   }
@@ -36,40 +34,38 @@ function getAdms(chat) {
   const { participants } = chat;
   const admsIds = participants.filter((id) => id.isAdmin);
   const admsSerials = getSerials(admsIds);
+
   return admsSerials;
 }
 
 /**
  * Checks if an message is from an ADM.
- * @see https://docs.wwebjs.dev/Message.html
- * @param {Message} message - Message to check if is from an ADM.
- * @returns {boolean}
  */
-async function isFromAdm(message) {
-  const chat = await message.getChat();
+async function isFromAdm(message: Message): Promise<boolean> {
+  const chat = (await message.getChat()) as GroupChat;
   const adms = getAdms(chat);
   const { author } = message;
-  return adms.includes(author);
+
+  return adms.includes(author || '');
 }
 
 /**
  * Get a whatsapp user id for a given phone number.
- * @param {string} phoneNumber
- * @returns {string}
  */
-function userID(phoneNumber) {
+function userID(phoneNumber: string): string {
   if (typeof phoneNumber !== 'string') {
     throw new Error('you must pass the number as a string');
   }
 
   const target = phoneNumber.replace(/\D/g, '');
   const regexp = /\d+/;
-  const matches = target.match(regexp);
+  const matches = target.match(regexp) || [];
   const pattern = matches[0];
+
   return `${pattern}@c.us`;
 }
 
-module.exports = {
+export default {
   getAdms,
   getMembers,
   getSerials,
