@@ -1,6 +1,7 @@
-const { chattools, Command, Parse } = require('../utils');
+import { Client, Message } from 'whatsapp-web.js';
+import { chattools, Command, Parse } from '../utils';
 
-const reportID = chattools.userID(process.env.REPORT_NUMBER);
+const reportID = chattools.userID(process.env.REPORT_NUMBER as string);
 const STRINGS = {
   help: Command.helper({
     description: 'Sugira algo com este comando.',
@@ -14,7 +15,7 @@ const STRINGS = {
   }),
 };
 
-function execute(message, client) {
+function execute(message: Message, client: Client) {
   const { args, text } = new Parse(message.body);
   const reportMsg = `⚠️ *${args[0]} suggestion* ⚠️\n\n${text}`;
 
@@ -43,7 +44,7 @@ function execute(message, client) {
   throw new Error('Nenhum arg válido foi passado.');
 }
 
-module.exports = {
+export default {
   execute,
   name: 'suggest',
   options: {

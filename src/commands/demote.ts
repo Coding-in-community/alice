@@ -1,14 +1,15 @@
-const { Command, Parse, Time } = require('../utils');
+import { GroupChat, Message } from 'whatsapp-web.js';
+import { Command, Parse, Time } from '../utils';
 
 const STRINGS = {
   help: Command.helper({
-    description: 'Promove a ADM os usuários mencionados.',
-    usage: '!promote [--args] @user1 @user2... ',
+    description: 'Rebaixa a membro comum os usuários mencionados.',
+    usage: '!demote [--args] @user1 @user2... ',
     args: { help: 'mostra esta mensagem.' },
   }),
 };
 
-async function execute(message) {
+async function execute(message: Message) {
   const { args } = new Parse(message.body);
 
   if (args.includes('help')) {
@@ -17,18 +18,17 @@ async function execute(message) {
   }
 
   const contacts = await message.getMentions();
-  const chat = await message.getChat();
+  const chat = (await message.getChat()) as GroupChat;
 
   contacts.forEach(async (c) => {
-    // eslint-disable-next-line no-underscore-dangle
-    await chat.promoteParticipants([c.id._serialized]);
+    await chat.demoteParticipants([c.id._serialized]);
     await Time.sleep(0.5);
   });
 }
 
-module.exports = {
+export default {
   execute,
-  name: 'promote',
+  name: 'demote',
   options: {
     isAdmOnly: true,
     scope: ['group'],

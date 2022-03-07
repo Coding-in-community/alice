@@ -1,8 +1,8 @@
 interface ICommandInfo {
   description: string;
   usage: string;
-  args: object;
-  kwargs: object;
+  args?: object;
+  kwargs?: object;
 }
 
 /**

@@ -1,7 +1,8 @@
-const wikijs = require('wikijs').default;
-const { Command, Parse } = require('../utils');
+import { Message } from 'whatsapp-web.js';
+import wikijs from 'wikijs';
+import { Command, Parse } from '../utils';
 
-const wikiOptions = { apiUrl: 'https://pt.wikipedia.org/w/api.php' };
+const WIKI_DEFAULT_OPTIONS = { apiUrl: 'https://pt.wikipedia.org/w/api.php' };
 const STRINGS = {
   help: Command.helper({
     description: 'Faz uma pesquisa na wikipedia.',
@@ -13,7 +14,7 @@ const STRINGS = {
   }),
 };
 
-async function execute(message) {
+async function execute(message: Message) {
   const { text, args } = new Parse(message.body);
 
   if (args.includes('help')) {
@@ -25,25 +26,23 @@ async function execute(message) {
     throw new Error('Nenhum texto para pesquisa foi especificado.');
   }
 
-  const wiki = wikijs(wikiOptions);
-  let output;
+  const wiki = wikijs(WIKI_DEFAULT_OPTIONS);
 
   if (args.includes('search')) {
     const { results } = await wiki.search(text, 10);
-    output = '*Resultados encontrados:*\n\n';
-    output += results.join('\n');
+    const output = '*Resultados encontrados:*\n\n' + results.join('\n');
     message.reply(output);
     return;
   }
 
   const page = await wiki.page(text);
-  const { title, canonicalurl: url } = page.raw;
+  const { title, fullurl: url } = page.raw;
   const summary = await page.summary();
-  output = `*${title}*\n\n${summary}\n\n_${url}_`;
+  const output = `*${title}*\n\n${summary}\n\n_${url}_`;
   message.reply(output);
 }
 
-module.exports = {
+export default {
   execute,
   name: 'wiki',
   options: {

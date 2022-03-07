@@ -1,6 +1,7 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const { Command, Parse } = require('../utils');
+import axios from 'axios';
+import cheerio from 'cheerio';
+import { Message } from 'whatsapp-web.js';
+import { Command, Parse } from '../utils';
 
 const BASE_URL = 'https://coinmarketcap.com/currencies/';
 const STRINGS = {
@@ -15,7 +16,7 @@ const STRINGS = {
   }),
 };
 
-async function loadCheerio(url) {
+async function loadCheerio(url: string) {
   try {
     const { data } = await axios.get(url);
     return cheerio.load(data);
@@ -24,7 +25,7 @@ async function loadCheerio(url) {
   }
 }
 
-async function getCoinStats(url) {
+async function getCoinStats(url: string) {
   const $ = await loadCheerio(url);
 
   if (typeof $ !== 'function') {
@@ -35,19 +36,20 @@ async function getCoinStats(url) {
     .find('table')
     .find('tbody')
     .find('tr');
-  const statsArray = [];
+  const statsArray: any[] = [];
 
   priceStatistics.each((_, pS) => {
     const tr = $(pS);
+    const valueCell = tr.find('td');
     const key = tr.find('th').text();
-    let value = tr.find('td');
+    let value: string;
 
-    if (value.find('.sc-15yy2pl-0.hzgCfk').text()) {
-      const valueInCash = value.find('span').first().text();
-      const valueInPerc = value.find('.sc-15yy2pl-0.hzgCfk').text();
+    if (valueCell.find('.sc-15yy2pl-0.hzgCfk').text()) {
+      const valueInCash = valueCell.find('span').first().text();
+      const valueInPerc = valueCell.find('.sc-15yy2pl-0.hzgCfk').text();
       value = `${valueInCash} || ${valueInPerc}`;
     } else {
-      value = value.text();
+      value = valueCell.text();
     }
 
     if (value !== 'No Data') {
@@ -59,33 +61,30 @@ async function getCoinStats(url) {
   return statsArray;
 }
 
-function getUrl(text) {
-  if (!text) {
-    throw new Error('Nenhuma moeda foi passada.');
-  }
-
+function getUrl(text: string) {
   const path = text.replace(/\s/g, '-').toLowerCase();
   return BASE_URL + path;
 }
 
-function formatStats(coinStats) {
-  let output = '';
-
-  coinStats.forEach((s) => {
+function formatStats(coinStats: any[]) {
+  const output = coinStats.map((s) => {
     const [key, value] = Object.entries(s)[0];
-    const string = `*_${key}_*:\n - ${value}\n\n`;
-    output += string;
+    return `*_${key}_*:\n - ${value}`;
   });
 
-  return output.trim();
+  return output.join('\n\n');
 }
 
-async function execute(message) {
+async function execute(message: Message) {
   const { args, text } = new Parse(message.body);
 
   if (args.includes('help')) {
     message.reply(STRINGS.help, undefined, { linkPreview: false });
     return;
+  }
+
+  if (!text) {
+    throw new Error('Nenhuma moeda foi passada.');
   }
 
   const url = getUrl(text);
@@ -99,7 +98,7 @@ async function execute(message) {
   message.reply(output);
 }
 
-module.exports = {
+export default {
   execute,
   name: 'coin',
   options: {
