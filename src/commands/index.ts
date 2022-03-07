@@ -1,0 +1,16 @@
+export default [
+  require('./about').default,
+  require('./ban').default,
+  require('./coin').default,
+  require('./commands').default,
+  require('./cron').default,
+  require('./demote').default,
+  require('./everyone').default,
+  require('./links').default,
+  require('./lyric').default,
+  require('./promote').default,
+  require('./report').default,
+  require('./search').default,
+  require('./suggest').default,
+  require('./wiki').default,
+];

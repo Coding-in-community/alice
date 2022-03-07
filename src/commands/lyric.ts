@@ -1,6 +1,7 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const { search, Command, Parse } = require('../utils');
+import axios from 'axios';
+import cheerio, { CheerioAPI, Element } from 'cheerio';
+import { Message } from 'whatsapp-web.js';
+import { Command, Parse, search } from '../utils';
 
 const STRINGS = {
   help: Command.helper({
@@ -12,7 +13,7 @@ const STRINGS = {
   }),
 };
 
-async function loadCheerio(url) {
+async function loadCheerio(url: string): Promise<CheerioAPI | null> {
   try {
     const { data } = await axios.get(url);
     return cheerio.load(data);
@@ -21,7 +22,7 @@ async function loadCheerio(url) {
   }
 }
 
-function removeTags(raw) {
+function removeTags(raw: Element) {
   const html = cheerio
     .load(raw)
     .html()
@@ -29,7 +30,7 @@ function removeTags(raw) {
   return cheerio.load(html).text();
 }
 
-async function execute(message) {
+async function execute(message: Message) {
   const { text, args } = new Parse(message.body);
 
   if (args.includes('help')) {
@@ -42,19 +43,31 @@ async function execute(message) {
   }
 
   const results = await search(text, 'https://www.letras.mus.br');
+
+  if (!results[0]) {
+    message.reply('Letra não encontrada.');
+    return;
+  }
+
   const { link } = results[0];
   const $ = await loadCheerio(link);
+
+  if (!$) {
+    message.reply('Letra não encontrada.');
+    return;
+  }
+
   const title = $('div.cnt-head_title h1').text();
-  let lyrics = [];
+  const lyrics: string[] = [];
   $('div.cnt-letra p').each((_, p) => {
     lyrics.push(removeTags(p));
   });
-  lyrics = lyrics.join('\n\n');
+  const result = lyrics.join('\n\n');
 
-  message.reply(`*${title}*\n\n${lyrics}\n\n_${link}_`);
+  message.reply(`*${title}*\n\n${result}\n\n_${link}_`);
 }
 
-module.exports = {
+export default {
   execute,
   name: 'lyric',
   options: {

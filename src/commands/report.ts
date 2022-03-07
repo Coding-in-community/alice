@@ -1,7 +1,8 @@
-const { chattools, Command, Parse } = require('../utils');
+import { Client, Message } from 'whatsapp-web.js';
+import { chattools, Command, Parse } from '../utils';
 
-const reportID = chattools.userID(process.env.REPORT_NUMBER);
-const STRINGS = {
+const reportID = chattools.userID(process.env.REPORT_NUMBER as string);
+const STRINGS: { [key: string]: string } = {
   help: Command.helper({
     description: 'Reporte problemas no bot ou um usuário.',
     usage: '!report --args ...',
@@ -12,12 +13,12 @@ const STRINGS = {
     },
   }),
 
-  bug: 'sua solicitação será analisada. caso confirmada, abriremos uma issue',
+  bug: 'Sua solicitação será analisada. Caso confirmada, abriremos uma issue',
 
-  user: 'o usuário foi reportado a administração',
+  user: 'O usuário foi reportado a administração',
 };
 
-function execute(message, client) {
+function execute(message: Message, client: Client) {
   const { args, text } = new Parse(message.body);
   const reportMsg = `⚠️ *${args[0]} report* ⚠️\n\n${text}`;
 
@@ -42,7 +43,7 @@ function execute(message, client) {
   throw new Error('Nenhum arg válido foi passado.');
 }
 
-module.exports = {
+export default {
   execute,
   name: 'report',
   options: {

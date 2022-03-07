@@ -1,4 +1,11 @@
-const { search, Command, Parse } = require('../utils');
+import { Message } from 'whatsapp-web.js';
+import { Command, Parse, search } from '../utils';
+
+interface ISearchResult {
+  title: string;
+  link: string;
+  snippet: string;
+}
 
 const STRINGS = {
   help: Command.helper({
@@ -12,12 +19,12 @@ const STRINGS = {
   }),
 };
 
-function formatResult(result) {
+function formatResult(result: ISearchResult) {
   const { title, link, snippet } = result;
   return `*${title}*\n\n${snippet}\n\n_${link}_`;
 }
 
-async function execute(message) {
+async function execute(message: Message) {
   const { args, text, kwargs } = new Parse(message.body);
 
   if (args.includes('help')) {
@@ -29,7 +36,11 @@ async function execute(message) {
     throw new Error('Nenhum texto para pesquisa foi especificado.');
   }
 
-  const results = await search(text, kwargs.target, kwargs.limit);
+  const results: ISearchResult[] = await search(
+    text,
+    kwargs.target,
+    Number(kwargs.limit) || undefined
+  );
 
   if (results.length > 0) {
     const stringResult = results
@@ -42,7 +53,7 @@ async function execute(message) {
   message.reply(`Nenhum resultado foi encontrado para: _${text}_`);
 }
 
-module.exports = {
+export default {
   execute,
   name: 'search',
   options: {

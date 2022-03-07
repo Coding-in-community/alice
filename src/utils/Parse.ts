@@ -7,55 +7,42 @@
  * data.args // ['arg1']
  * data.kwargs // { kwarg: 1 }
  * data.text // 'any text here'
- * @param {string} text - Text to be parsed.
  */
 class Parse {
-  constructor(text) {
-    /** The original text. */
-    this.rawText = text.trim();
+  rawText: string;
+  readonly REGEXP: {
+    command: RegExp;
+    args: RegExp;
+    kwargs: RegExp;
+  };
 
-    /**
-     * A collection of regular expressions used in the extraction of data.
-     * @property {string} REGEXP.command - Regular expression for commands. Ex: !command
-     * @property {string[]} REGEXP.args - Regular expression for args. Ex: --arg1
-     * @property {object} REGEXP.kwargs - Regular expression for kwargs. Ex: --kwarg=1
-     */
+  constructor(text: string) {
+    this.rawText = text.trim(); // The original text
     this.REGEXP = {
-      command: /^!([^\s]+)/,
-      args: /--([\S]+)(?=\s|$)/g,
-      kwargs: /--([a-zA-Z0-9_-]+)="?([a-z0-9\.]+)"?/g, // eslint-disable-line
+      command: /^!([^\s]+)/, // !command
+      args: /--([\S]+)(?=\s|$)/g, // --arg1
+      kwargs: /--([a-zA-Z0-9_-]+)="?([a-z0-9\.]+)"?/g, // --kwarg=1 // eslint-disable-line
     };
   }
 
-  /**
-   * Gets the command extracted.
-   * @returns {string}
-   */
-  get command() {
+  get command(): string {
     const matches = this.rawText.match(this.REGEXP.command);
+
     return matches ? matches[1] : '';
   }
 
-  /**
-   * Gets the args extracted.
-   * @returns {string[]}
-   */
-  get args() {
+  get args(): string[] {
     const matchesIter = this.rawText.matchAll(this.REGEXP.args);
     const matchesArray = [...matchesIter];
     const matches = matchesArray.map((elem) => elem[1]);
+
     return matches;
   }
 
-  /**
-   * Gets the kwargs extracted.
-   * @returns {object}
-   */
-  get kwargs() {
+  get kwargs(): { [kwarg: string]: string } {
     const obj = {};
     const matchesIter = this.rawText.matchAll(this.REGEXP.kwargs);
     const matchesArray = [...matchesIter];
-
     matchesArray.forEach((elem) => {
       Object.assign(obj, { [elem[1]]: elem[2] });
     });
@@ -63,10 +50,6 @@ class Parse {
     return obj;
   }
 
-  /**
-   * Gets the text extracted.
-   * @returns {string}
-   */
   get text() {
     return this.rawText
       .replace(this.REGEXP.command, '')
@@ -76,4 +59,4 @@ class Parse {
   }
 }
 
-module.exports = Parse;
+export default Parse;

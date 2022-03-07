@@ -1,4 +1,5 @@
-const { Command, Parse } = require('../utils');
+import { Message } from 'whatsapp-web.js';
+import { Command, Parse } from '../utils';
 
 const STRINGS = {
   help: Command.helper({
@@ -16,7 +17,7 @@ const STRINGS = {
   `,
 };
 
-function execute(message) {
+function execute(message: Message): void {
   const { args } = new Parse(message.body);
 
   if (args.includes('help')) {
@@ -27,7 +28,7 @@ function execute(message) {
   message.reply(STRINGS.about);
 }
 
-module.exports = {
+export default {
   execute,
   name: 'about',
   options: {

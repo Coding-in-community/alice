@@ -1,4 +1,6 @@
-const chattools = require('./chattools');
+import { Message } from 'whatsapp-web.js';
+import { InhibitorOptions } from '../types';
+import chattools from './chattools';
 
 const defaultOptions = {
   excludes: [],
@@ -9,16 +11,11 @@ const defaultOptions = {
 
 /**
  * For a given message that called an command/module and its options, checks if the command/module must be inhibited.
- * @see https://docs.wwebjs.dev/Message.html
- * @param {object} options
- * @param {string[]} options.excludes
- * @param {boolean} options.isAdmOnly
- * @param {string[]} options.includesOnly
- * @param {string[]} options.scope
- * @param {Message} message
- * @returns {boolean} `true` if the command/module must be inhibited, `false` if not.
  */
-async function inhibitor(options, message) {
+async function inhibitor(
+  options: InhibitorOptions | undefined,
+  message: Message
+): Promise<boolean> {
   const chat = await message.getChat();
   const { isAdmOnly, scope, includesOnly, excludes } = {
     ...defaultOptions,
@@ -38,13 +35,11 @@ async function inhibitor(options, message) {
 
   if (
     includesOnly.length > 0 &&
-    // eslint-disable-next-line no-underscore-dangle
     includesOnly.every((i) => i !== chat.id._serialized)
   ) {
     return true;
   }
 
-  // eslint-disable-next-line no-underscore-dangle
   if (excludes.some((i) => i === chat.id._serialized)) {
     return true;
   }
@@ -52,4 +47,4 @@ async function inhibitor(options, message) {
   return false;
 }
 
-module.exports = inhibitor;
+export default inhibitor;
