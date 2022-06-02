@@ -27,28 +27,22 @@ Alice is a whatsapp bot made to manage coding groups.
 
 ### 🚀 How to run
 
-1. Clone the repository
 
-   ```bash
-   git clone https://github.com/Coding-in-community/alice.git
-   ```
+```bash
+# 1. Clone the repository
+git clone https://github.com/Coding-in-community/alice.git
 
-2. Install the dependencies
+# 2. Install the dependencies
+cd alice && yarn install
 
-   ```bash
-   cd alice
-   yarn install
-   ```
+# 3. set up the .env file. See the .env.example file
 
-3. set up `.env` file. See [.env.example](/.env.example)
+# 4. Build and run the application
+yarn build
+yarn start
 
-4. Run the application
-
-   ```bash
-   yarn start
-   ```
-
-5. Scan QR code with whatsapp
+# 5. Scan QR code with whatsapp
+```
 
 ## 🤝 How to contribute
 
